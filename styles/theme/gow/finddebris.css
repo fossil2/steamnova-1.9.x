@@ -1,0 +1,12 @@
+
+.card2 div.resource.resource_img {
+    background: url('img/anomalie_tf.jpeg') no-repeat center center;
+    background-size: cover;
+}
+.description div.fieldlist table{
+    background-color: transparent;
+    color: #6f9fc8;
+}
+.description div.fieldlist #fleetstatusrow{
+    display: none;
+}

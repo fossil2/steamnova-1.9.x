@@ -1,0 +1,59 @@
+
+.card2 div.resource.resource_img {
+    background: url('img/anomalie_bonus.jpeg') no-repeat center center;
+    background-size: cover;
+}
+.card2 .content span.fillResource {
+    color: #d32a29;
+    font-weight: 900;
+    padding: 20px;
+}
+ul.ipiRewardsList {
+    display: flex;
+    margin: 5px 0 0 0;
+    width: 100%;
+    gap: 10px 3px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+ul.ipiRewardsList li {
+    text-align: center;
+}
+.ipiRewardItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+/* .ipiRewardsList span {
+    color: #FFF;
+} */
+.ipiRewardsList span.resourceReward {
+    display: block;
+    width: 48px;
+    height: 32px;
+    margin: 0 0 2px 0;
+    background: url('img/anomalie_ress.png') no-repeat 0 -160px;
+    content: "";
+}
+.ipiRewardsList span.resourceReward.resource-1 {
+    background-position-x: -48px;
+}
+.ipiRewardsList span.resourceReward.resource-2 {
+    background-position-x: -96px;
+}
+.ipiRewardsList span.resourceReward.resource-4 {
+    background-position-x: -192px;
+}
+.ipiRewardsList span.resourceReward div {
+    color: #99CC00 !important;
+    font-weight: 700;
+    padding: 5px 0px 0px;
+    margin-top: 31px;
+    /* margin-left: -13px; */
+    /* text-align: center; */
+}
+.description div.fieldlist span{
+    color: #d29d00;
+}

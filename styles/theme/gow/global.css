@@ -1,0 +1,95 @@
+
+#page_content {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* width: 996px; */
+	/* width: 100%; */
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-bottom: 24px; */
+}
+#header_text h2 {
+	color: #fff;
+	font: bold 18px / 22px Verdana, Arial, Helvetica, sans-serif;
+	margin: 3px 3px 3px 144px;
+	overflow: hidden;
+	padding-top: 2px;
+	white-space: nowrap;
+	width: 450px;
+	text-overflow: ellipsis;
+	text-align: left;
+	background-image: repeating-linear-gradient(145deg, black, transparent 1%);
+}
+#header_text p {
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+.card2{
+    background: linear-gradient(to bottom, #1f2630 0%, #111921 100%);
+    border-radius: 3px;
+    padding: 10px;
+	min-height: 200px;
+	/* margin-bottom: 5px; */
+}
+.card2 div.resource {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-left: 2px;
+    float: left;
+}
+.card2 .content {
+    min-height: 150px;
+    padding-left: 17px;
+    overflow: hidden;
+}
+.card2 .content h2{
+    font: bold 12px / 22px Verdana, Arial, Helvetica, sans-serif;
+    color: #d29d00;
+    display: inline-block;
+    /* float: left; */
+    height: 22px;
+    overflow: hidden;
+    padding-top: 0;
+    width: auto;
+}
+.card2 .content .level{
+	color: #D29D00;
+	float: right;
+	font-size: 11px;
+	line-height: 22px;
+	height: 22px;
+	text-align: center;
+}
+.card2 .content .undermark{
+	color: #99CC00;
+	font-weight: 700;
+	padding: 0 6px 2px;
+}
+.card2 .content .wrapper{
+	color: #848484;
+	font: 11px Verdana, Arial, Helvetica, sans-serif;
+	line-height: 14px;
+	/* margin-top: 10px; */
+	/* padding-left: 17px; */
+}
+.card2 .content .features p{
+	float: left;
+	margin: 0 0 15px 0;
+	border-bottom: 1px solid #848484;
+}
+.card2 .description {
+	color: #848484;
+	font-size: 11px;
+	/* height: 90px; */
+	line-height: 130%;
+	margin: 3px 0 0 4px;
+}
+.card2 .description div.fieldlist{
+	white-space: normal;line-height: 15px;
+	color: #6f9fc8;
+	font-weight: 700;
+	padding: 2px 0 10px 0;
+}

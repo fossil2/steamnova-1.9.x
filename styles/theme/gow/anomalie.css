@@ -1,0 +1,138 @@
+
+.card1 {
+    background: url('images/anomalie.jpeg') no-repeat center center;
+    background-size: cover;
+}
+#welcome {
+	height:12px;
+	margin:20px;
+	text-align: center;
+	line-height: 130%;
+	font-size: 15px;
+	font-weight: 600;
+}
+.rewardlist_wrapper {
+	position: relative;
+	height: 100%;
+	min-height: 240px;
+}
+#select_one {
+	height: 12px;
+	margin: 20px 0 0 0;
+	color: #848484;
+	font-size: 12px;
+	line-height: 130%;
+	text-align: center;
+}
+.normalRewards {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 10px auto;
+}
+
+/* singleReward */
+.singleReward {
+	position: relative;
+	width: 180px;
+	box-sizing: border-box;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #273746;
+	padding: 10px;
+	font-size: 13px;
+	line-height: 18px;
+	margin: 0px 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: start;
+}
+.rewardName {
+	flex-grow: 1;
+	text-align: center;
+	margin: 0 0 8px 2px;
+	font-weight: 600;
+}
+.itemBox {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	display: block;
+	overflow: hidden;
+	margin: auto;
+}
+.thumbnail {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+.thumbnail img{
+	width: 100%;
+    height: 100%;
+}
+.thumbnail2 img{
+	filter: grayscale(100%);
+}
+.box {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100px;
+	height: 100px;
+	display: block;
+	z-index: 2;
+}
+.quantity {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	padding-right: 2px;
+	width: 100%;
+	height: 16px;
+	line-height: 18px;
+	color: #99CC00;
+	font-size: 10px;
+	text-align: right;
+}
+.quantity2 {
+    color: #FF9600;
+}
+.selectReward {
+	transform: scale(0.8);
+	margin: 5px auto;
+}
+.mission {
+	background: linear-gradient(180deg, #85ef00, #0e2d00);
+	border-radius: 50px;
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	text-shadow: -1px 1px 5px #246a05;
+	width: 141px;
+	height: 30px;
+	padding: 5px 0;
+	margin-top: 4px;
+	display: block;
+	cursor: pointer;
+}
+.mission2 {
+    background: linear-gradient(180deg, #d32a29, #1c0000);
+}
+.mission:hover{
+	background-color: #03e9f4;
+	/* color: #050801; */
+    color: #fff;
+	box-shadow: 0 0 5px #03e9f4,
+				0 0 25px #03e9f4,
+				0 0 50px #03e9f4,
+				0 0 100px #03e9f4;
+	/* -webkit-box-reflect: below 1px linear-gradient(transparent, #0005); */
+	transition: 0.5s ease;
+}
+/* singleReward END */
