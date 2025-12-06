@@ -113,7 +113,6 @@ $LNG['changelog']   = array(
 - 0000211: [Fleet missions] [FIX] Interplanetarraketen (Jan) - resolved.
 - 0000206: [Feature request] 2 neue Variabeln für aktuelle Forschung & Schiffbau einbauen (Jan) - resolved.
 - 0000223: [Alliance] Missing key in alliance home page (Jan) - resolved.
-- 0000204: [Admin Panal] Teamspeak-Cronjob geht auf lock (Jan) - resolved.
 - 0000192: [Admin Panal] Cronjob CleanerCronjob geht auf lock, inaktive User werde nicht gelöscht. (Jan) - resolved.
 - 0000153: [Feature request] Block PMs (Jan) - resolved.
 - 0000172: [Admin Panal] The page numbering does not fit on the screen (Jan) - resolved.
@@ -496,7 +495,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: BuildTime Hack
 - FIX: Cache System
 - FIX: Moondestruction
-- FIX: Teamspeak API for Teamspeak 3 Servers
 - FIX: UpdateSystem dont donwload same Files now
 - DIV: 2Moons not longer require safe_mode = off
 - DIV: Change Copyright Header
@@ -786,7 +784,6 @@ TMOONS-346 - The doubling of the fleet',
 - ADD: Forschungsmaximum in vars.php einstellbar
 - ADD: fb-share
 - ADD: Planetenliste
-- ADD: Teampseak-Addon: Support für Teamspeak 3
 - ADD: Max. Auftr&auml;ge in Fleet/Def einstellbar (Standart: 10)
 - ADD: Cache for Records
 - ADD: Realtime-Ressanzeige
@@ -800,7 +797,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Speicheranzeige in Rohstoffe
 - FIX: Design
 - FIX: Pranger
-- FIX: Teamspeak-Overview
 - FIX: Useramount
 - FIX: Spioangebericht, -anzeige und -abwehr
 - FIX: Allianz Chat
