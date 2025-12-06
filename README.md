@@ -40,6 +40,8 @@ LOGIN & REGISTER
 
 ADMIN
 
+* Teamspeak removed from game
+
 * steem connect removed from admin login page
 
 * includes/pages/adm converted from mysqli (old database) to new database ( PDO )
@@ -107,3 +109,20 @@ INGAME
 * Fixed a bug which prevents displaying alliance applications
 
 * active color for current page on menu, GOW theme
+
+* Fixed csrf token
+
+* Fixed planet change view shipyard
+
+* Fixed Allianz classes
+
+Mods
+
+* Asteroids         (Danter14)      (https://github.com/Danter14/Mods-2Moons-2.0)
+* Bonus             (Danter14)
+* Find Debris       (Danter14) 
+* Quest             (Danter14)
+* Tutorial          (https://2moons.de)
+*
+*
+
