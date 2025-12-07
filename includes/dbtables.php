@@ -71,5 +71,6 @@ $dbTableNames	= array(
 	'QUESTS_LISTS'		=> DB_PREFIX.'quests_lists',
 	'QUESTS_USERS'		=> DB_PREFIX.'quests_users',
 	'PLANET_UPGRADES'	=> DB_PREFIX.'planet_upgrades',
+	'BONUS'         	=> DB_PREFIX.'bonus',
 );
 // MOD-TABLES

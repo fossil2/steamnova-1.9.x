@@ -138,7 +138,10 @@ class MissionCaseSpy extends MissionFunctions implements Mission
 		// Tutorial 
        if($senderUser['tut_m7_2'] == 0)
        {	
-       $db->query("UPDATE users SET `tut_m7_2`=tut_m7_2+1 WHERE id = ".$this->_fleet['fleet_owner'].";");		
+       	$sql = "UPDATE %%USERS%% SET tut_m7_2 = tut_m7_2 + 1 WHERE id = :userID;";
+        $db->update($sql, [
+        ':userID' => $this->_fleet['fleet_owner']
+        ]);	
         }
 		
 		// Show required number of cargo ships required to loot resources

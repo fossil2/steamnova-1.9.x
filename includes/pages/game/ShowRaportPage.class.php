@@ -153,7 +153,7 @@ class ShowRaportPage extends AbstractGamePage
         $RID = HTTP::_GP('raport', '');
 
         // Angepasst für raports-Tabelle
-        $sql = "SELECT raport, attacker, defender FROM raports WHERE rid = :reportID LIMIT 1";
+        $sql = "SELECT raport, attacker, defender FROM %%RW%% WHERE rid = :reportID LIMIT 1";
         $reportData = $db->selectSingle($sql, array(
             ':reportID' => $RID
         ));

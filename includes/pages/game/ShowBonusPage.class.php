@@ -85,7 +85,7 @@ class ShowBonusPage extends AbstractGamePage
 			 * We retrieve the bonus information
 			 * Wir rufen die Bonusinformationen ab
 			 */
-			$sql_single = "SELECT * FROM bonus WHERE bonusID = :id";
+			$sql_single = "SELECT * FROM %%BONUS%% WHERE bonusID = :id";
 			$result = $db->selectSingle($sql_single, ["id" => $rand ]);
 
 			/**
