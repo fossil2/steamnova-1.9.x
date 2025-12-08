@@ -1,0 +1,175 @@
+
+
+/* Wrapper für die "Card" */
+.tut-glass-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+/* Hauptkarte */
+.tut-glass-card {
+    width: 620px;
+    padding: 30px;
+
+    background: rgba(25, 45, 85, 0.35);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+
+    box-shadow: 0 0 25px rgba(0, 140, 255, 0.35);
+    border: 1px solid rgba(0, 110, 255, 0.25);
+
+    color: #e6eeff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Titel */
+.tut-title {
+    font-size: 26px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 12px;
+
+    color: #a9cfff;
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+}
+
+/* Standardtext */
+.tut-text {
+    color: #d9e6ff;
+    margin-bottom: 15px;
+}
+
+/* Abschnitt */
+.tut-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #cde3ff;
+    margin-top: 20px;
+    border-left: 4px solid #5ab4ff;
+    padding-left: 10px;
+}
+
+/* Aufgabenliste */
+.tut-task-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 20px;
+}
+
+.tut-task-list li {
+    padding: 6px 0;
+    font-size: 17px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Reward */
+.tut-reward {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffd27f;
+    margin-top: 10px;
+}
+
+/* Button: Mission abschließen */
+.tut-button-finish {
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 20px;
+
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+
+    color: white;
+    background: linear-gradient(135deg, #3495ff, #6dbbff);
+    border: none;
+    cursor: pointer;
+
+    box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+    transition: 0.2s ease;
+}
+
+.tut-button-finish:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 25px rgba(0, 170, 255, 0.8);
+}
+
+/* Hinweis bei unvollständiger Mission */
+.tut-hint {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 15px;
+    color: #ff7f7f;
+}
+
+/* Navigationsbereich */
+.tut-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+/* Navigation Buttons */
+.tut-nav-btn {
+    padding: 10px 20px;
+    font-size: 14px;           /* ← kleiner gemacht */
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+
+    background: rgba(80, 120, 200, 0.35);
+    border: 1px solid rgba(140, 180, 255, 0.5);
+    color: #eef3ff;            /* ← bessere Lesbarkeit */
+    backdrop-filter: blur(6px);
+
+    transition: 0.2s ease;
+}
+
+.tut-nav-btn:hover {
+    background: rgba(120, 160, 255, 0.55);
+    transform: scale(1.03);
+}
+
+/* deaktiviert */
+.tut-nav-btn.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.tut-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.tut-nav-btn {
+    padding: 5px 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+
+    background: rgba(10, 25, 60, 0.85);  /* deutlich dunkler! */
+    border: 1px solid rgba(80, 130, 200, 0.9);
+
+    color: #ffffff; /* klare weiße Schrift */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1); /* sehr starker Kontrast */
+
+    backdrop-filter: blur(4px);
+    transition: 0.2s;
+}
+
+.tut-nav-btn:hover {
+    background: rgba(40, 90, 170, 0.95); /* etwas heller beim Hover */
+    transform: scale(1.05);
+}
+
+.tut-nav-btn.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}

@@ -1,51 +1,74 @@
-{block name="title" prepend}{$LNG.tut_welcome}{/block}
 {block name="content"}
-<div class="container container-page" style="width: 100%;">
-	<div class="title text-center">{$LNG.tut_tut}
-		<dl> 
-					</dl>
-	</div>
-	
-	<tr>	<th scope="col"><a href="game.php?page=tutorial&mode=m1">{$LNG.tut_m1} {$Si1}{$No1}</a></th>
-				<th scope="col"><a href="game.php?page=tutorial&mode=m2">{$LNG.tut_m2} {$Si2}{$No2}</a></th> 
-				<th scope="col"><a href="game.php?page=tutorial&mode=m3">{$LNG.tut_m3} {$Si3}{$No3}</a></th></tr>                           				<tr>	<th scope="col"><a href="game.php?page=tutorial&mode=m4">{$LNG.tut_m4} {$Si4}{$No4}</a></th>
-			    <th scope="col"><a href="game.php?page=tutorial&mode=m5">{$LNG.tut_m5} {$Si5}{$No5}</a></th>
-				<th scope="col"><a href="game.php?page=tutorial&mode=m6">{$LNG.tut_m6} {$Si6}{$No6}</a></th></tr>
-		<tr>	<th scope="col"><a href="game.php?page=tutorial&mode=m7">{$LNG.tut_m7} {$Si7}{$No7}</a></th>
-				<th scope="col"><a href="game.php?page=tutorial&mode=m8">{$LNG.tut_m8} {$Si8}{$No8}</a></th>
-				<th scope="col"><a href="game.php?page=tutorial&mode=m9">{$LNG.tut_m9} {$Si9}{$No9}</a></th></tr>
-				<tr>
-					<dl> 
-					</dl>	
-				<td colspan="9">
-					<h5 class="textBeefy text-center k">{$LNG.tut_m9_name} - {$livello9} {$Si9}{$No9}</h5>
-			</td>
-			<div align='center'>
-				<a href ="game.php?page=shpyard"><img src="{$dpath}gebaeude/209.gif"></a>
-						<p>{$LNG.tut_m9_desc}</p>
-		    	</div>
-	            <div align='center'>
-				<td class="k text-center" colspan="3">
-					<h3>{$LNG.tut_objects}:</h3>
 
-						<ul id="aufgabe_liste">
-							<li class="aufzaehlungszeichen">{$LNG.tut_m9_quest} {$Si_m9_1}{$No_m9_1}{$Si9}</li>
-							<li class="aufzaehlungszeichen">{$LNG.tut_m9_quest2} {$Si_m9_2}{$No_m9_2}{$Si9}</li>
-							<li class="aufzaehlungszeichen">{$LNG.tut_m9_quest3} {$Si_m9_3}{$No_m9_3}{$Si9}</li>
-							<li class="aufzaehlungszeichen">{$LNG.tut_m9_quest4} {$Si_m9_4}{$No_m9_4}{$Si9}</li>
-						</ul>
+<link rel="stylesheet" href="styles/theme/gow/tutorial_glass.css" />
 
-					<div style="color:orange;">{$LNG.tut_m9_gain}</div>
-					</div>
-			</tr>
-			{if $Si3}
-			<tr>
-				<td>
-					<input type="submit"class="btn btn-sm btn-dark" value="{$LNG.tut_compleat}" onclick=""/>
-				</td>
-			</tr>
-			{/if}
-		</thead>
-	</table>
+{assign var=prev value="m8"}
+{assign var=next value=null}
+
+<div class="tut-glass-wrapper">
+<div class="tut-glass-card">
+
+    <!-- Titel -->
+    <div class="tut-title">
+        {$LNG.tut_m9_name} – {$livello9}
+    </div>
+
+    <!-- Beschreibung -->
+    <div class="tut-text">
+        {$LNG.tut_m9_desc}
+    </div>
+
+    <!-- Bild -->
+    <div class="tut-img-wrapper">
+        <a href="game.php?page=shipyard">
+            <img src="{$dpath}gebaeude/209.gif" class="tut-img">
+        </a>
+    </div>
+
+    <!-- Aufgaben -->
+    <div class="tut-section-title">
+        {$LNG.tut_objects}
+    </div>
+
+    <ul class="tut-task-list">
+        <li>{$LNG.tut_m9_quest}  {$Si_m9_1}{$No_m9_1}</li>
+        <li>{$LNG.tut_m9_quest2} {$Si_m9_2}{$No_m9_2}</li>
+        <li>{$LNG.tut_m9_quest3} {$Si_m9_3}{$No_m9_3}</li>
+        <li>{$LNG.tut_m9_quest4} {$Si_m9_4}{$No_m9_4}</li>
+    </ul>
+
+    <!-- Belohnung -->
+    <div class="tut-reward">
+        {$LNG.tut_m9_gain}
+    </div>
+
+    <!-- Abschluss -->
+    {if $missionReady}
+        <form method="POST">
+            <button class="tut-button-finish" name="complete">
+                {$LNG.tut_compleat}
+            </button>
+        </form>
+    {else}
+        <div class="tut-hint">
+            {$LNG.tut_not_ready}
+        </div>
+    {/if}
+
+    <!-- Navigation -->
+    <div class="tut-nav-wrapper">
+
+        <!-- Zurück -->
+        <a class="tut-nav-btn" href="game.php?page=tutorial&mode={$prev}">
+            ← {$LNG.tut_m8}
+        </a>
+
+        <!-- Letzte Mission: Button deaktiviert -->
+        <span class="tut-nav-btn disabled">Ende ✓</span>
+
+    </div>
+
 </div>
+</div>
+
 {/block}
