@@ -1156,6 +1156,7 @@ $LNG['modul_47'] = "Relocate";
 $LNG['modul_48'] = "Auto Expedition";
 $LNG['modul_49'] = "Collect Mines";
 $LNG['modul_50'] = "Flight Simulator";
+$LNG['modul_54'] = "Quest";
 
 $LNG['mod_module'] = 'Modules';
 $LNG['mod_info'] = 'Modules in the Game';

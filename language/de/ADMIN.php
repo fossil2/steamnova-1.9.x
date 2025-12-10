@@ -1094,6 +1094,7 @@ $LNG['modul_27'] = 'Support Tickets';
 $LNG['modul_28'] = 'Techtree';
 $LNG['modul_45'] = "Universumsinformationen";
 $LNG['modul_48'] = "Auto Expedition";
+$LNG['modul_54'] = "Aufgaben";
 $LNG['mod_module'] = 'Module';
 $LNG['mod_info'] = 'Module im Game<br><font color="red">Admins können weiterhin die Bereiche betreten!</font>';
 $LNG['mod_active'] = 'AKTIV';

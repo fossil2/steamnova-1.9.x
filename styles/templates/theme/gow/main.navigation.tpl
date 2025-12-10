@@ -69,9 +69,9 @@
       <a class="w-100 d-flex align-items-center fs-12 fw-bold justify-content-center p-0 text-decoration-none" href="game.php?page=alliance">{$LNG.lm_alliance}</a>
 		</li>
     {/if}
-    {if isModuleAvailable($smarty.const.MODULE_ANOMALIE)}
+    {if isModuleAvailable($smarty.const.MODULE_QUEST)}
     <li class="d-flex w-50 menu-button">
-      <a class="w-100 d-flex align-items-center fs-12 fw-bold justify-content-center p-0 text-decoration-none" href="game.php?page=quests">Quests</a>
+      <a class="{if $page == 'quests'}menuActive{/if} w-100 d-flex align-items-center justify-content-center p-0 fs-12 fw-bold text-decoration-none" href="game.php?page=quests">Quests</a>
     </li>
     {/if}
 	  {if isModuleAvailable($smarty.const.MODULE_ANOMALIE)}
