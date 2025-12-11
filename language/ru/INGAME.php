@@ -161,7 +161,6 @@ $LNG['lm_queue']                          = 'Очереди';
 $LNG['lm_topkb']                          = 'Зал славы';
 $LNG['lm_faq']                            = 'Туториал';
 $LNG['lm_records']                        = 'Рекорды';
-$LNG['lm_chat']                           = 'Чат';
 $LNG['lm_changelog']                      = 'История изменений';
 $LNG['lm_support']                        = 'Техническая поддержка';
 $LNG['lm_rules']                          = 'Правила';
@@ -221,7 +220,6 @@ $LNG['ov_userrank_info']                  = '%s (%s <a href="game.php?page=stati
 $LNG['ov_closed']                         = 'Игра на данный момент отключена.';
 $LNG['ov_reflink']                        = 'Реферальная ссылка';
 $LNG['ov_noreflink']                      = 'У Вас нет рефералов';
-$LNG['ov_chat_online']                    = 'В чате';
 
 //обзор действий
 
@@ -675,7 +673,6 @@ $LNG['al_manage_alliance']                = 'управление альянсо
 $LNG['al_send_circular_message']          = 'Отправить общее сообщение';
 $LNG['al_circular_front_text']            = '%s пишет:';
 $LNG['al_new_requests']                   = 'Новых заявок: %d';
-$LNG['al_goto_chat']                      = 'Чат альянса';
 $LNG['al_save']                           = 'Сохранить';
 $LNG['al_dlte']                           = 'Удалить';
 $LNG['al_rank_name']                      = 'Ранг';

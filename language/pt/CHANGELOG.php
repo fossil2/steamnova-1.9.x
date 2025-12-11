@@ -836,15 +836,12 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: max. Expiditionen / max. Haltezeit
 - FIX: Usernamenüberprüfung bei der Registration
 - FIX: Registration close &amp; Game Close
-- FIX: AdminChatPage
 - FIX: Speicheranzeige in Rohstoffe korrigiert
 - FIX: Galaxy Allyname Crash
 - FIX: Statfunctions.php
 - DIV: Mails über SMTP-Auth
-- DIV: Chat-Class
 - DIV: überarbeitung Installer
 - DIV: Notes-Class
-- DIV: Chat-Interval auf 10 Sekunden gesetzt
 - DIV: Sicherheit im Game erhöht
 - DIV: Diverse Anpassungen am Game
 ',

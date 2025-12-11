@@ -22,7 +22,6 @@
     {if isModuleAvailable($smarty.const.MODULE_RECORDS)}<li><a class="fs-14 fw-bold" href="game.php?page=records">{$LNG.lm_records}</a></li>{/if}
     {if isModuleAvailable($smarty.const.MODULE_BATTLEHALL)}<li><a class="fs-14 fw-bold" href="game.php?page=battleHall">{$LNG.lm_topkb}</a></li>{/if}
     {if isModuleAvailable($smarty.const.MODULE_SEARCH)}<li><a class="fs-14 fw-bold" href="game.php?page=search">{$LNG.lm_search}</a></li>{/if}
-    {if isModuleAvailable($smarty.const.MODULE_CHAT)}<li><a class="fs-14 fw-bold" href="game.php?page=chat">{$LNG.lm_chat}</a></li>{/if}
     {if isModuleAvailable($smarty.const.MODULE_DISCORD)}<li><a class="fs-14 fw-bold" href="{$discordUrl}" target="copy">Discord</a></li>{/if}
     {if isModuleAvailable($smarty.const.MODULE_SUPPORT)}<li><a class="fs-14 fw-bold" href="game.php?page=ticket">{$LNG.lm_support}</a></li>{/if}
     <li><a class="fs-14 fw-bold" href="game.php?page=questions">{$LNG.lm_faq}</a></li>

@@ -160,7 +160,6 @@ $LNG['mu_info_account_page']	 		= 'Hesap Bilgileri (Yonetici/Moderator)';
 $LNG['mu_planets_options'] 				= 'Gezegen Ayarlari';
 $LNG['mu_user_logs']				    = 'Admin Log';
 $LNG['mu_support']                      = 'Destek Bileti';
-$LNG['mu_chat']                         = 'Chat Ayarlari';
 $LNG['mu_module']                       = 'Moduller';
 $LNG['mu_mod_update']              		= 'MOD versiyon kontrolu';
 $LNG['mu_fb_options'] 					= 'Facebook Kayit';

@@ -70,9 +70,7 @@
 			{if isModuleAvailable($smarty.const.MODULE_DISCORD)}
 			<a class="font-size-12 px-2 border-end" href="{$discordUrl}" target="copy">Discord</a>
 			{/if}
-			{if isModuleAvailable($smarty.const.MODULE_CHAT)}
-			<a class="font-size-12 px-2 border-end" href="game.php?page=chat">{$LNG.lm_chat}</a>
-			{/if}
+			
 
 
 

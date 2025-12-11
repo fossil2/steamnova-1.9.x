@@ -39,13 +39,6 @@
 		</td>
 	</tr>
 	{/if}
-    {if isModuleAvailable($smarty.const.MODULE_CHAT)}
-	<tr>
-		<td colspan="2">
-			<a class="btn btn-dark py-0 px-1 border border-secondary fs-12 text-yellow w-100" href="#" onclick="return Dialog.AllianceChat();">{$LNG.al_goto_chat}</a>
-		</td>
-	</tr>
-    {/if}
 	{if $rights.SEEAPPLY}
 	<tr>
 		<td class="fs-12 fw-bold text-gow-gray">{$LNG.al_requests}</td>
