@@ -175,7 +175,7 @@ TMOONS-261 - Error bei Abbruch einer Bauschleife im Baumenü bei mehr als einen 
 TMOONS-263 - Error nach Sprachumstellung auf Russisch
 TMOONS-264 - The doubling of the fleet
 TMOONS-265 - Zeitzone kann im ACP nicht gespeicher/geändert werden
-TMOONS-266 - Error Allianz-Chat
+TMOONS-266 - 
 TMOONS-267 - Fleet-Points haben sich gigantisch vergrößert!
 TMOONS-268 - Aktuelle 1.7. Version - Fehler bei der Installation
 TMOONS-269 - Technologie trotz Erfüllung der Voraussetzungen, Farbanzeige rot
@@ -318,7 +318,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Hall of Fame Mulituniverse glitch
 - FIX: delete messages in IE
 - FIX: planetmenu cookie
-- FIX: PHP errors in chatsystem
 - FIX: Iusses with Special Char on alliance request
 - FIX: Fleettime, if acs mission was cancel
 - FIX: clear planets after spy
@@ -356,7 +355,7 @@ TMOONS-346 - The doubling of the fleet',
 - 0000007: [Core] Free fields again (Slaver) - resolved.
 - 0000015: [Core] Rev. 2033 Silo (Slaver) - resolved.
 - 0000014: [Design] Anzeige von Energie bei IE8 defekt (Slaver) - resolved.
-- 0000011: [Chat] Portuguese chat don´t work (Slaver) - resolved.
+- 0000011: 
 - 0000010: [EcoSystem] Demolish a level (Slaver) - closed.
 ',
 'v1.4' => 'Jan 10.07.11
@@ -374,7 +373,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Unable to send recylers to vacation players
 - FIX: Cencored coors on hall of frame know correctly
 - FIX: Fixed not correct calculaton of DM extras on destruction
-- FIX: Chat
 - FIX: Fixed incorrect display of reycler fleets
 - FIX: Fixed Servertime are not localize
 - FIX: MaxElemens for shields &amp; missiles
@@ -397,7 +395,6 @@ TMOONS-346 - The doubling of the fleet',
 - DIV: Diverse Anpassungen am Game
 ',
 'v1.3.5' => 'Jan 11.06.11
-- ADD: New ChatSystem
 - ADD: New Popup UI
 - ADD: Refferalsystem
 - ADD: Destroy Rocket
@@ -443,7 +440,6 @@ TMOONS-346 - The doubling of the fleet',
 - ADD: SessionSystem
 - ADD: AdminHack Protection
 - ADD: FTP Service on Installer to solved the CHMOD Problems
-- ADD: New Chat System
 - ADD: Cyrillic Char support for UserBanner
 - FIX: Facebook Connector
 - FIX: ACS
@@ -767,7 +763,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Pranger
 - FIX: Useramount
 - FIX: Spioangebericht, -anzeige und -abwehr
-- FIX: Allianz Chat
 - FIX: TF-Entstehungs Bug bei Mondentstehung
 - FIX: CheckPlanetUsedFields
 - FIX: DeleteSelectedUser
@@ -836,15 +831,12 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: max. Expiditionen / max. Haltezeit
 - FIX: Usernamenüberprüfung bei der Registration
 - FIX: Registration close &amp; Game Close
-- FIX: AdminChatPage
 - FIX: Speicheranzeige in Rohstoffe korrigiert
 - FIX: Galaxy Allyname Crash
 - FIX: Statfunctions.php
 - DIV: Mails über SMTP-Auth
-- DIV: Chat-Class
 - DIV: überarbeitung Installer
 - DIV: Notes-Class
-- DIV: Chat-Interval auf 10 Sekunden gesetzt
 - DIV: Sicherheit im Game erhöht
 - DIV: Diverse Anpassungen am Game
 ',
@@ -871,7 +863,6 @@ TMOONS-346 - The doubling of the fleet',
 - ADD: Verwendung von PHPMailer v5.1 Lite
 - MOD: Datenbankverbindung nun mit mysqli
 - MOD: AKS-Overview
-- MOD: Neue Chat Engine based on jQuery
 - MOD: Bauschleifennachrichten pro User abschaltbar
 - MOD: Nutztung von mysqli::multi_query (5%)
 - MOD: $_GET und $_POST durch request_var ersetzt (70%)

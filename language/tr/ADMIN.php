@@ -1033,7 +1033,6 @@ $LNG['log_no_data']                     = 'Herhangi bir kayit yok!';
 $LNG['log_ssettings']                   = 'Oyun Ayarlari';
 $LNG['log_usettings']                   = 'Evren Ayarlari';
 $LNG['log_statsettings']                = 'Istatistik Ayarlari';
-$LNG['log_chatsettings']                = 'Chat Ayarlari';
 $LNG['log_uni_short']                   = 'Evren';
 $LNG['log_universe']                    = 'Evren';
 $LNG['log_present']      	            = 'Genel Dagitim';

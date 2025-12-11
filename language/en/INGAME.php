@@ -173,7 +173,6 @@ $LNG['lm_queue']							= 'Queues';
 $LNG['lm_topkb']							= 'Hall of Fame';
 $LNG['lm_faq']								= 'FAQ';
 $LNG['lm_records']							= 'Records';
-$LNG['lm_chat']								= 'Chat';
 $LNG['lm_support']							= 'Support';
 $LNG['lm_rules']							= 'Rules';
 $LNG['lm_battlesim']						= 'Simulator';
@@ -236,7 +235,6 @@ $LNG['ov_userrank_info']					= '%s (%s <a href="game.php?page=statistics&amp;ran
 $LNG['ov_closed']							= 'The universe is currently disabled';
 $LNG['ov_reflink']							= 'Recruits';
 $LNG['ov_noreflink']						= 'You have not recruited any players yet';
-$LNG['ov_chat_online']						= 'Players in chat:';
 $LNG['ov_players']							= 'Players';
 $LNG['ov_moving_fleets']					= 'Moving fleets';
 
@@ -722,7 +720,6 @@ $LNG['al_manage_alliance']					= 'Managing Alliance';
 $LNG['al_send_circular_message']			= 'Send Circular Message';
 $LNG['al_circular_front_text']				= 'The player %s wrote the following:';
 $LNG['al_new_requests']						= '%d New orders';
-$LNG['al_goto_chat']						= 'Chat of Alliance';
 $LNG['al_save']								= 'Save';
 $LNG['al_dlte']								= 'Delete';
 $LNG['al_rank_name']						= 'Name in rank';

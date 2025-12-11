@@ -68,11 +68,6 @@ $(document).ready(function(){
         <a class="d-flex w-100 h-100 p-1 text-decoration-none text-white fs-6" href="?page=expedition" >{$LNG.mu_expedition}</a>
       </li>
     {/if}
-		{if allowedTo('ShowChatConfigPage')}
-    <li class="d-flex {if $currentPage == 'chat'}menu-active{/if}">
-      <a class="d-flex w-100 h-100 p-1  text-decoration-none text-white fs-6" href="?page=chat" >{$LNG.mu_chat}</a>
-    </li>
-    {/if}
 		{if allowedTo('ShowFacebookPage')}
     <li class="d-flex {if $currentPage == 'facebook'}menu-active{/if}">
       <a class="d-flex w-100 h-100 p-1 text-decoration-none text-white fs-6" href="?page=facebook" >{$LNG.mu_fb_options}</a>
@@ -125,11 +120,6 @@ $(document).ready(function(){
       <li class="d-flex {if $currentPage == 'ModAsteroid'}menu-active{/if}">
         <a class="d-flex w-100 h-100 p-1 text-decoration-none text-white fs-6" href="?page=ModAsteroid" >{$LNG.mu_asteroids}</a>
       </li>
-    {/if}
-    {if allowedTo('ShowChatConfigPage')}
-    <li class="d-flex {if $currentPage == 'Quests'}menu-active{/if}">
-      <a class="d-flex w-100 h-100 p-1  text-decoration-none text-white fs-6" href="?page=Quests" >{$LNG.quest}</a>
-    </li>
     {/if}
      <li><a><span style="color:lime">{$LNG.mu_users_settings}</span></a></li>
 		{if allowedTo('ShowCreatorPage')}

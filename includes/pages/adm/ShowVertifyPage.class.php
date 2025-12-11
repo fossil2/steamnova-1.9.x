@@ -79,7 +79,6 @@ class ShowVertifyPage extends AbstractAdminPage
 
     $this->sendJSON(array_merge(
       $this->dir_tree('./', $EXT, false),
-      $this->dir_tree('chat/', $EXT),
       $this->dir_tree('includes/', $EXT),
       $this->dir_tree('includes/', $EXT),
       $this->dir_tree('language/', $EXT),

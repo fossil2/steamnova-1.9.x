@@ -170,7 +170,6 @@ $LNG['lm_queue']							= 'Kuyruk';
 $LNG['lm_topkb']							= 'Top 100 Savas';
 $LNG['lm_faq']								= 'Yeni Başlayanlar';
 $LNG['lm_records']							= 'Rekorlar';
-$LNG['lm_chat']								= 'Sohbet';
 $LNG['lm_support']							= 'Destek';
 $LNG['lm_rules']							= 'Kurallar';
 $LNG['lm_battlesim']						= 'Simulasyon';
@@ -233,7 +232,6 @@ $LNG['ov_userrank_info']					= '%s (%s <a href="game.php?page=statistics&amp;ran
 $LNG['ov_closed']							= 'Evren şu an çevrimdışı';
 $LNG['ov_reflink']							= 'Davet et';
 $LNG['ov_noreflink']						= 'Şu ana kadar sayende <br> 0 </br>kişi katıldı .';
-$LNG['ov_chat_online']						= 'Sohbetteki Oyuncular:';
 $LNG['ov_players'] = "Oyuncular";
 $LNG['ov_moving_fleets'] = "Aktif Filolar";
 
@@ -710,7 +708,6 @@ $LNG['al_manage_alliance']					= 'Ittifagi Yonet';
 $LNG['al_send_circular_message']			= 'Sirkuler Mesaji Gonder';
 $LNG['al_circular_front_text']				= 'Oyuncu %s sirkuler mesaji gonderdi:';
 $LNG['al_new_requests']						= '%d Yeni Basvuru';
-$LNG['al_goto_chat']						= 'Ittifak Chat';
 $LNG['al_save']								= 'Kaydet';
 $LNG['al_dlte']								= 'Sil';
 $LNG['al_rank_name']						= 'Mevki Adi';

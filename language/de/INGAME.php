@@ -166,7 +166,6 @@ $LNG['lm_queue']						= 'Queues';
 $LNG['lm_topkb']						= 'Hall of Fame';
 $LNG['lm_faq']							= 'FAQ';
 $LNG['lm_records']						= 'Rekorde';
-$LNG['lm_chat']							= 'Chat';
 $LNG['lm_changelog']						= 'Changelog';
 $LNG['lm_support']						= 'Support';
 $LNG['lm_rules']						= 'Regeln';
@@ -229,7 +228,6 @@ $LNG['ov_userrank_info']					= '%s (%s <a href="game.php?page=statistics&amp;ran
 $LNG['ov_closed']						= 'Spiel ist zurzeit deaktiviert!';
 $LNG['ov_reflink']						= 'Reflink';
 $LNG['ov_noreflink']						= 'Du hast keine User angeworben.';
-$LNG['ov_chat_online']						= 'User im Chat:';
 $LNG['ov_players']						= 'Spieler';
 $LNG['ov_moving_fleets']					= 'Flotten in Bewegung';
 
@@ -710,7 +708,6 @@ $LNG['al_manage_alliance']					= 'Allianz verwalten';
 $LNG['al_send_circular_message']				= 'Rundmail schreiben';
 $LNG['al_circular_front_text']					= 'Der Spieler %s schreibt folgendes:';
 $LNG['al_new_requests']						= '%d neue Bewerbung(en)';
-$LNG['al_goto_chat']						= 'Zum Allianz-Chat';
 $LNG['al_save']							= 'Speichern';
 $LNG['al_dlte']							= 'Löschen';
 $LNG['al_rank_name']						= 'Rangname';

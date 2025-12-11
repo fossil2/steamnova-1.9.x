@@ -79,7 +79,7 @@ class ShowOverviewPage extends AbstractGamePage
 	{
 		global $LNG, $PLANET, $USER, $config;
 
-		$AdminsOnline = $chatOnline  = $Moon = $RefLinks = array();
+		$AdminsOnline  = $Moon = $RefLinks = array();
 
     $db = Database::get();
 
@@ -170,13 +170,6 @@ class ShowOverviewPage extends AbstractGamePage
 			$AdminsOnline[$AdminRow['id']]	= $AdminRow['username'];
 		}
 
-    $sql = "SELECT userName FROM %%CHAT_ON%% WHERE dateTime > DATE_SUB(NOW(), interval 2 MINUTE) AND channel = 0";
-
-		$chatUsers = $db->select($sql);
-
-    foreach ($chatUsers as $chatRow) {
-			$chatOnline[]	= $chatRow['userName'];
-		}
 
 		// Fehler: Wenn Spieler gelöscht werden, werden sie nicht mehr in der Tabelle angezeigt.
 		$sql = "SELECT u.id, u.username, s.total_points FROM %%USERS%% as u
@@ -267,7 +260,6 @@ class ShowOverviewPage extends AbstractGamePage
 			'ref_active'				=> $config->ref_active,
 			'ref_minpoints'				=> $config->ref_minpoints,
 			'RefLinks'					=> $RefLinks,
-			'chatOnline'				=> $chatOnline,
 			'path'						=> HTTP_PATH,
 			'show_news_active'          => $USER['show_news_active']
 		));

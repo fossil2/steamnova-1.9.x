@@ -30,8 +30,6 @@ $LNG['changelog']   = array(
 - 0000437: [Admin Panal] Undefined variable: CONFIG (Jan) - resolved.
 - 0000434: [Admin Panal] unexpected ',' in InactiveMailCronjob (Jan) - resolved.
 - 0000415: [Langauge] mail error (Jan) - resolved.
-- 0000427: [User errors] Chat fell (Jan) - resolved.
-- 0000425: [User errors] Chat Bug (Jan) - resolved.
 - 0000305: [User errors] Class \'Swift_SmtpTransport\' not found (Jan) - resolved.
 - 0000388: [Spell iusses] Undefined offset: on trader (Jan) - resolved.
 - 0000387: [Spell iusses] Spionageberechte zusammenfassen unter Einstellungen (Jan) - resolved.
@@ -406,7 +404,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Unable to send recylers to vacation players
 - FIX: Cencored coors on hall of frame know correctly
 - FIX: Fixed not correct calculaton of DM extras on destruction
-- FIX: Chat
 - FIX: Fixed incorrect display of reycler fleets
 - FIX: Fixed Servertime are not localize
 - FIX: MaxElemens for shields &amp; missiles
@@ -429,7 +426,6 @@ TMOONS-346 - The doubling of the fleet',
 - DIV: Diverse Anpassungen am Game
 ',
 'v1.3.5' => 'Jan 11.06.11
-- ADD: New ChatSystem
 - ADD: New Popup UI
 - ADD: Refferalsystem
 - ADD: Destroy Rocket
@@ -475,7 +471,6 @@ TMOONS-346 - The doubling of the fleet',
 - ADD: SessionSystem
 - ADD: AdminHack Protection
 - ADD: FTP Service on Installer to solved the CHMOD Problems
-- ADD: New Chat System
 - ADD: Cyrillic Char support for UserBanner
 - FIX: Facebook Connector
 - FIX: ACS
@@ -799,7 +794,6 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: Pranger
 - FIX: Useramount
 - FIX: Spioangebericht, -anzeige und -abwehr
-- FIX: Allianz Chat
 - FIX: TF-Entstehungs Bug bei Mondentstehung
 - FIX: CheckPlanetUsedFields
 - FIX: DeleteSelectedUser
@@ -868,15 +862,12 @@ TMOONS-346 - The doubling of the fleet',
 - FIX: max. Expiditionen / max. Haltezeit
 - FIX: Usernamenüberprüfung bei der Registration
 - FIX: Registration close &amp; Game Close
-- FIX: AdminChatPage
 - FIX: Speicheranzeige in Rohstoffe korrigiert
 - FIX: Galaxy Allyname Crash
 - FIX: Statfunctions.php
 - DIV: Mails über SMTP-Auth
-- DIV: Chat-Class
 - DIV: überarbeitung Installer
 - DIV: Notes-Class
-- DIV: Chat-Interval auf 10 Sekunden gesetzt
 - DIV: Sicherheit im Game erhöht
 - DIV: Diverse Anpassungen am Game
 ',
@@ -903,7 +894,6 @@ TMOONS-346 - The doubling of the fleet',
 - ADD: Verwendung von PHPMailer v5.1 Lite
 - MOD: Datenbankverbindung nun mit mysqli
 - MOD: AKS-Overview
-- MOD: Neue Chat Engine based on jQuery
 - MOD: Bauschleifennachrichten pro User abschaltbar
 - MOD: Nutztung von mysqli::multi_query (5%)
 - MOD: $_GET und $_POST durch request_var ersetzt (70%)
