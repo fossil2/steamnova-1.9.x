@@ -1205,7 +1205,6 @@ $LNG['log_no_data']                     = 'Não há dados disponíveis no log!';
 $LNG['log_ssettings']                   = 'Configuração de Jogo';
 $LNG['log_usettings']                   = 'Configuração de Universo';
 $LNG['log_statsettings']                = 'Opções de Estatisticas';
-$LNG['log_chatsettings']                = 'Opções de Chat';
 $LNG['log_uni_short']                   = 'Uni';
 $LNG['log_universe']                    = 'Universo';
 $LNG['log_present']      	            = 'Distribuidos';

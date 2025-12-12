@@ -418,7 +418,6 @@ $LNG['modul_3']                                        = 'Arastirma ';
 $LNG['modul_4']                                        = 'Uretim - Filo';
 $LNG['modul_5']                                        = 'Bina - Savunma';
 $LNG['modul_6']                                        = 'Arkadas Listesi';
-$LNG['modul_7']                                        = 'Chat';
 $LNG['modul_8']                                        = 'KM Bank';
 $LNG['modul_9']                                        = 'Filo';
 $LNG['modul_10']                                       = 'Filo Hareketleri';

@@ -175,7 +175,6 @@ TMOONS-261 - Error bei Abbruch einer Bauschleife im Baumenü bei mehr als einen 
 TMOONS-263 - Error nach Sprachumstellung auf Russisch
 TMOONS-264 - The doubling of the fleet
 TMOONS-265 - Zeitzone kann im ACP nicht gespeicher/geändert werden
-TMOONS-266 - Error Allianz-Chat
 TMOONS-267 - Fleet-Points haben sich gigantisch vergrößert!
 TMOONS-268 - Aktuelle 1.7. Version - Fehler bei der Installation
 TMOONS-269 - Technologie trotz Erfüllung der Voraussetzungen, Farbanzeige rot

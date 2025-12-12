@@ -1147,13 +1147,15 @@ $LNG['modul_27'] = 'Support Tickets';
 $LNG['modul_28'] = 'Techtree';
 $LNG['modul_41'] = 'Facebook Application';
 $LNG['modul_43'] = "Discord";
-$LNG['modul_44'] = "Forum";
+$LNG['modul_44'] = "Trade";
 $LNG['modul_45'] = "Universe Information";
 $LNG['modul_46'] = "Attack Alert";
 $LNG['modul_47'] = "Relocate";
 $LNG['modul_48'] = "Auto Expedition";
 $LNG['modul_49'] = "Collect Mines";
 $LNG['modul_50'] = "Flight Simulator";
+$LNG['modul_52'] = "Forum";
+$LNG['modul_53'] = "SERVER_INFO";
 $LNG['modul_54'] = "Quest";
 
 $LNG['mod_module'] = 'Modules';
