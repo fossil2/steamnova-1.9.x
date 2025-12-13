@@ -59,6 +59,8 @@ $LNG['find_deb_btn']                     = "Sammeln";
 $LNG['find_deb_empty']                   = "Es befinden sich keine Trümmer in Ihrer Reichweite.";
 $LNG['tf_tf']                            = "Trümmerfelder  ";
 $LNG['tf_txt']                           = "Sammel Trümmerfelder in deinem Umfeld. Sende Recycler und baue die Rohstoffe ab. Mit Ausbau des Forschungslabor's kannst du weiter in das Universum sehen.";
+$LNG['find_deb_norecycler']              = 'Du benötigst mindestens einen Recycler, um Trümmerfelder zu finden!';
+
 
 // Mod Asteroid
 $LNG['type_mission_18'] = 'Asteroiden';

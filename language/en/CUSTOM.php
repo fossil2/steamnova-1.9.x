@@ -73,6 +73,7 @@ $LNG['find_deb_metal']                   = '%s';
 $LNG['find_deb_crystal']                 = '%s';
 $LNG['tf_tf']                            = 'Debris Fields';
 $LNG['tf_txt']                           = 'Collect debris fields in your area. Send recyclers and extract the resources. With research upgrades, you can see further into the universe.';
+$LNG['find_deb_norecycler']              = 'You need at least one recycler to find debris fields!';
 
 // Mods Asteroids Admin EN
 
