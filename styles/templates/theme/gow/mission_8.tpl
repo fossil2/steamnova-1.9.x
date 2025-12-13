@@ -42,9 +42,24 @@
     </ul>
 
     <!-- Belohnung -->
-    <div class="tut-reward">
-        {$LNG.tut_m8_gain}
-    </div>
+        <div class="tut-reward">
+   
+    {if $reward_metal > 0}
+        {$LNG.tech.901}: <span class="res-metal">{$reward_metal}</span><br>
+    {/if}
+
+    {if $reward_crystal > 0}
+        {$LNG.tech.902}: <span class="res-crystal">{$reward_crystal}</span><br>
+    {/if}
+
+   {if $reward_deuterium > 0}
+        {$LNG.tech.903}: <span class="res-deuterium">{$reward_deuterium}</span><br>
+    {/if}
+   
+    {if $reward_darkmatter > 0}
+        {$LNG.tech.921}: <span class="res-dm">{$reward_darkmatter}</span><br>
+    {/if}
+</div>
 
     <!-- Mission abschließen -->
     {if $missionReady}

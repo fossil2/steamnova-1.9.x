@@ -141,11 +141,16 @@
     pointer-events: none;
 }
 
+
+
 .tut-nav-wrapper {
+    margin-top: auto;                /* 👉 immer nach unten */
     display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
+    justify-content: space-between;  /* 👉 links / rechts */
+    gap: 10px;
 }
+
+
 
 .tut-nav-btn {
     padding: 5px 10px;
