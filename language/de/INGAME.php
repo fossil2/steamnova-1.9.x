@@ -28,6 +28,7 @@ $LNG['cm_error_1'] = "Zusammenziehen im Urlaubsmodus nicht möglich !";
 $LNG['cm_error_2'] = "Rohstoffe zusammenziehen bei Angriff nicht möglich!";
 $LNG['cm_error_3'] = "Zeitlimit %s min !";
 $LNG['cm_collect_mines_submit'] = "Rohstoffe sichern!";
+$LNG['cm_error_no_dm'] = 'Nicht genug Dunkle Materie!';
 
 
 //MODULE_AUTOEXPEDITION

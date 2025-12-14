@@ -406,6 +406,7 @@ CREATE TABLE `%PREFIX%config` (
   `relocate_jump_gate_active` smallint(5) unsigned NOT NULL DEFAULT 24,
   `collect_mines_under_attack` BOOLEAN NOT NULL DEFAULT 0,
   `collect_mine_time_minutes` INT unsigned NOT NULL DEFAULT 30,
+  `collect_mine_dm_cost` INT(10) UNSIGNED NOT NULL DEFAULT 50,
    `asteroid_actif` int(11) UNSIGNED NOT NULL DEFAULT '0',
    `asteroid_event` int(11) UNSIGNED NOT NULL DEFAULT '0',
    `asteroid_metal` double(255,0) UNSIGNED NOT NULL DEFAULT '2000',

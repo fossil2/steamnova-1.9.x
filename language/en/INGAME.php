@@ -31,6 +31,7 @@ $LNG['cm_error_1'] = "Mines cannot be collected in vacation mode !";
 $LNG['cm_error_2'] = "Mines cannot be collected under attack !";
 $LNG['cm_error_3'] = "You need to wait %s minutes before next !";
 $LNG['cm_collect_mines_submit'] = "Collect Mines!";
+$LNG['cm_error_no_dm'] = 'Not enough dark matter!';
 
 //MODULE_AUTOEXPEDITION
 $LNG['ae_autoexp'] = "Auto Expedition";
