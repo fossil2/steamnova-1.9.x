@@ -85,25 +85,25 @@ class ShowRaportPage extends AbstractGamePage
         $RID = HTTP::_GP('raport', '');
 
         // Neue Abfrage für deine Tabellenstruktur
-        $sql = "SELECT 
-                r.raport, 
-                r.time,
-                (
-                    SELECT GROUP_CONCAT(u.username SEPARATOR ' & ') 
-                    FROM users u
-                    INNER JOIN users_to_topkb ut ON u.id = ut.uid
-                    WHERE ut.rid = t.rid AND ut.role = 1
-                ) as attacker,
-                (
-                    SELECT GROUP_CONCAT(u.username SEPARATOR ' & ') 
-                    FROM users u
-                    INNER JOIN users_to_topkb ut ON u.id = ut.uid
-                    WHERE ut.rid = t.rid AND ut.role = 2
-                ) as defender
-                FROM topkb t
-                INNER JOIN raports r ON t.rid = r.rid
-                WHERE t.rid = :reportID
-                LIMIT 1";
+       $sql = "SELECT 
+       r.raport, 
+       r.time,
+       (
+        SELECT GROUP_CONCAT(u.username SEPARATOR ' & ')
+        FROM %%USERS%% u
+        INNER JOIN %%TOPKB_USERS%% ut ON u.id = ut.uid
+        WHERE ut.rid = t.rid AND ut.role = 1
+       ) AS attacker,
+       (
+        SELECT GROUP_CONCAT(u.username SEPARATOR ' & ')
+        FROM %%USERS%% u
+        INNER JOIN %%TOPKB_USERS%% ut ON u.id = ut.uid
+        WHERE ut.rid = t.rid AND ut.role = 2
+         ) AS defender
+         FROM %%TOPKB%% t
+         INNER JOIN %%RW%% r ON t.rid = r.rid
+         WHERE t.rid = :reportID
+         LIMIT 1";
 
         $reportData = $db->selectSingle($sql, array(
             ':reportID' => $RID
