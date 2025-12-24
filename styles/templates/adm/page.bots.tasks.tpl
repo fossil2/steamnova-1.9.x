@@ -11,6 +11,7 @@
         <li><a href="?page=botsTasks&mode=runTask&task=remove_messages">Nachrichten löschen</a></li>
         <li><a href="?page=botsTasks&mode=runTask&task=send_expedition">Expedition senden</a></li>
         <li><a href="?page=botsTasks&mode=runTask&task=send_recyclers">Recycler senden</a></li>
+         <li><a href="?page=botsTasks&mode=aiinfo">aiinfo</a></li>
     </ul>
 </div>
 {/block}
