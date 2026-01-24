@@ -1,5 +1,6 @@
 {block name="content"}
-<form action="admin.php?page=messageList" method="post" id="form">
+
+<form action="admin.php?page=messagelist" method="post" id="form">
 <input type="hidden" name="side" value="{$page}" id="side">
 <table class="table table-dark table-striped table-sm fs-12 w-50 my-5 mx-auto">
 	<tr>

@@ -60,17 +60,14 @@
 </div>
 
     <!-- Abschlussbutton -->
-    {if $missionReady}
-        <form method="POST">
-            <button class="tut-button-finish" name="complete">
-                {$LNG.tut_go_to} {$LNG.tut_m7}
-            </button>
-        </form>
-    {else}
-        <div class="tut-hint">
-            {$LNG.tut_not_ready}
-        </div>
-    {/if}
+{if $missionReady}
+    <form method="POST">
+        <input type="hidden" name="tut_token" value="{$tut_token}">
+        <button class="tut-button-finish" name="complete">
+            {$LNG.tut_go_to} {$LNG.tut_m7}
+        </button>
+    </form>
+{/if}
 
     <!-- Navigation -->
     <div class="tut-nav-wrapper">

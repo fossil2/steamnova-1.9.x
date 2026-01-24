@@ -28,105 +28,109 @@ class ShowTutorialPage extends AbstractGamePage
                 ],
             ],
 
-            2 => [
-                'flag'=>'tut_m2',
-                'reward'=>['metal'=>1200,'crystal'=>800,'deuterium'=>200,'darkmatter'=>0],
-                'tpl'=>'mission_2.tpl',
-                'lng_done'=>'tut_m2_ready',
-                'redirect'=>'game.php?page=tutorial&mode=m3',
-                'steps'=>[
-                    ['type'=>'planet','field'=>'deuterium_sintetizer','op'=>'>=','value'=>2,'step'=>1],
-                    ['type'=>'planet','field'=>'robot_factory','op'=>'>=','value'=>2,'step'=>2],
-                    ['type'=>'planet','field'=>'hangar','op'=>'>=','value'=>1,'step'=>3],
-                    ['type'=>'planet','field'=>'misil_launcher','op'=>'>=','value'=>10,'step'=>4],
-                ],
-            ],
+          2 => [
+    'flag'=>'tut_m2',
+    'reward'=>['metal'=>1200,'crystal'=>800,'deuterium'=>200,'darkmatter'=>0],
+    'tpl'=>'mission_2.tpl',
+    'lng_done'=>'tut_m2_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m3',
+    'steps'=>[
+        ['type'=>'planet','field'=>'deuterium_sintetizer','op'=>'>=','value'=>2,'step'=>1],
+        ['type'=>'planet','field'=>'robot_factory','op'=>'>=','value'=>2,'step'=>2],
+        ['type'=>'planet','field'=>'hangar','op'=>'>=','value'=>1,'step'=>3],
+        ['type'=>'planet','field'=>'misil_launcher','op'=>'>=','value'=>10,'step'=>4],
+    ],
+],
 
-            3 => [
-                'flag'=>'tut_m3',
-                'reward'=>['metal'=>1700,'crystal'=>1000,'deuterium'=>500,'darkmatter'=>0],
-                'tpl'=>'mission_3.tpl',
-                'lng_done'=>'tut_m3_ready',
-                'redirect'=>'game.php?page=tutorial&mode=m4',
-                'steps'=>[
-                    ['type'=>'planet','field'=>'metal_mine','op'=>'>=','value'=>10,'step'=>1],
-                    ['type'=>'planet','field'=>'crystal_mine','op'=>'>=','value'=>8,'step'=>2],
-                    ['type'=>'planet','field'=>'deuterium_sintetizer','op'=>'>=','value'=>5,'step'=>3],
-                ],
-            ],
+     3 => [
+    'flag'=>'tut_m3',
+    'reward'=>['metal'=>1700,'crystal'=>1000,'deuterium'=>500,'darkmatter'=>0],
+    'tpl'=>'mission_3.tpl',
+    'lng_done'=>'tut_m3_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m4',
+    'steps'=>[
+        ['type'=>'planet','field'=>'metal_mine','op'=>'>=','value'=>10,'step'=>1],
+        ['type'=>'planet','field'=>'crystal_mine','op'=>'>=','value'=>8,'step'=>2],
+        ['type'=>'planet','field'=>'deuterium_sintetizer','op'=>'>=','value'=>5,'step'=>3],
+    ],
+],
 
-            4 => [
-                'flag'=>'tut_m4',
-                'reward'=>['metal'=>2000,'crystal'=>1400,'deuterium'=>600,'darkmatter'=>25],
-                'tpl'=>'mission_4.tpl',
-                'lng_done'=>'tut_m4_ready',
-                'redirect'=>'game.php?page=tutorial&mode=m5',
-                'steps'=>[
-                    ['type'=>'planet','field'=>'laboratory','op'=>'>=','value'=>1,'step'=>1],
-                    ['type'=>'planet','field'=>'hangar','op'=>'>=','value'=>4,'step'=>2],
-                    ['type'=>'user','field'=>'combustion_tech','op'=>'>=','value'=>2,'step'=>3],
-                    ['type'=>'planet','field'=>'small_ship_cargo','op'=>'>=','value'=>5,'step'=>4],
-                ],
-            ],
+          4 => [
+    'flag'=>'tut_m4',
+    'reward'=>['metal'=>2000,'crystal'=>1400,'deuterium'=>600,'darkmatter'=>25],
+    'tpl'=>'mission_4.tpl',
+    'lng_done'=>'tut_m4_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m5',
+    'steps'=>[
+        ['type'=>'planet','field'=>'laboratory','op'=>'>=','value'=>1,'step'=>1],
+        ['type'=>'planet','field'=>'hangar','op'=>'>=','value'=>4,'step'=>2],
+        ['type'=>'user','field'=>'combustion_tech','op'=>'>=','value'=>2,'step'=>3],
+        ['type'=>'planet','field'=>'small_ship_cargo','op'=>'>=','value'=>5,'step'=>4],
+    ],
+],
 
-        5 => [
-        'flag'=>'tut_m5',
-        'reward'=>['metal'=>5000,'crystal'=>2500,'deuterium'=>1000,'darkmatter'=>50],
-        'tpl'=>'mission_5.tpl',
-        'lng_done'=>'tut_m5_ready',
-        'redirect'=>'game.php?page=tutorial&mode=m6',
-        'steps'=>[
-            ['type'=>'user','field'=>'ally_id','op'=>'>','value'=>0,'step'=>1],
-            ['type'=>'sql','sql'=>"SELECT COUNT(*) cnt FROM %%BUDDY%% WHERE sender = :id",'op'=>'>=','value'=>1,'step'=>2],
+       5 => [
+    'flag'=>'tut_m5',
+    'reward'=>['metal'=>5000,'crystal'=>2500,'deuterium'=>1000,'darkmatter'=>50],
+    'tpl'=>'mission_5.tpl',
+    'lng_done'=>'tut_m5_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m6',
+    'steps'=>[
+        ['type'=>'user','field'=>'ally_id','op'=>'>','value'=>0,'step'=>1],
+        [
+            'type'=>'sql',
+            'sql'=>"SELECT COUNT(*) cnt FROM %%BUDDY%% WHERE sender = :id",
+            'op'=>'>=','value'=>1,'step'=>2
         ],
     ],
+],
 
-    6 => [
-        'flag'=>'tut_m6',
-        'reward'=>['metal'=>0,'crystal'=>0,'deuterium'=>500,'darkmatter'=>50],
-        'tpl'=>'mission_6.tpl',
-        'lng_done'=>'tut_m6_ready',
-        'redirect'=>'game.php?page=tutorial&mode=m7',
-        'steps'=>[
-            ['type'=>'planet','field'=>'deuterium_store','op'=>'>=','value'=>1,'step'=>1],
-            ['type'=>'planet','field'=>'metal_store','op'=>'>=','value'=>1,'step'=>2],
-            ['type'=>'planet','field'=>'crystal_store','op'=>'>=','value'=>1,'step'=>3],
+   6 => [
+    'flag'=>'tut_m6',
+    'reward'=>['metal'=>0,'crystal'=>0,'deuterium'=>500,'darkmatter'=>50],
+    'tpl'=>'mission_6.tpl',
+    'lng_done'=>'tut_m6_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m7',
+    'steps'=>[
+        ['type'=>'planet','field'=>'deuterium_store','op'=>'>=','value'=>1,'step'=>1],
+        ['type'=>'planet','field'=>'metal_store','op'=>'>=','value'=>1,'step'=>2],
+        ['type'=>'planet','field'=>'crystal_store','op'=>'>=','value'=>1,'step'=>3],
+    ],
+],
+
+   7 => [
+    'flag'=>'tut_m7',
+    'reward'=>['metal'=>0,'crystal'=>0,'deuterium'=>0,'darkmatter'=>100],
+    'tpl'=>'mission_7.tpl',
+    'lng_done'=>'tut_m7_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m8',
+    'steps'=>[
+        ['type'=>'planet','field'=>'spy_sonde','op'=>'>=','value'=>2,'step'=>1],
+        ['type'=>'user','field'=>'spy_tech','op'=>'>=','value'=>2,'step'=>2],
+        [
+            'type'=>'sql',
+            'sql'=>"SELECT COUNT(*) cnt FROM %%MESSAGES%% WHERE message_type = 1 AND message_owner = :id",
+            'op'=>'>=','value'=>1,'step'=>3
         ],
     ],
+],
 
-    7 => [
-        'flag'=>'tut_m7',
-        'reward'=>['metal'=>0,'crystal'=>0,'deuterium'=>0,'darkmatter'=>100],
-        'tpl'=>'mission_7.tpl',
-        'lng_done'=>'tut_m7_ready',
-        'redirect'=>'game.php?page=tutorial&mode=m8',
-        'steps'=>[
-            ['type'=>'planet','field'=>'spy_sonde','op'=>'>=','value'=>1,'step'=>1],
-            ['type'=>'user','field'=>'spy_tech','op'=>'>=','value'=>2,'step'=>2],
-            [
-                'type'=>'sql',
-                'sql'=>"SELECT COUNT(*) cnt FROM %%MESSAGES%% WHERE message_type = 1 AND message_owner = :id",
-                'op'=>'>=','value'=>1,'step'=>3
-            ],
+  8 => [
+    'flag'=>'tut_m8',
+    'reward'=>['metal'=>0,'crystal'=>500,'deuterium'=>1000,'darkmatter'=>175],
+    'tpl'=>'mission_8.tpl',
+    'lng_done'=>'tut_m8_ready',
+    'redirect'=>'game.php?page=tutorial&mode=m9',
+    'steps'=>[
+        ['type'=>'planet','field'=>'recycler','op'=>'>=','value'=>5,'step'=>1],
+        [
+            'type'=>'sql',
+            'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
+            'op'=>'>=','value'=>2,'step'=>2
         ],
+        ['type'=>'planet','field'=>'big_ship_cargo','op'=>'>=','value'=>5,'step'=>3],
     ],
-
-    8 => [
-        'flag'=>'tut_m8',
-        'reward'=>['metal'=>0,'crystal'=>500,'deuterium'=>1000,'darkmatter'=>175],
-        'tpl'=>'mission_8.tpl',
-        'lng_done'=>'tut_m8_ready',
-        'redirect'=>'game.php?page=tutorial&mode=m9',
-        'steps'=>[
-            ['type'=>'planet','field'=>'recycler','op'=>'>=','value'=>5,'step'=>1],
-            [
-                'type'=>'sql',
-                'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
-                'op'=>'>=','value'=>2,'step'=>2
-            ],
-            ['type'=>'planet','field'=>'big_ship_cargo','op'=>'>=','value'=>5,'step'=>3],
-        ],
-    ],
+],
 
     9 => [
     'flag'=>'tut_m9',
@@ -138,13 +142,10 @@ class ShowTutorialPage extends AbstractGamePage
         ['type'=>'planet','field'=>'battle_ship','op'=>'>=','value'=>50,'step'=>1],
         ['type'=>'user','field'=>'energy_tech','op'=>'>=','value'=>3,'step'=>2],
         ['type'=>'energy','op'=>'>=','value'=>2000,'step'=>3],
-
-        
         [
             'type'=>'sql',
             'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
-            'op'=>'>=','value'=>2,
-            'step'=>4
+            'op'=>'>=','value'=>2,'step'=>4
         ],
     ],
 ],
@@ -264,6 +265,9 @@ $this->tplObj->assign_vars([
                 $stepsOk = false;
             }
         }
+
+
+
 
         $this->tplObj->assign('missionReady', $stepsOk && !$isFinished);
 

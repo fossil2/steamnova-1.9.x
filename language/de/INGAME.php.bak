@@ -1376,9 +1376,9 @@ $LNG['tut_m5_gain']                         = '<font color="orange">Belohnung: 2
 $LNG['tut_m5_ready']                        = 'Glückwunsch du hast Mission 5 des Tutorials abgeschlossen!';
 $LNG['tut_m6_name']                         = 'Tutorial 6 - Ressourcen und Verteidigung';
 $LNG['tut_m6_desc']                         = 'Jetzt ist es an der Zeit wertvolle Ressourcen einzulagen und sich um die Verteidigung zu kümmern. Um mehr Ressourcen ansparen zu können, solltest du Lager errichten. Für die Verteidigung empfiehlt es sich, Schildkuppeln zu bauen.';
-$LNG['tut_m6_quest']                        = 'Baue Deuteriumtank';
-$LNG['tut_m6_quest2']                       = 'Baue Metallspeicher';
-$LNG['tut_m6_quest3']                       = 'Baue Kristallspeicher';
+$LNG['tut_m6_quest']                        = 'Baue Lagerhäuser für Metall, Kristall und Deuterium';
+$LNG['tut_m6_quest2']                       = 'Baue eine kleine Schildkuppel';
+$LNG['tut_m6_quest3']                       = 'Baue eine große Schildkuppel';
 $LNG['tut_m6_quest4']                       = 'frei';
 $LNG['tut_m6_quest5']                       = 'frei';
 $LNG['tut_m6_gain']                         = '<font color="orange">Belohnung: 2600 Dunkle Materie</font>';

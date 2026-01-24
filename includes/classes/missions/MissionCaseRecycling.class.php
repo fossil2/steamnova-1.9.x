@@ -148,13 +148,24 @@ class MissionCaseRecycling extends MissionFunctions implements Mission
 		
 		$this->savePlanetProduction($this->_fleet['fleet_start_id'],$this->_fleet['fleet_end_time']);
 
-$db	= Database::get();
+        $db = Database::get();
 
- $ownUser	= $db->selectsingle("SELECT * FROM users WHERE id = ".$this->_fleet['fleet_owner'].";");
-		if($ownUser['tut_m9_2'] == 0)
-		{	
-		$db->query("UPDATE users SET `tut_m9_2`=tut_m9_2+1 WHERE id = ".$this->_fleet['fleet_owner'].";");	
-		}
+        $ownUser = $db->selectSingle(
+        'SELECT tut_m9_2 FROM %%USERS%% WHERE id = :userId;',
+         array(
+        ':userId' => $this->_fleet['fleet_owner']
+          )
+         );
+
+         if(isset($ownUser['tut_m9_2']) && $ownUser['tut_m9_2'] == 0)
+         {
+         $db->update(
+        'UPDATE %%USERS%% SET tut_m9_2 = tut_m9_2 + 1 WHERE id = :userId;',
+        array(
+            ':userId' => $this->_fleet['fleet_owner']
+        )
+        );
+        }
 // Tutorial
 
 		$this->RestoreFleet();

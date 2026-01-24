@@ -396,7 +396,7 @@
 						<img src="{$dpath}img/asteroid_icons.png" alt="" width="20" height="20">
 					</a>
 				{else}
-			        {if $currentPlanet.action.esp}
+					{if $currentPlanet.action.esp}
 						<a class='hover-pointer text-decoration-none' data-bs-toggle="tooltip"
 						data-bs-placement="top"
 						data-bs-html="true"

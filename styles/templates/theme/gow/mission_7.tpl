@@ -37,8 +37,8 @@
 
     <ul class="tut-task-list">
         <li>{$LNG.tut_m7_quest}  {$Si_m7_1}{$No_m7_1}</li>
-        <li>{$LNG.tut_m7_quest2} {$Si_m7_2}{$No_m7_2}</li>
-        <li>{$LNG.tut_m7_quest3} {$Si_m7_3}{$No_m7_3}</li>
+        <li>{$LNG.tut_m7_quest3} {$Si_m7_2}{$No_m7_2}</li>
+        <li>{$LNG.tut_m7_quest2} {$Si_m7_3}{$No_m7_3}</li>
     </ul>
 
     <!-- Belohnung -->
@@ -62,13 +62,14 @@
 </div>
 
     <!-- Abschlussbutton -->
-    {if $missionReady}
-        <form method="POST">
-            <button class="tut-button-finish" name="complete">
-                {$LNG.tut_go_to} {$LNG.tut_m8}
-            </button>
-        </form>
-    {/if}
+  {if $missionReady}
+    <form method="POST">
+        <input type="hidden" name="tut_token" value="{$tut_token}">
+        <button class="tut-button-finish" name="complete">
+            {$LNG.tut_go_to} {$LNG.tut_m8}
+        </button>
+    </form>
+{/if}
 
     <!-- Hinweis wenn noch nicht fertig -->
     {if !$missionReady}

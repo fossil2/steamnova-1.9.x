@@ -91,6 +91,9 @@ class ShowGalaxyPage extends AbstractGamePage
 		{
 			$Result = [];
 		}
+		
+		
+		$USER['settings_fleetactions'] = ($USER['settings_fleetactions'] > 0) ? 1 : 0;
 
         $this->tplObj->loadscript('galaxy.js');
         $this->assign(array(

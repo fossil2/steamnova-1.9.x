@@ -79,8 +79,8 @@ class ResourceUpdate
 		$Hash[]	= $this->config->resource_multiplier;
 		$Hash[]	= $this->config->storage_multiplier;
 		$Hash[]	= $this->config->energySpeed;
-		$Hash[]	= $this->USER['factor']['Resource'];
-		$Hash[]	= $this->USER['factor']['Energy'];
+    	$Hash[] = $this->USER['factor']['Resource'] ?? 0;
+        $Hash[] = $this->USER['factor']['Energy'] ?? 0;
 		$Hash[]	= $this->PLANET[$resource[22]];
 		$Hash[]	= $this->PLANET[$resource[23]];
 		$Hash[]	= $this->PLANET[$resource[24]];
@@ -304,11 +304,12 @@ class ResourceUpdate
 			}
 		}
 
-		$this->PLANET['metal_max']			= $temp[901]['max'] * $this->config->storage_multiplier * (1 + $this->USER['factor']['ResourceStorage']);
-		$this->PLANET['crystal_max']		= $temp[902]['max'] * $this->config->storage_multiplier * (1 + $this->USER['factor']['ResourceStorage']);
-		$this->PLANET['deuterium_max']		= $temp[903]['max'] * $this->config->storage_multiplier * (1 + $this->USER['factor']['ResourceStorage']);
+	$this->PLANET['metal_max'] =
+    $temp[901]['max'] * $this->config->storage_multiplier * (1 + ($this->USER['factor']['ResourceStorage'] ?? 0));
+    $this->PLANET['crystal_max'] = $temp[902]['max'] * $this->config->storage_multiplier * (1 + ($this->USER['factor']['ResourceStorage'] ?? 0));
+    $this->PLANET['deuterium_max'] = $temp[903]['max'] * $this->config->storage_multiplier * (1 + ($this->USER['factor']['ResourceStorage'] ?? 0));
+    $this->PLANET['energy'] = round($temp[911]['plus'] * $this->config->energySpeed * (1 + ($this->USER['factor']['Energy'] ?? 0)));
 
-		$this->PLANET['energy']				= round($temp[911]['plus'] * $this->config->energySpeed * (1 + $this->USER['factor']['Energy']));
 		$this->PLANET['energy_used']		= $temp[911]['minus'] * $this->config->energySpeed;
 		if($this->PLANET['energy_used'] == 0) {
 			$this->PLANET['metal_perhour']		= 0;
@@ -316,10 +317,10 @@ class ResourceUpdate
 			$this->PLANET['deuterium_perhour']	= 0;
 		} else {
 			$prodLevel	= min(1, $this->PLANET['energy'] / abs($this->PLANET['energy_used']));
-
-			$this->PLANET['metal_perhour']		= ($temp[901]['plus'] * (1 + $this->USER['factor']['Resource'] + 0.02 * $this->USER[$resource[131]]) * $prodLevel + $temp[901]['minus']) * $this->config->resource_multiplier;
-			$this->PLANET['crystal_perhour']	= ($temp[902]['plus'] * (1 + $this->USER['factor']['Resource'] + 0.02 * $this->USER[$resource[132]]) * $prodLevel + $temp[902]['minus']) * $this->config->resource_multiplier;
-			$this->PLANET['deuterium_perhour']	= ($temp[903]['plus'] * (1 + $this->USER['factor']['Resource'] + 0.02 * $this->USER[$resource[133]]) * $prodLevel + $temp[903]['minus']) * $this->config->resource_multiplier;
+			
+            $this->PLANET['metal_perhour']      = ($temp[901]['plus'] * (1 + ($this->USER['factor']['Resource'] ?? 0) + 0.02 * $this->USER[$resource[131]]) * $prodLevel + $temp[901]['minus']) * $this->config->resource_multiplier;
+	    	$this->PLANET['crystal_perhour']    = ($temp[902]['plus'] * (1 + ($this->USER['factor']['Resource'] ?? 0) + 0.02 * $this->USER[$resource[132]]) * $prodLevel + $temp[902]['minus']) * $this->config->resource_multiplier;
+			$this->PLANET['deuterium_perhour']	= ($temp[903]['plus'] * (1 + ($this->USER['factor']['Resource'] ?? 0) + 0.02 * $this->USER[$resource[133]]) * $prodLevel + $temp[903]['minus']) * $this->config->resource_multiplier;
 		}
 	}
 

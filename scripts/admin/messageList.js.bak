@@ -1,7 +1,6 @@
 function gotoPage(page) {
-    $('#side').val(page);
-    $('#form').attr('action', 'admin.php?page=messageList');
-    $('#form').submit();
+	$('#side').val(page);
+	$('form').submit();
 }
 
 $(function() {

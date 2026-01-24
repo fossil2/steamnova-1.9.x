@@ -150,6 +150,11 @@ abstract class AbstractGamePage
     {
         global $USER;
         
+         if (empty($USER['id']) || $USER['id'] <= 0) {
+        $USER['PLANETS'] = array();
+        return;
+        }
+        
         $db = Database::get();
         $sql = "SELECT * FROM %%PLANETS%% 
                 WHERE id_owner = :userId 
@@ -364,16 +369,16 @@ abstract class AbstractGamePage
             'Offset'           => $dateTimeUser->getOffset() - $dateTimeServer->getOffset(),
             'queryString'      => $this->getQueryString(),
             'themeSettings'     => $THEME->getStyleSettings(),
-            'page' => HTTP::_GP('page',''),
-            'mode' => HTTP::_GP('mode',''),
+            'page'              => HTTP::_GP('page',''),
+            'mode'              => HTTP::_GP('mode',''),
             'servertime' => _date("M D d H:i:s", TIMESTAMP, $USER['timezone']),
             'AllPlanets'                => $AllPlanets,
             'fleets'                    => $this->GetFleets(),
-            'show_fleets_active' => $USER['show_fleets_active'],
-            'attackListenTime' => ATTACK_LISTEN_TIME,
+            'show_fleets_active'   => $USER['show_fleets_active'] ?? 0,
+            'attackListenTime'     => ATTACK_LISTEN_TIME,
         ));
     }
-
+ 
     protected function printMessage($message, $redirectButtons = NULL, $redirect = NULL, $fullSide = true)
     {
         $this->assign(array(

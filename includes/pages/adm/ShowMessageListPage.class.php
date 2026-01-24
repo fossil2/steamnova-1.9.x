@@ -70,7 +70,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -95,7 +95,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -119,7 +119,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -146,7 +146,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -168,7 +168,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -189,7 +189,7 @@ class ShowMessageListPage extends AbstractAdminPage
 				{
 					$sql .= ' AND message_time > '.mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
 				}
-				elseif($useDateStart)
+				elseif($useDateEnd)
 				{
 					$sql	.= ' AND message_time < '.mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
 				}
@@ -206,7 +206,7 @@ class ShowMessageListPage extends AbstractAdminPage
 		$maxPage	= max(1, ceil($MessageCount / $perSide));
 		$page		= max(1, min($page, $maxPage));
 
-		$sqlLimit	= (($page - 1) * $perSide).", ".($perSide - 1);
+		$sqlLimit	= (($page - 1) * $perSide).", ".$perSide;
 
 		if ($type == 100)
 		{

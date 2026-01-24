@@ -103,13 +103,6 @@ $(document).ready(function(){
         <a class="d-flex w-100 h-100 p-1 text-decoration-none text-white fs-6" href="?page=relocate" >Relocate Settings</a>
       </li>
     {/if}
-    
-       {if allowedTo('ShowChatConfigPage')}
-    <li class="d-flex {if $currentPage == 'Quests'}menu-active{/if}">
-      <a class="d-flex w-100 h-100 p-1  text-decoration-none text-white fs-6" href="?page=Quests" >{$LNG.quest}</a>
-    </li>
-    {/if}
-    
     <li><a><span style="color:lime">{$LNG.mu_mods}</span></a></li>
     {if allowedTo('ShowBostPage')}
 			<li class="d-flex {if $currentPage == 'bots'}menu-active{/if}">
