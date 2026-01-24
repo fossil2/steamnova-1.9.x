@@ -982,6 +982,13 @@ CREATE TABLE `%PREFIX%users` (
   `tut_m9` ENUM(  '0',  '1' ) NOT NULL DEFAULT    '0',
   `tut_m9_2` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '0',
   `is_bot` BOOLEAN NOT NULL DEFAULT 0,
+  `bot_next_action`      INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_next_spy`         INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_spy_last_target`  INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_spy_today_count`  INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_next_colonize`    INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_next_expedition`  INT UNSIGNED NOT NULL DEFAULT 0,
+  
   PRIMARY KEY (`id`),
   KEY `authlevel` (`authlevel`),
   KEY `ref_bonus` (`ref_bonus`),
