@@ -126,15 +126,18 @@ class ShowTutorialPage extends AbstractGamePage
     'lng_done'=>'tut_m8_ready',
     'redirect'=>'game.php?page=tutorial&mode=m9',
     'steps'=>[
-        ['type'=>'planet','field'=>'recycler','op'=>'>=','value'=>5,'step'=>1],
+        ['type'=>'planet','field'=>'colonizer','op'=>'>=','value'=>1,'step'=>1],
+
         [
             'type'=>'sql',
             'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
             'op'=>'>=','value'=>2,'step'=>2
         ],
+
         ['type'=>'planet','field'=>'big_ship_cargo','op'=>'>=','value'=>5,'step'=>3],
     ],
 ],
+
 
     9 => [
     'flag'=>'tut_m9',
@@ -206,6 +209,8 @@ public function show()
     private function runMission(int $id)
     {
         global $USER, $PLANET, $LNG;
+
+        $this->tplObj->caching = false;
 
         if (!isset($this->missions[$id])) {
             return $this->printMessage("Mission existiert nicht.");
