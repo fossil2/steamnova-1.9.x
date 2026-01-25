@@ -103,15 +103,19 @@ class ShowTutorialPage extends AbstractGamePage
     'reward'=>['metal'=>0,'crystal'=>0,'deuterium'=>0,'darkmatter'=>100],
     'tpl'=>'mission_7.tpl',
     'lng_done'=>'tut_m7_ready',
-    'redirect'=>'game.php?page=tutorial&mode=m8',
+    'redirect' => 'game.php?page=tutorial',
+  // 'redirect'=>'game.php?page=tutorial&mode=m8',
     'steps'=>[
         ['type'=>'planet','field'=>'spy_sonde','op'=>'>=','value'=>2,'step'=>1],
         ['type'=>'user','field'=>'spy_tech','op'=>'>=','value'=>2,'step'=>2],
         [
-            'type'=>'sql',
-            'sql'=>"SELECT COUNT(*) cnt FROM %%MESSAGES%% WHERE message_type = 1 AND message_owner = :id",
-            'op'=>'>=','value'=>1,'step'=>3
-        ],
+    'type'=>'sql',
+    'sql'=>"SELECT COUNT(*) cnt 
+            FROM %%MESSAGES%% 
+            WHERE message_type = 0 
+              AND message_owner = :id",
+    'op'=>'>=','value'=>1,'step'=>3
+     ],
     ],
 ],
 
@@ -228,6 +232,7 @@ $this->tplObj->assign_vars([
         }
 
         $isFinished = $this->isEnumTrue($USER[$flag] ?? '0');
+        $this->tplObj->assign('missionFinished', $isFinished);
 
         
         if (empty($_SESSION['tut_token'])) {
@@ -266,8 +271,7 @@ $this->tplObj->assign_vars([
             }
         }
 
-
-
+     
 
         $this->tplObj->assign('missionReady', $stepsOk && !$isFinished);
 
