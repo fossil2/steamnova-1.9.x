@@ -31,7 +31,7 @@ class ShowFindDebrisPage extends AbstractGamePage
 		}
 
 		
-		$recyclerID = 219;
+		$recyclerID = 209;
 		if (empty($PLANET[$resource[$recyclerID]]) || $PLANET[$resource[$recyclerID]] < 1) {
 			$this->printMessage(
 				$LNG['find_deb_norecycler'],
@@ -50,21 +50,19 @@ class ShowFindDebrisPage extends AbstractGamePage
 		$systemMax = $PLANET['system'] + $range;
 
 		
-		$sql = "
-			SELECT id, der_metal, der_crystal, galaxy, system, planet
-			FROM %%PLANETS%%
-			WHERE
-				(der_metal > 0 OR der_crystal > 0)
-				AND system BETWEEN :systemMin AND :systemMax
-				AND galaxy = :galaxy
-				AND planet_type = '1'
-		";
+	$sql = "SELECT id, der_metal, der_crystal, galaxy, system, planet
+    FROM %%PLANETS%%
+    WHERE (der_metal > 0 OR der_crystal > 0)
+    AND system BETWEEN :systemMin AND :systemMax
+    AND galaxy = :galaxy
+    AND planet_type = 1";
 
-		$debrisList = $db->select($sql, [
-			":systemMin" => $systemMin,
-			":systemMax" => $systemMax,
-			":galaxy"	 => $PLANET['galaxy'],
-		]);
+    $debrisList = $db->select($sql, [
+    ':systemMin' => $systemMin,
+    ':systemMax' => $systemMax,
+    ':galaxy'    => $PLANET['galaxy'],
+    ]);
+
 
 		
 		$table = "
@@ -83,8 +81,8 @@ class ShowFindDebrisPage extends AbstractGamePage
 			foreach ($debrisList as $debris) {
 
 				$GRecNeeded = min(
-					ceil(($debris['der_metal'] + $debris['der_crystal']) / $pricelist[219]['capacity']),
-					$PLANET[$resource[219]]
+					ceil(($debris['der_metal'] + $debris['der_crystal']) / $pricelist[209]['capacity']),
+					$PLANET[$resource[209]]
 				);
 
 				$table .= "
