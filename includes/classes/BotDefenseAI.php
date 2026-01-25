@@ -6,6 +6,7 @@ class BotDefenseAI
     /** DEFENSE IDs */
     private const ID_ROCKET_LAUNCHER = 401;
     private const ID_LIGHT_LASER     = 402;
+    private const ID_HEAVY_LASER     = 403;
 
     /** MINDESTLEVEL FÜR DEFENSE */
     private const MIN_SHIPYARD_LEVEL = 2;
@@ -69,6 +70,7 @@ class BotDefenseAI
         $buildOrder = [
             self::ID_ROCKET_LAUNCHER,
             self::ID_LIGHT_LASER
+            self::ID_HEAVY_LASER,
         ];
 
         foreach ($buildOrder as $defId) {
@@ -106,6 +108,14 @@ class BotDefenseAI
             self::ID_LIGHT_LASER =>
                 ($USER['laser_tech'] ?? 0) >= 1
                 && $count < 10,
+
+              /* Schwerer Laser – ab 5000 Punkte */
+            self::ID_HEAVY_LASER =>
+            ($USER['total_points'] ?? 0) >= 5000               // Noobschutz vorbei
+            && ($USER['energy_tech'] ?? 0) >= 3                // Energy Tech 3
+            && ($USER['laser_tech'] ?? 0) >= 6                 // Laser Tech 6
+            && ($PLANET['hangar'] ?? 0) >= 4                   // Werft 4
+            && $count < 5,                                     // Limit (Testwert)   
 
             default => false,
         };

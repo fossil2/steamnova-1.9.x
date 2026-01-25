@@ -305,8 +305,13 @@ class BotResearchAI
         }
         
         // Sonderregel: LaserTech darf früher auf Level 3
-if ($elementId === 120 && $score < 5000) {
-    $scoreMax = max($scoreMax, 3);
+
+if ($elementId === 120) {
+    if ($score < 5000) {
+        $scoreMax = max($scoreMax, 3);
+    } else {
+        $scoreMax = max($scoreMax, 6);
+    }
 }
 
 if ($elementId === 117 && $score < 5000) {
