@@ -37,6 +37,9 @@ class BotColonyBuildAI
         /* Jede Kolonie prüfen – aber max. 1 Bau insgesamt */
         foreach ($colonies as $PLANET) {
 
+              $res = new ResourceUpdate();
+           $res->CalcResource($USER, $PLANET, false);
+
             // Hauptplanet überspringen (der erste)
             if ((int)$PLANET['id'] === self::getMainPlanetId($userId)) {
                 continue;

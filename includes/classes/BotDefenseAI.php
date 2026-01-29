@@ -69,7 +69,7 @@ class BotDefenseAI
         /* BAUPRIORITÄT */
         $buildOrder = [
             self::ID_ROCKET_LAUNCHER,
-            self::ID_LIGHT_LASER
+            self::ID_LIGHT_LASER,
             self::ID_HEAVY_LASER,
         ];
 

@@ -106,7 +106,7 @@
 				<!-- Rohstoffe sichern -->
 				{if $collect_mines_active}
 				<div class="col w-150 singleReward">
-					<div class="rewardName">Rohstoffe sichern</div>
+					<div class="rewardName">{$LNG['cm_collect_mines_submit']}</div>
 					<div class="itemBox">
 						<div class="thumbnail">
 							<img src="{$dpath}img/anomalie_secure.jpeg">

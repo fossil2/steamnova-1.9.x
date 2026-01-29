@@ -25,10 +25,14 @@ $LNG['fs_time_seconds'] = "Sekunda";
 $LNG['fs_time_minutes'] = "Minuta";
  
 //Przesuwanie modułu
-$LNG['cm_error_1'] = "Zbieranie w trybie urlopowym jest niemożliwe!";
-$LNG['cm_error_2'] = "Zbieranie surowców podczas ataku jest niemożliwe!";
+$LNG['cm_error_1'] = "Nie można łączyć podczas trybu urlopu!";
+$LNG['cm_error_2'] = "Nie można łączyć surowców podczas ataku!";
 $LNG['cm_error_3'] = "Limit czasu %s min!";
 $LNG['cm_collect_mines_submit'] = "Zabezpiecz surowce!";
+$LNG['cm_error_no_dm'] = "Za mało Ciemnej Materii!";
+
+
+
 
 
 //MODULE_AUTOEXPEDITION
