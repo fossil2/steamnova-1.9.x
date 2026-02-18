@@ -26,17 +26,28 @@ class ShowCronjobPage extends AbstractAdminPage
 		parent::__construct();
 	}
 
-	function getCronjobTimes($row,$max)
-	{
-		$arr = explode(',',$row);
-		if (count($arr) > 1)
-			return $arr;
+function getCronjobTimes($row, $max)
+{
+    $arr = explode(',', (string)$row);
 
-		if (substr($arr[0],0,(2-strlen($arr[0]))) == '*/')
-			return range(0,$max,(int) substr($arr[0],(2-strlen($arr[0]))));
-		else
-			return $arr[0];
-	}
+    if (count($arr) > 1) {
+        return $arr;
+    }
+
+    $value = trim($arr[0]);
+
+    if (strncmp($value, '*/', 2) === 0) {
+        $step = (int) substr($value, 2);
+
+        if ($step > 0) {
+            return range(0, (int)$max, $step);
+        }
+    }
+
+    return $value;
+}
+
+
 
 	function checkPostData($column,$max)
 	{
@@ -174,7 +185,7 @@ class ShowCronjobPage extends AbstractAdminPage
 			'month'			=> isset($_POST['month_all']) ? array(0 => '*') : HTTP::_GP('month', array(0 => 0)),
 			'dow'			=> isset($_POST['dow_all']) ? array(0 => '*') : HTTP::_GP('dow', array(0 => 0)),
 			'class'			=> HTTP::_GP('class', ''),
-			'error_msg'		=> 'NOT FOUND',
+			'error_msg'		=> NULL,
 		));
 
 		$this->display("page.cronjob.create.tpl");
@@ -272,10 +283,10 @@ function delete(){
 			$error[] = $LNG['cronjob_error_filenotfound'].'includes/classes/cronjobs/'.$post_class.'.class.php';
 
 
-		if (!empty($error_msg)) {
-			$this->printMessage($error_msg);
-		}
-
+	     if (!empty($error)) {
+         $this->printMessage(implode("<br>", $error));
+         }
+         
 
 			if ($post_id != 0)
 			{
@@ -352,8 +363,8 @@ function delete(){
 			$error[] = $LNG['cronjob_error_filenotfound'].'includes/classes/cronjobs/'.$post_class.'.class.php';
 
 
-		if (!empty($error_msg)) {
-			$this->printMessage($error_msg);
+		if (!empty($error)) {
+        $this->printMessage(implode("<br>", $error));
 		}
 
 
@@ -409,10 +420,12 @@ function ShowCronjob()
 		    ShowCronjobEnable($cronId);
         break;
         case 'overview':
-				ShowCronjobOverview($cronId);
+            ShowCronjobOverview();
+            break;  
         default:
-		    ShowCronjobOverview($cronId);
-        break;
+            ShowCronjobOverview();
+            break;
+        
     }
 }
 
@@ -474,6 +487,8 @@ function ShowCronjobEnable($cronjobId) {
 
 function ShowCronjobOverview()
 {
+    global $LNG;
+    
 	$db = Database::get();
 
 	$sql = "SELECT * FROM %%CRONJOBS%%;";

@@ -17,13 +17,25 @@
 	<th>{$LNG.cronjob_delete}</th>
 </tr>
 {foreach item=CronjobInfo from=$CronjobArray}
-<tr>
+   <tr>
 	<td>{$CronjobInfo.id}</td>
 	<td>{$LNG["cronName_{$CronjobInfo.name}"]}</td>
 	<td>{$CronjobInfo.min}</td>
 	<td>{$CronjobInfo.hours}</td>
 	<td>{$CronjobInfo.dom}</td>
-	<td>{if $CronjobInfo.month == '*'}{$CronjobInfo.month}{else}{foreach item=month from=$CronjobInfo.month}{$LNG.months.{$month-1}}{/foreach}{/if}</td>
+	<td>
+    {if $CronjobInfo.month == '*'}
+    *
+    {else}
+    {foreach item=month from=$CronjobInfo.month}
+        {assign var=m value=$month|intval}
+        {if $m > 0 && isset($LNG.months[$m-1])}
+            {$LNG.months[$m-1]}
+        {/if}
+    {/foreach}
+    {/if}
+    </td>
+
 	<td>{if $CronjobInfo.dow == '*'}{$CronjobInfo.dow}{else}{foreach item=d from=$CronjobInfo.dow}{$LNG.week_day.{$d}} {/foreach}{/if}</td>
 	<td>{$CronjobInfo.class}</td>
 	<td>{if $CronjobInfo.isActive}{date($LNG.php_tdformat, $CronjobInfo.nextTime)}{else}-{/if}</td>
