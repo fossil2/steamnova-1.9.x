@@ -184,7 +184,7 @@ class ShowBotsPage extends AbstractAdminPage
         'planet' => $coordinate[2],
         'username' => ($bot_name_type == 1) ? 'bot ' . $i : $this->generateName(),
         'email' => 'bot' . $i + $numberOfBots . '@2moons.de',
-        'lang' => 'tr',
+        'lang' => 'de',
         'darkmatter' => $bots_dm
       );
 
