@@ -12,7 +12,10 @@ class BotColonyBuildAI
 
         /* USER */
         $USER = $db->selectSingle(
-            "SELECT id FROM " . DB_PREFIX . "users WHERE id = :uid AND is_bot = 1",
+    "SELECT *
+     FROM " . DB_PREFIX . "users
+     WHERE id = :uid
+       AND is_bot = 1",
             [':uid' => $userId]
         );
 
@@ -50,9 +53,16 @@ class BotColonyBuildAI
                 continue;
             }
 
-            if (self::tryBuild($PLANET)) {
-                return; // ⛔ exakt EIN Bauvorgang
+           // ⭐ Defense Test zuerst
+          if (self::tryBuildDefense($PLANET)) {
+           return;
             }
+
+     // Danach normales Gebäude-Bauen
+            if (self::tryBuild($PLANET)) {
+              return;
+              }
+
         }
     }
 
@@ -94,6 +104,95 @@ class BotColonyBuildAI
 
         return false;
     }
+
+    /* =========================
+ * TEST DEFENSE BUILD
+ * ========================= */
+private static function tryBuildDefense(array $p): bool
+{
+    global $resource;
+
+    // Hangar Voraussetzung
+    if ((int)$p['hangar'] < 2) {
+        return false;
+    }
+
+    $defIds = [401, 402, 403];
+
+    foreach ($defIds as $id) {
+
+        if (!isset($resource[$id])) {
+            continue;
+        }
+
+        $field = $resource[$id];
+        $count = (int)($p[$field] ?? 0);
+
+        // ⭐ kleine Test-Defense
+        $limit = match ($id) {
+            401 => 6,
+            402 => 4,
+            403 => 2,
+            default => 0,
+        };
+
+        if ($count >= $limit) {
+            continue;
+        }
+
+        if (self::startDefenseBuild($p, $id)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+private static function startDefenseBuild(array $planet, int $elementId): bool
+{
+    $cost = BuildFunctions::getElementPrice(
+        [],
+        $planet,
+        $elementId,
+        false,
+        1
+    );
+
+    if (
+        $planet['metal']     < ($cost[901] ?? 0) ||
+        $planet['crystal']   < ($cost[902] ?? 0) ||
+        $planet['deuterium'] < ($cost[903] ?? 0)
+    ) {
+        return false;
+    }
+
+    $now = time();
+    $end = $now + 12;
+
+    $queue = serialize([
+        [$elementId, 1, [], (float)$end, 'build']
+    ]);
+
+    Database::get()->update(
+        "UPDATE " . DB_PREFIX . "planets SET
+            metal         = metal - :m,
+            crystal       = crystal - :c,
+            deuterium     = deuterium - :d,
+            b_building    = :end,
+            b_building_id = :queue
+         WHERE id = :pid",
+        [
+            ':m'     => (int)($cost[901] ?? 0),
+            ':c'     => (int)($cost[902] ?? 0),
+            ':d'     => (int)($cost[903] ?? 0),
+            ':end'   => $end,
+            ':queue' => $queue,
+            ':pid'   => $planet['id'],
+        ]
+    );
+
+    return true;
+}
 
     /* =========================
      * SHOULD BUILD ?
