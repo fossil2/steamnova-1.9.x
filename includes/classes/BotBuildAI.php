@@ -47,29 +47,30 @@ class BotBuildAI
          * TRY-NEXT-POSSIBLE-BUILD
          * ========================= */
 
-        $buildOrder = [
 
-            // Energie immer zuerst prüfen
-            self::ID_SOLAR_PLANT,
+     $buildOrder = [
 
-            // Minen Earlygame
-            self::ID_METAL_MINE,
-            self::ID_CRYSTAL_MINE,
-            self::ID_DEUTERIUM_SYNTH,
+      /* Energie immer prüfen */
+      self::ID_SOLAR_PLANT,
 
-            // Speicher passend zu Minen
-            self::ID_METAL_STORE,
-            self::ID_CRYSTAL_STORE,
-            self::ID_DEUTERIUM_STORE,
+      /* Eco Core */
+      self::ID_METAL_MINE,
+      self::ID_CRYSTAL_MINE,
+      self::ID_DEUTERIUM_SYNTH,
 
-            // Basis Infrastruktur
-            self::ID_ROBOT_FACTORY,
-            self::ID_HANGAR,
+      /* Speicher dynamisch */
+      self::ID_METAL_STORE,
+      self::ID_CRYSTAL_STORE,
+      self::ID_DEUTERIUM_STORE,
 
-            // Midgame
-            self::ID_ROBOT_FACTORY,
-            self::ID_LABORATORY,
-        ];
+      /* Infra Scaling */
+      self::ID_ROBOT_FACTORY,
+      self::ID_NANITE_FACTORY,
+      self::ID_HANGAR,
+
+      /* Forschung Support */
+      self::ID_LABORATORY,
+     ];
 
         foreach ($buildOrder as $elementId) {
 
@@ -89,40 +90,89 @@ class BotBuildAI
     /* =========================
      * SHOULD BUILD ?
      * ========================= */
-    private static function shouldBuild(array $p, int $id): bool
-    {
-        $nextMineLevel = max(
-            (int)$p['metal_mine'],
-            (int)$p['crystal_mine'],
-            (int)$p['deuterium_sintetizer']
-        ) + 1;
+      private static function shouldBuild(array $p, int $id): bool
+{
+    /* Midgame Trigger über Mine-Level (kein Stats Join nötig) */
+    $midgame =
+        $p['metal_mine'] >= 22 ||
+        $p['crystal_mine'] >= 18 ||
+        $p['deuterium_sintetizer'] >= 12;
 
-        return match ($id) {
+    $metal   = (int)$p['metal_mine'];
+    $crystal = (int)$p['crystal_mine'];
+    $deut    = (int)$p['deuterium_sintetizer'];
 
-            // ⚡ Solar nur falls wirklich nötig
-            self::ID_SOLAR_PLANT =>
-                (int)$p['solar_plant'] === 0 ||
-                self::needsMoreEnergy($p, $nextMineLevel),
+    $nextMineLevel = max($metal, $crystal, $deut) + 1;
 
-            // Minen Soft-Caps
-            self::ID_METAL_MINE      => $p['metal_mine'] < 22,
-            self::ID_CRYSTAL_MINE    => $p['crystal_mine'] < 18,
-            self::ID_DEUTERIUM_SYNTH => $p['deuterium_sintetizer'] < 12,
-
-            // Speicher passend zum Level
-            self::ID_METAL_STORE     => $p['metal_store'] < 5,
-            self::ID_CRYSTAL_STORE   => $p['crystal_store'] < 4,
-            self::ID_DEUTERIUM_STORE => $p['deuterium_store'] < 3,
-
-            // Infrastruktur Progression
-            self::ID_ROBOT_FACTORY   => $p['robot_factory'] < 4,
-            self::ID_HANGAR          => $p['hangar'] < 6,
-            self::ID_LABORATORY      => $p['laboratory'] < 5,
-
-            default => false,
-        };
+    /* Energie Deadlock Schutz */
+      if (self::needsMoreEnergy($p, $nextMineLevel) && $id !== self::ID_SOLAR_PLANT) {
+    if (in_array($id, [
+        self::ID_METAL_MINE,
+        self::ID_CRYSTAL_MINE,
+        self::ID_DEUTERIUM_SYNTH
+    ])) {
+        return false;
     }
+}
+    return match ($id) {
 
+        /* =========================
+         * MINEN
+         * ========================= */
+
+        self::ID_METAL_MINE =>
+            $midgame
+                ? $metal <= ($crystal + 3)
+                : $metal < 22,
+
+        self::ID_CRYSTAL_MINE =>
+            $midgame
+                ? $crystal <= ($metal - 1)
+                : $crystal < 18,
+
+        self::ID_DEUTERIUM_SYNTH =>
+            $midgame
+                ? $deut <= ($crystal - 2)
+                : $deut < 12,
+
+        /* =========================
+         * SPEICHER dynamisch
+         * ========================= */
+
+        self::ID_METAL_STORE =>
+            self::isStorageNeeded($p, 'metal'),
+
+        self::ID_CRYSTAL_STORE =>
+            self::isStorageNeeded($p, 'crystal'),
+
+        self::ID_DEUTERIUM_STORE =>
+            self::isStorageNeeded($p, 'deuterium'),
+
+        /* =========================
+         * INFRA
+         * ========================= */
+
+        self::ID_ROBOT_FACTORY =>
+            $p['robot_factory'] < floor($metal / ($midgame ? 4 : 6)),
+
+            self::ID_NANITE_FACTORY =>
+            $midgame
+            && $p['robot_factory'] >= 10
+            && ($p['nanite_factory'] ?? 0) < floor($p['robot_factory'] / 10),
+
+        self::ID_HANGAR =>
+           $p['hangar'] < ($midgame ? 12 : 6),
+
+        /* =========================
+         * FORSCHUNG SUPPORT
+         * ========================= */
+
+        self::ID_LABORATORY =>
+            $p['laboratory'] < floor($crystal / ($midgame ? 3 : 5)),
+
+        default => false,
+    };
+    }
 
     /* =========================
      * ⚡ ENERGY CHECK
@@ -148,7 +198,18 @@ class BotBuildAI
     return $solarOutput < $requiredWithBuffer;
 }
 
+private static function isStorageNeeded(array $p, string $res): bool
+{
+    $storage = match ($res) {
+        'metal' => (int)$p['metal_store'],
+        'crystal' => (int)$p['crystal_store'],
+        'deuterium' => (int)$p['deuterium_store'],
+    };
 
+    $capacity = pow(1.5, $storage) * 5000;
+
+    return $p[$res] > ($capacity * 0.80);
+}
 
     /* =========================
      * START BUILD
@@ -298,4 +359,6 @@ class BotBuildAI
     private const ID_CRYSTAL_STORE   = 23;
     private const ID_DEUTERIUM_STORE = 24;
     private const ID_LABORATORY      = 31;
+    private const ID_NANITE_FACTORY  = 15;
+
 }

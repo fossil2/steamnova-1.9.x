@@ -4,7 +4,7 @@ declare(strict_types=1);
 class BotSpyAI
 {
     /* =========================
-     * KONFIG
+     * CONFIG
      * ========================= */
     private const MIN_HANGAR     = 4;
     private const MIN_COMBUSTION = 3;
@@ -149,43 +149,41 @@ class BotSpyAI
 
         $speed = FleetFunctions::GetFleetMaxSpeed($fleetArray, $USER);
 
-        $duration = FleetFunctions::GetMissionDuration(
-            10,
-            $speed,
-            $distance,
-            FleetFunctions::GetGameSpeedFactor(),
-            $USER
-        );
 
-        $start = TIMESTAMP;
-        $end   = $start + $duration;
+       $fleetStartTime = TIMESTAMP;
+$fleetDuration  = (int)FleetFunctions::GetMissionDuration(
+    10, $speed, $distance,
+    FleetFunctions::GetGameSpeedFactor(),
+    $USER
+);
 
-        FleetFunctions::sendFleet(
-            $fleetArray,
-            15, // Expedition
-            $USER['id'],
-            $PLANET['id'],
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            $PLANET['planet'],
-            1,
-            0,
-            0,
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            self::EXPEDITION_PLANET,
-            1,
-            [901 => 0, 902 => 0, 903 => 0],
-            $start,
-            0,
-            $end
-        );
+// Expo: 1 Stunde im Weltall bleiben
+$haltSpeed = Config::get()->halt_speed ?? 1;
+$stayHours = 1; // 1 Stunde
+$fleetStayTime = TIMESTAMP + $fleetDuration + ($stayHours * 3600 / $haltSpeed);
+
+// Rückflug = nochmal $fleetDuration
+$fleetEndTime  = $fleetStayTime + $fleetDuration;
+
+FleetFunctions::sendFleet(
+    $fleetArray,
+    15,
+    $USER['id'],
+    $PLANET['id'],
+    $PLANET['galaxy'], $PLANET['system'], $PLANET['planet'], 1,
+    0, 0,
+    $PLANET['galaxy'], $PLANET['system'], self::EXPEDITION_PLANET, 1,
+    [901 => 0, 902 => 0, 903 => 0],
+    $fleetStartTime,  // Abflugzeit
+    $fleetStayTime,   // Ankunft + Stay Ende (Timestamp!)
+    $fleetEndTime   // Rückkehr (Timestamp!)
+);
 
         // Cooldown: 1x täglich
         Database::get()->update(
             'UPDATE %%USERS%% SET bot_next_expedition = :t WHERE id = :id;',
             [
-                ':t'  => TIMESTAMP + 86400,
+                ':t'  => TIMESTAMP + mt_rand(3600, 10800),
                 ':id' => $USER['id'],
             ]
         );
@@ -215,26 +213,30 @@ class BotSpyAI
             $USER
         );
 
-        FleetFunctions::sendFleet(
-            $fleetArray,
-            6,
-            $USER['id'],
-            $PLANET['id'],
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            $PLANET['planet'],
-            1,
-            $TARGET['id_owner'],
-            $TARGET['id'],
-            $TARGET['galaxy'],
-            $TARGET['system'],
-            $TARGET['planet'],
-            1,
-            [901 => 0, 902 => 0, 903 => 0],
-            TIMESTAMP,
-            0,
-            TIMESTAMP + $duration
-        );
+       $spyStartTime = TIMESTAMP;
+$spyStayTime  = TIMESTAMP + (int)$duration;
+$spyEndTime   = TIMESTAMP + (int)$duration * 2;
+
+FleetFunctions::sendFleet(
+    $fleetArray,
+    6,
+    $USER['id'],
+    $PLANET['id'],
+    $PLANET['galaxy'],
+    $PLANET['system'],
+    $PLANET['planet'],
+    1,
+    $TARGET['id_owner'],
+    $TARGET['id'],
+    $TARGET['galaxy'],
+    $TARGET['system'],
+    $TARGET['planet'],
+    1,
+    [901 => 0, 902 => 0, 903 => 0],
+    $spyStartTime,
+    $spyStayTime,
+    $spyEndTime
+);
     }
 
     /* =========================
