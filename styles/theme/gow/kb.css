@@ -1,0 +1,72 @@
+/* ===============================
+   KAMPFBERICHT MODERN STYLE
+   =============================== */
+
+.kb-wrapper {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 30px;
+    background: linear-gradient(180deg, rgba(5,15,30,0.95) 0%, rgba(10,25,50,0.95) 100%);
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(0,120,255,0.4);
+    color: #cfe6ff;
+}
+
+/* Titel */
+.kb-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6fc3ff;
+    text-shadow: 0 0 12px #00aaff;
+}
+
+/* Sektionen */
+.kb-section {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,150,255,0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 0 15px rgba(0,120,255,0.2);
+}
+
+/* Tabellen */
+.kb-table {
+    width: 100%;
+    color: #e0f3ff;
+}
+
+.kb-table th {
+    background: rgba(0,100,200,0.5);
+    padding: 8px;
+    text-align: left;
+}
+
+.kb-table td {
+    padding: 6px;
+}
+
+/* Gewinner Farben */
+.kb-win {
+    color: #4cff7b;
+    text-shadow: 0 0 10px #00ff66;
+    font-weight: bold;
+}
+
+.kb-lose {
+    color: #ff4c4c;
+    text-shadow: 0 0 10px #ff0000;
+    font-weight: bold;
+}
+
+/* Repariert Box */
+.kb-rebuild {
+    background: rgba(0,150,255,0.1);
+    border: 1px solid #00aaff;
+    padding: 15px;
+    border-radius: 8px;
+    color: #6fc3ff;
+    box-shadow: 0 0 15px rgba(0,120,255,0.3);
+}
