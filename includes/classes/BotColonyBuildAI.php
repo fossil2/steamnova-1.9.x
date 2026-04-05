@@ -23,6 +23,13 @@ class BotColonyBuildAI
             return;
         }
 
+        $USER['factor'] = array_merge([
+    'BuildTime'     => 0,
+    'ResearchTime'  => 0,
+    'ShipTime'      => 0,
+    'DefensiveTime' => 0,
+], $USER['factor'] ?? []);
+
         /* ALLE KOLONIEN LADEN (ohne Hauptplanet) */
         $colonies = $db->select(
             "SELECT *
