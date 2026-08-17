@@ -230,6 +230,19 @@ CREATE TABLE `%PREFIX%quests_users` (
   PRIMARY KEY (`userQuestsID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `%PREFIX%spy_bot_targets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bot_id` int(11) NOT NULL,
+  `target_owner_id` int(11) NOT NULL,
+  `target_planet_id` int(11) NOT NULL,
+  `is_inactive` tinyint(1) NOT NULL DEFAULT 0,
+  `spy_count` int(11) NOT NULL DEFAULT 1,
+  `last_spy_time` int(11) NOT NULL,
+  `last_attack_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_bot_target_day` (`bot_id`,`target_planet_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `%PREFIX%config` (
   `uni` int(11) NOT NULL AUTO_INCREMENT,
   `VERSION` varchar(8) NOT NULL,
@@ -988,6 +1001,10 @@ CREATE TABLE `%PREFIX%users` (
   `bot_spy_today_count`  INT UNSIGNED NOT NULL DEFAULT 0,
   `bot_next_colonize`    INT UNSIGNED NOT NULL DEFAULT 0,
   `bot_next_expedition`  INT UNSIGNED NOT NULL DEFAULT 0,
+  `bot_next_attack` INT NOT NULL DEFAULT 0,
+  `bot_enable_spy` TINYINT(1) NOT NULL DEFAULT 1,
+  `bot_enable_expedition` TINYINT(1) NOT NULL DEFAULT 1,
+  `bot_enable_attack` TINYINT(1) NOT NULL DEFAULT 1,
   
   PRIMARY KEY (`id`),
   KEY `authlevel` (`authlevel`),
@@ -1234,7 +1251,12 @@ INSERT INTO `%PREFIX%cronjobs` (`cronjobID`, `name`, `isActive`, `min`, `hours`,
 (NULL, 'inactive', 1, '30', '1', '*', '*', '0,3,6', 'InactiveMailCronjob', 0, NULL),
 (NULL, 'databasedump', 1, '30', '1', '*', '*', '1', 'DumpCronjob', 0, NULL),
 (NULL,'Asteroids', 1, '*', '*', '*', '*', '*', 'AsteroidsCronjob', 1532144700, NULL),
-(NULL, 'tracking', 1, FLOOR(RAND() * 60), FLOOR(RAND() * 24), '*', '*', '0', 'TrackingCronjob', 0, NULL);
+(NULL, 'tracking', 1, FLOOR(RAND() * 60), FLOOR(RAND() * 24), '*', '*', '0', 'TrackingCronjob', 0, NULL),
+(NULL, 'aibot', 1, '*/5', '*', '*', '*', '*', 'cron_ai_bot', 0, NULL),
+(NULL, 'fleet_engine', 1, '*', '2', '*', '*', '*', 'cron_fleet_engine', 0, NULL),
+(NULL, 'Colonie', 1, '*/30', '*', '*', '*', '*', 'cron_bot_colonize', 0, NULL),
+(NULL, 'bot_colony_build', 1, '*/5', '*', '*', '*', '*', 'cron_bot_colony_build', 0, NULL),
+(NULL, 'spytestai', 1, '*', '5', '*', '*', '*', 'cron_bot_ai', 0, NULL);
 
 INSERT INTO `%PREFIX%system` (`dbVersion`) VALUES
 (%DB_VERSION%);
