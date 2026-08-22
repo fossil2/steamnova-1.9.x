@@ -18,12 +18,15 @@
 // Site Title
 
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']         = 'U700 – Kostenloses Weltraum-Strategiespiel im Browser';
+$LNG['seoDescriptionIndex']   = 'U700 ist ein kostenloses Weltraum-Strategiespiel im Browser. Baue Planeten aus, erforsche Technologien, stelle Flotten zusammen und kämpfe gegen andere Spieler.';
+$LNG['seoKeywordsIndex']      = 'U700, Weltraumspiel, Browsergame, Strategiespiel, Weltraum Strategie, kostenloses Browsergame, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'Registrieren';
 $LNG['siteTitleScreens']			= 'Screenshots';
 $LNG['siteTitleBanList']			= 'Pranger';
 $LNG['siteTitleBattleHall']			= 'BattleHall';
 $LNG['siteTitleRules']				= 'Regeln';
-$LNG['siteTitleNews']				= 'News';
+$LNG['siteTitleNews']			  	= 'News';
 $LNG['siteTitleDisclamer']			= 'Impressum';
 $LNG['siteTitleLostPassword']		= 'Passwort vergessen?';
 

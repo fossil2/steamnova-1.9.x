@@ -19,6 +19,9 @@
 
 // Site Title
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']          = 'U700 – Free Online Space Strategy Game';
+$LNG['seoDescriptionIndex']    = 'U700 is a free online space strategy game. Build planets, research technologies, command powerful fleets and compete with other players.';
+$LNG['seoKeywordsIndex']       = 'U700, space game, browser game, strategy game, online space strategy, free browser game, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'Register';
 $LNG['siteTitleScreens']			= 'Screenshots';
 $LNG['siteTitleBanList']			= 'Banned Hall';

@@ -22,6 +22,9 @@
 
 // Site Title
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']         = 'U700 – Ücretsiz çevrimiçi uzay strateji oyunu';
+$LNG['seoDescriptionIndex']   = 'U700, ücretsiz bir çevrimiçi uzay strateji oyunudur. Gezegenlerini geliştir, yeni teknolojiler araştır, filolar kur ve diğer oyuncularla rekabet et.';
+$LNG['seoKeywordsIndex']      = 'U700, uzay oyunu, tarayıcı oyunu, strateji oyunu, çevrimiçi uzay stratejisi, ücretsiz çevrimiçi oyun, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'Kayit Ol';
 $LNG['siteTitleScreens']			= 'Ekran Goruntuleri';
 $LNG['siteTitleBanList']			= 'Banlananlar';

@@ -18,6 +18,9 @@
 // Site Title
 
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']          = 'U700 – Darmowa internetowa gra strategiczna w kosmosie';
+$LNG['seoDescriptionIndex']      = 'U700 to darmowa internetowa gra strategiczna osadzona w kosmosie. Rozwijaj planety, badaj nowe technologie, buduj floty i rywalizuj z innymi graczami.';
+$LNG['seoKeywordsIndex']        = 'U700, gra kosmiczna, gra przeglądarkowa, gra strategiczna, strategia kosmiczna online, darmowa gra online, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'Rejestracja';
 $LNG['siteTitleScreens']			= 'Screenshots';
 $LNG['siteTitleBanList']			= 'Pręgierz';

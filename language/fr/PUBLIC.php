@@ -7,6 +7,9 @@
 //General
 // Site Title
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']               = 'U700 – Jeu de stratégie spatiale en ligne gratuit';
+$LNG['seoDescriptionIndex']         = 'U700 est un jeu gratuit de stratégie spatiale en ligne. Développez vos planètes, recherchez de nouvelles technologies, construisez des flottes et affrontez d’autres joueurs.';
+$LNG['seoKeywordsIndex']            = 'U700, jeu spatial, jeu navigateur, jeu de stratégie, stratégie spatiale en ligne, jeu gratuit, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'S\'enregistrer';
 $LNG['siteTitleScreens']			= 'Capture d\'écran';
 $LNG['siteTitleBanList']			= 'Bannis';

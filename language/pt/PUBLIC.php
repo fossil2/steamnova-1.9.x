@@ -21,6 +21,9 @@
 
 // Site Title
 $LNG['siteTitleIndex']				= 'U700';
+$LNG['seoTitleIndex']               = 'U700 – Jogo gratuito de estratégia espacial online';
+$LNG['seoDescriptionIndex']         = 'U700 é um jogo gratuito de estratégia espacial online. Desenvolve planetas, pesquisa novas tecnologias, constrói frotas e compete com outros jogadores.';
+$LNG['seoKeywordsIndex']            = 'U700, jogo espacial, jogo de navegador, jogo de estratégia, estratégia espacial online, jogo online gratuito, SteemNova, 2Moons';
 $LNG['siteTitleRegister']			= 'Registar';
 $LNG['siteTitleScreens']			= 'Screenshots';
 $LNG['siteTitleBanList']			= 'Muro da Vergonha';
