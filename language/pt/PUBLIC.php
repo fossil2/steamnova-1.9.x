@@ -63,7 +63,7 @@ $LNG['loginPassword']				= 'Password';
 $LNG['loginButton']					= 'Login';
 $LNG['loginInfo']					= 'Com o login eu aceito os %s.';
 $LNG['loginWelcome']				= 'Bem-vindo ao %s';
-$LNG['loginServerDesc']				= '%s é um jogo de estratégia espacial com milhares de jogadores a jogar juntos <strong>ao mesmo tempo</strong> a tentar ser o melhor do Universo. Tudo que precisas para o jogo é um navegador padrão.';
+$LNG['loginServerDesc']             = '%s é um jogo gratuito de estratégia espacial online para jogar diretamente no navegador. Desenvolve os teus planetas, pesquisa novas tecnologias, constrói defesas e comanda frotas poderosas. Recolhe e gere recursos, funda novas colónias e compete contra outros jogadores em batalhas estratégicas. Tudo o que precisas é de um navegador moderno – sem downloads nem instalação.';
 
 // Register
 $LNG['registerFacebookAccount']		= 'Conta de Facebook';

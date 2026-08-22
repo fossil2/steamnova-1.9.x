@@ -68,9 +68,9 @@ $LNG['loginHeader']					= 'Giriş';
 $LNG['loginUsername']				= 'Kullanıcı Adı';
 $LNG['loginPassword']				= 'Şifre';
 $LNG['loginButton']					= 'Giriş';
-$LNG['loginInfo']					= 'Giriş yaparak tüm %si kabul etmis oluyorsunuz.';
+$LNG['loginInfo']				  	= 'Giriş yaparak tüm %si kabul etmis oluyorsunuz.';
 $LNG['loginWelcome']				= ' %s hosgeldiniz ';
-$LNG['loginServerDesc']				= '%s tam zamanli bir uzay strateji oyunu. Yuzlerce oyuncunun <strong>ayni anda beraber oynayabildigi</strong> ve ellerinden geleni yaptigi bir oyun. Tek ihtiyacin olan herhangi bir web tarayicisi.';
+$LNG['loginServerDesc']     = '%s, doğrudan tarayıcınızda oynayabileceğiniz ücretsiz bir çevrimiçi uzay strateji oyunudur. Gezegenlerinizi geliştirin, yeni teknolojiler araştırın, savunmalar kurun ve güçlü filolara komuta edin. Kaynakları toplayıp yönetin, yeni koloniler kurun ve stratejik savaşlarda diğer oyuncularla rekabet edin. Tek ihtiyacınız modern bir web tarayıcısıdır – indirme veya kurulum gerekmez.';
 
 // Register
 $LNG['registerFacebookAccount']		= 'Facebook Hesabi';

@@ -65,8 +65,7 @@ $LNG['loginPassword']				= 'Passwort';
 $LNG['loginButton']					= 'Login';
 $LNG['loginInfo']					= 'Mit dem Login akzeptiere ich die %s.';
 $LNG['loginWelcome']				= 'Willkommen bei %s';
-$LNG['loginServerDesc']				= '%s ist ein Weltraum-Strategiespiel mit hunderten Spielern die erdumgreifend <strong>gleichzeitig</strong> versuchen der/die Beste zu werden. Alles was ihr zum spielen braucht ist ein Standardwebbrowser.';
-
+$LNG['loginServerDesc']       = '%s ist ein kostenloses Weltraum-Strategiespiel im Browser. Baue deine Planeten aus, erforsche neue Technologien, errichte Verteidigungsanlagen und stelle mächtige Flotten zusammen. Sammle und verwalte Ressourcen, gründe neue Kolonien und kämpfe strategisch gegen andere Spieler. Alles, was du zum Spielen brauchst, ist ein moderner Webbrowser – kein Download und keine Installation erforderlich.';
 // Register
 $LNG['registerFacebookAccount']		= 'Facebook-Account';
 $LNG['registerUsername']			= 'Spieler Name';

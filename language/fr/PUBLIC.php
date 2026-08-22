@@ -49,7 +49,7 @@ $LNG['loginPassword']				= 'Mot de passe';
 $LNG['loginButton']					= 'Se connecter';
 $LNG['loginInfo']					= 'En me connectant j\'accepte les %s.';
 $LNG['loginWelcome']				= 'Bienvenue sur %s';
-$LNG['loginServerDesc']				= '%s est un jeu de stratégie spatial regroupant des milliers d\'utilisateurs par univers <strong>en meme temps</strong> essayez d\'être le meilleur, d\'etre le maître de votre univers. La seule chose dont vous avez besoin c\'est un navigateur internet (ou application du PlayStore).';
+$LNG['loginServerDesc']             = '%s est un jeu gratuit de stratégie spatiale en ligne accessible depuis votre navigateur. Développez vos planètes, recherchez de nouvelles technologies, construisez des défenses et commandez de puissantes flottes. Collectez et gérez des ressources, fondez de nouvelles colonies et affrontez d’autres joueurs dans des batailles stratégiques. Tout ce dont vous avez besoin est un navigateur web moderne, sans téléchargement ni installation.';
 
 // Register
 $LNG['registerFacebookAccount']		= 'Se connecter avec son compte Facebook';
