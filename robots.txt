@@ -1,3 +1,11 @@
 User-agent: *
+
+Allow: /
+
 Disallow: /includes/
 Disallow: /cache/
+Disallow: /admin/
+Disallow: /install/
+Disallow: /game.php
+
+Sitemap: https://YOUR-DOMAIN.TLD/sitemap.xml
