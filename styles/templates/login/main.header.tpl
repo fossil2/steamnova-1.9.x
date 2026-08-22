@@ -77,6 +77,24 @@
 	<meta name="robots"
 		  content="index, follow">
 
+	<!-- Canonical -->
+	<link rel="canonical"
+		  href="index.php?lang={$lang}">
+
+	<!-- Sprachversionen -->
+	<link rel="alternate" hreflang="de" href="index.php?lang=de">
+	<link rel="alternate" hreflang="en" href="index.php?lang=en">
+	<link rel="alternate" hreflang="es" href="index.php?lang=es">
+	<link rel="alternate" hreflang="fr" href="index.php?lang=fr">
+	<link rel="alternate" hreflang="pl" href="index.php?lang=pl">
+	<link rel="alternate" hreflang="pt" href="index.php?lang=pt">
+	<link rel="alternate" hreflang="ru" href="index.php?lang=ru">
+	<link rel="alternate" hreflang="tr" href="index.php?lang=tr">
+
+	<link rel="alternate"
+		  hreflang="x-default"
+		  href="index.php?lang=en">
+
 	<!-- Open Graph -->
 	<meta property="og:title"
 		  content="{$LNG.seoTitleIndex}">
@@ -84,11 +102,17 @@
 	<meta property="og:type"
 		  content="website">
 
+	<meta property="og:url"
+		  content="index.php?lang={$lang}">
+
+	<meta property="og:locale"
+		  content="{$lang}">
+
 	<meta property="og:description"
 		  content="{$LNG.seoDescriptionIndex}">
 
 	<meta property="og:image"
-		  content="https://mkmatz.eno-intern.de/styles/resource/images/meta.png">
+		  content="styles/resource/images/meta.png">
 
 	<!--[if lt IE 9]>
 	<script src="scripts/base/html5.js"></script>
