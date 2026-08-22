@@ -79,21 +79,21 @@
 
 	<!-- Canonical -->
 	<link rel="canonical"
-		  href="index.php?lang={$lang}">
+		  href="{$basepath}index.php?lang={$lang}">
 
 	<!-- Sprachversionen -->
-	<link rel="alternate" hreflang="de" href="index.php?lang=de">
-	<link rel="alternate" hreflang="en" href="index.php?lang=en">
-	<link rel="alternate" hreflang="es" href="index.php?lang=es">
-	<link rel="alternate" hreflang="fr" href="index.php?lang=fr">
-	<link rel="alternate" hreflang="pl" href="index.php?lang=pl">
-	<link rel="alternate" hreflang="pt" href="index.php?lang=pt">
-	<link rel="alternate" hreflang="ru" href="index.php?lang=ru">
-	<link rel="alternate" hreflang="tr" href="index.php?lang=tr">
+	<link rel="alternate" hreflang="de" href="{$basepath}index.php?lang=de">
+	<link rel="alternate" hreflang="en" href="{$basepath}index.php?lang=en">
+	<link rel="alternate" hreflang="es" href="{$basepath}index.php?lang=es">
+	<link rel="alternate" hreflang="fr" href="{$basepath}index.php?lang=fr">
+	<link rel="alternate" hreflang="pl" href="{$basepath}index.php?lang=pl">
+	<link rel="alternate" hreflang="pt" href="{$basepath}index.php?lang=pt">
+	<link rel="alternate" hreflang="ru" href="{$basepath}index.php?lang=ru">
+	<link rel="alternate" hreflang="tr" href="{$basepath}index.php?lang=tr">
 
 	<link rel="alternate"
 		  hreflang="x-default"
-		  href="index.php?lang=en">
+		  href="{$basepath}index.php?lang=en">
 
 	<!-- Open Graph -->
 	<meta property="og:title"
@@ -103,7 +103,7 @@
 		  content="website">
 
 	<meta property="og:url"
-		  content="index.php?lang={$lang}">
+		  content="{$basepath}index.php?lang={$lang}">
 
 	<meta property="og:locale"
 		  content="{$lang}">
@@ -112,7 +112,7 @@
 		  content="{$LNG.seoDescriptionIndex}">
 
 	<meta property="og:image"
-		  content="styles/resource/images/meta.png">
+		  content="{$basepath}styles/resource/images/meta.png">
 
 	<!--[if lt IE 9]>
 	<script src="scripts/base/html5.js"></script>
