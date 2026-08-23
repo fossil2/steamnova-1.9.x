@@ -87,7 +87,7 @@
 							<span class="fs-12 color-red">{$LNG.bd_protection_shield_only_one}</span>
 						{elseif $NotBuilding && $Element.buyable}
             <form class="" action="game.php?page=shipyard&amp;mode={$mode}" method="post" id="s{$ID}">
-							<input class="p-1 fs-11 text-white" type="text" name="fmenge[{$ID}]" id="input_{$ID}" size="3" maxlength="{$maxlength}" value="0" tabindex="{$smarty.foreach.FleetList.iteration}" >
+							<input class="p-1 fs-11 text-white" type="text" name="fmenge[{$ID}]" id="input_{$ID}" size="3" maxlength="{$maxlength}" value="0" autocomplete="off" tabindex="{$smarty.foreach.FleetList.iteration}" >
 							<input class="p-1 fs-11 text-white" type="button" value="{$LNG.bd_max_ships}" onclick="$('#input_{$ID}').val('{$Element.maxBuildable}')">
 							<input class="b p-1 fs-11 text-white button-upgrade" type="submit" value="{$LNG.bd_build_ships}">
             </form>
