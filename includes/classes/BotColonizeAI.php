@@ -2,9 +2,16 @@
 declare(strict_types=1);
 
 /**
- * BotColonizeAI (FINAL)
+ * BotColonizeAI (Astro 2 Stufen = 1 Kolonie)
  *
  * - Kolonisiert nur, wenn Astrophysik genug Slots erlaubt
+ * - Regel: 2 Astro-Stufen erlauben 1 Kolonie
+ *   Astro 0/1 => nur Hauptplanet
+ *   Astro 2/3 => Hauptplanet + 1 Kolonie
+ *   Astro 4/5 => Hauptplanet + 2 Kolonien
+ *   Astro 6/7 => Hauptplanet + 3 Kolonien
+ *   Astro 8/9 => Hauptplanet + 4 Kolonien
+ *   Astro 10  => Hauptplanet + 5 Kolonien
  * - Baut max. 1 Kolonieschiff
  * - Nutzt FleetFunctions (wie Spieler!)
  */
@@ -27,6 +34,19 @@ class BotColonizeAI
     private const COOLDOWN_MIN       = 6 * 3600;
     private const COOLDOWN_MAX       = 18 * 3600;
 
+    /**
+     * Deine gewünschte Regel:
+     * 2 Astrotechnik-Stufen = 1 Kolonie
+     */
+    private const ASTRO_LEVELS_PER_COLONY = 2;
+
+    /**
+     * Sicherheitslimit für Bots.
+     * 6 = Hauptplanet + 5 Kolonien.
+     * Wenn du nur Hauptplanet + 3 Kolonien willst, hier 4 eintragen.
+     */
+    private const MAX_BOT_PLANETS = 6;
+
     /* =========================
      * ENTRY
      * ========================= */
@@ -42,6 +62,8 @@ class BotColonizeAI
         if (!$USER) {
             return;
         }
+
+        $universe = (int)($USER['universe'] ?? 1);
 
         /* ⏱ Cooldown */
         if (!empty($USER['bot_next_colonize']) && (int)$USER['bot_next_colonize'] > TIMESTAMP) {
@@ -60,16 +82,26 @@ class BotColonizeAI
             return;
         }
 
-        /* 🧮 Astro / Planeten-Limit (ENGINE-LOGIK)
-         * maxPlanets = 1 + astroLevel
-         * Astro 0 => nur HP (1 Planet) => KEINE Kolonie möglich
+        /* 🧮 Astro / Planeten-Limit
+         * Regel:
+         * maxPlanets = 1 + floor(astroLevel / 2)
+         * Astro 0/1 => 1 Planet  => keine Kolonie
+         * Astro 2/3 => 2 Planeten => 1 Kolonie
+         * Astro 4/5 => 3 Planeten => 2 Kolonien
+         * Astro 6/7 => 4 Planeten => 3 Kolonien
          */
         $astro        = self::getAstroLevel($USER);
         $ownedPlanets = self::countPlanets($botId);
-        $maxPlanets   = 1 + $astro;
+        $maxPlanets   = self::getMaxPlanetsByAstro($astro);
 
-        // 🔒 Astro fehlt => keine Kolonie möglich
         if ($ownedPlanets >= $maxPlanets) {
+            self::log([
+                'action'       => 'COLONIZE_SKIP_ASTRO_LIMIT',
+                'botId'        => $botId,
+                'astro'        => $astro,
+                'ownedPlanets' => $ownedPlanets,
+                'maxPlanets'   => $maxPlanets,
+            ]);
             self::setCooldown($botId);
             return;
         }
@@ -79,12 +111,18 @@ class BotColonizeAI
             (int)($PLANET['hangar'] ?? 0) < self::MIN_HANGAR ||
             (int)($USER['impulse_motor_tech'] ?? 0) < self::MIN_IMPULSE
         ) {
+            self::log([
+                'action'  => 'COLONIZE_SKIP_REQUIREMENTS',
+                'botId'   => $botId,
+                'hangar'  => (int)($PLANET['hangar'] ?? 0),
+                'impulse' => (int)($USER['impulse_motor_tech'] ?? 0),
+            ]);
             self::setCooldown($botId);
             return;
         }
 
         /* 🚫 Bereits Koloflotte unterwegs? */
-        if (self::hasColonizeFleet($botId, (int)$USER['universe'])) {
+        if (self::hasColonizeFleet($botId, $universe)) {
             return;
         }
 
@@ -102,12 +140,26 @@ class BotColonizeAI
         /* 🎯 Ziel suchen */
         $target = self::findTarget($PLANET);
         if (!$target) {
+            self::log([
+                'action' => 'COLONIZE_NO_TARGET',
+                'botId'  => $botId,
+            ]);
             self::setCooldown($botId);
             return;
         }
 
         /* 🚀 Mission senden */
         self::sendColonizeFleet($USER, $PLANET, $target);
+
+        self::log([
+            'action'       => 'COLONIZE_SENT',
+            'botId'        => $botId,
+            'astro'        => $astro,
+            'ownedPlanets' => $ownedPlanets,
+            'maxPlanets'   => $maxPlanets,
+            'target'       => $target,
+        ]);
+
         self::setCooldown($botId);
     }
 
@@ -185,6 +237,14 @@ class BotColonizeAI
     /* =========================
      * HILFSFUNKTIONEN
      * ========================= */
+    private static function getMaxPlanetsByAstro(int $astro): int
+    {
+        $colonies = intdiv(max(0, $astro), self::ASTRO_LEVELS_PER_COLONY);
+        $maxPlanets = 1 + $colonies;
+
+        return min(self::MAX_BOT_PLANETS, max(1, $maxPlanets));
+    }
+
     private static function queueColonizer(int $planetId): void
     {
         Database::get()->update(
@@ -261,6 +321,23 @@ class BotColonizeAI
                 ':t'  => TIMESTAMP + mt_rand(self::COOLDOWN_MIN, self::COOLDOWN_MAX),
                 ':id' => $botId,
             ]
+        );
+    }
+
+    private static function log(array $data): void
+    {
+        $dir = ROOT_PATH . 'includes/ai_log/';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $data['time']     = time();
+        $data['datetime'] = date('Y-m-d H:i:s');
+
+        file_put_contents(
+            $dir . 'bot_colonize.json',
+            json_encode($data, JSON_UNESCAPED_UNICODE) . PHP_EOL,
+            FILE_APPEND
         );
     }
 }

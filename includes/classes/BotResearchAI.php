@@ -17,23 +17,23 @@ class BotResearchAI
      * key = Element-ID
      */
     private static array $RESEARCH_CONFIG = [
-        // ⚡ Energy Tech
+        // energy_tech
         113 => [
             'label'     => 'energy_tech',
             'lab_min'   => 1,
-            'max_level' => 8,
+            'max_level' => 12,
             'requires'  => [],           // keine Vorbedingungen
         ],
 
-        // 🖥 Computer Tech
+        //  Computer Tech
         108 => [
             'label'     => 'computer_tech',
             'lab_min'   => 1,
-            'max_level' => 4,
+            'max_level' => 10,
             'requires'  => [],
         ],
 
-        // 🚀 Combustion Drive (Verbrennungstriebwerk)
+        // Combustion Drive (Verbrennungstriebwerk)
         115 => [
             'label'     => 'combustion_tech',
             'lab_min'   => 2,
@@ -44,7 +44,7 @@ class BotResearchAI
             ],
         ],
 
-        // 🛰 Spy Tech
+        //  Spy Tech
         106 => [
             'label'     => 'spy_tech',
             'lab_min'   => 3,
@@ -52,7 +52,7 @@ class BotResearchAI
             'requires'  => [],
         ],
         
-         // 🔫 Laser Tech
+         //  Laser Tech
        120 => [
         'label'     => 'laser_tech',
         'lab_min'   => 2,   // Labor ab Level 2
@@ -62,7 +62,7 @@ class BotResearchAI
       ],
     ],
         
-     // 🚀 Impulstriebwerk
+     //  Impulstriebwerk
         117 => [
             'label'     => 'impulse_motor_tech',
             'lab_min'   => 4,
@@ -76,15 +76,127 @@ class BotResearchAI
         124 => [
         'label'     => 'astrophysics',
         'lab_min'   => 3,       // Labor 3 reicht
-        'max_level' => 2,       // fürs Erste bewusst limitiert
+        'max_level' => 10,      // Erweiterung: 2 Astro-Stufen pro Kolonie
         'requires'  => [
          113 => 1,           // Energy Tech 1
-         108 => 1, 
-         117 => 3,
-         106 => 3,
-         
+         108 => 1,
+         117 => 3,           // Impulstriebwerk 3
+         106 => 3,           // Spionagetechnik 3
        ],
     ],
+    
+         //  Waffen-Technologie
+        109 => [
+            'label'     => 'military_tech',
+            'lab_min'   => 3,
+            'max_level' => 3,
+            'min_score' => 4000,
+            'requires'  => [],
+        ],
+
+        //  Verteidigungs-Technologie
+        110 => [
+            'label'     => 'defence_tech',
+            'lab_min'   => 3,
+            'max_level' => 3,
+            'min_score' => 4000,
+            'requires'  => [],
+        ],
+
+        // Schildtechnik
+        111 => [
+            'label'     => 'shield_tech',
+            'lab_min'   => 2,
+            'max_level' => 6,
+            'min_score' => 4000,
+            'requires'  => [
+                110 => 2, // Defence Tech
+            ],
+        ],
+
+        //  Hyperraumtechnologie
+        114 => [
+            'label'     => 'hyperspace_tech',
+            'lab_min'   => 3,
+            'max_level' => 3,
+            'min_score' => 4000,
+            'requires'  => [
+                113 => 5, // Energy Tech
+            ],
+        ],
+
+        //  Hyperraumantrieb
+        118 => [
+            'label'     => 'hyperspace_motor_tech',
+            'lab_min'   => 4,
+            'max_level' => 4,
+            'min_score' => 8000,
+            'requires'  => [
+                114 => 3, // Hyperspace Tech
+            ],
+        ],
+
+        //ionic
+        121 => [
+            'label'     => 'ionic_tech',
+            'lab_min'   => 4,
+            'max_level' => 4,
+            'min_score' => 4000,
+            'requires'  => [
+                120 => 5, // Laser Tech
+            ],
+        ],
+
+        // Plasmatechnik (buster)
+        122 => [
+            'label'     => 'buster_tech',
+            'lab_min'   => 5,
+            'max_level' => 3,
+            'min_score' => 8000,
+            'requires'  => [
+                121 => 4, // Ion Tech
+                111 => 4, // Shield Tech
+            ],
+        ],
+
+        // Intergalaktisches Forschungsnetz
+        123 => [
+            'label'     => 'intergalactic_tech',
+            'lab_min'   => 6,
+            'max_level' => 2,
+            'min_score' => 15000,
+            'requires'  => [
+                114 => 3,
+                117 => 4,
+            ],
+        ],
+
+        // Metallverarbeitung
+        131 => [
+            'label'     => 'metal_proc_tech',
+            'lab_min'   => 4,
+            'max_level' => 6,
+            'min_score' => 4000,
+            'requires'  => [],
+        ],
+
+        // Kristallverarbeitung
+        132 => [
+            'label'     => 'crystal_proc_tech',
+            'lab_min'   => 4,
+            'max_level' => 6,
+            'min_score' => 4000,
+            'requires'  => [],
+        ],
+
+        // Deuteriumverarbeitung
+        133 => [
+            'label'     => 'deuterium_proc_tech',
+            'lab_min'   => 4,
+            'max_level' => 6,
+            'min_score' => 4000,
+            'requires'  => [],
+        ],
         
     ];
 
@@ -96,10 +208,24 @@ class BotResearchAI
         113, // Energy Tech
         108, // Computer Tech
         115, // Combustion
-        120, // Laser Tech 
-        124, // astrophysics
+        120, // Laser Tech
         117, // Impulse Drive
         106, // Spy Tech
+        124, // Astrophysics - nach Impuls/Spy, weil diese Voraussetzungen sind
+        
+         // Midgame ab ~4000
+       109, // Military
+       110, // Defence
+       111, // Shield
+       114, // Hyperspace Tech
+       131, // Metal Proc
+       132, // Crystal Proc
+       133, // Deut Proc
+       121, // Ionic
+       122, // Plasma
+       118, // Hyperspace Drive
+       123, // Intergalactic
+        
     ];
 
     /**
@@ -292,20 +418,52 @@ class BotResearchAI
         $labMax = max(1, $labLevel * self::LAB_LEVEL_FACTOR);
 
         // Score-basierte Grenze
-        $score = (int)($USER['total_points'] ?? 0); // falls nicht vorhanden -> 0
+     //  $score = (int)($USER['total_points'] ?? 0); // falls nicht vorhanden -> 0
+   $db = Database::get();
 
-        if ($score < 5000) {
-            $scoreMax = 3;
-        } elseif ($score < 25000) {
-            $scoreMax = 6;
-        } elseif ($score < 100000) {
-            $scoreMax = 12;
-        } else {
-            $scoreMax = 99;
-        }
-        
-        // Sonderregel: LaserTech darf früher auf Level 3
+$scoreRow = $db->selectSingle(
+    'SELECT total_points
+     FROM %%USER_POINTS%%
+     WHERE id_owner = :uid
+       AND universe = :uni;',
+    [
+        ':uid' => $USER['id'],
+        ':uni' => (int)($USER['universe'] ?? 1),
+    ]
+);
 
+$score = (int)($scoreRow['total_points'] ?? 0);
+
+// =========================
+// SCORE-BASIERTE GRENZE (WICHTIG: INITIALISIERUNG)
+// =========================
+$scoreMax = 0;
+
+if ($score < 5000) {
+    $scoreMax = 3;
+} elseif ($score < 25000) {
+    $scoreMax = 6;
+} elseif ($score < 100000) {
+    $scoreMax = 12;
+} else {
+    $scoreMax = 99;
+}
+
+if (isset($config['min_score']) && $score < (int)$config['min_score']) {
+    self::log([
+        'action'     => 'RESEARCH_SCORE_TOO_LOW',
+        'uid'        => $USER['id'],
+        'tech'       => $config['label'],
+        'need_score' => (int)$config['min_score'],
+        'have_score' => $score,
+    ]);
+    return false;
+}
+// =========================
+// SONDERREGELN
+// =========================
+
+// 🔫 Laser Tech
 if ($elementId === 120) {
     if ($score < 5000) {
         $scoreMax = max($scoreMax, 3);
@@ -314,16 +472,31 @@ if ($elementId === 120) {
     }
 }
 
+// 🚀 Impulse Drive
 if ($elementId === 117 && $score < 5000) {
     $scoreMax = max($scoreMax, 3);
 }
 
+// 🛰 Spy Tech
 if ($elementId === 106 && $score < 5000) {
     $scoreMax = max($scoreMax, 3);
 }
 
-if ($elementId === 124 && $score < 5000) {
-    $scoreMax = max($scoreMax, 1);
+// 🌌 Astrophysics / Kolonie-Erweiterung
+// Regel: 2 Astro-Stufen = 1 zusätzliche Kolonie.
+// Dadurch hängen Bots nicht mehr bei 3 Planeten fest.
+if ($elementId === 124) {
+    if ($score < 5000) {
+        $scoreMax = min($scoreMax, 2);       // 1 Kolonie möglich
+    } elseif ($score < 25000) {
+        $scoreMax = max($scoreMax, 4);       // 2 Kolonien möglich
+    } elseif ($score < 100000) {
+        $scoreMax = max($scoreMax, 6);       // 3 Kolonien möglich
+    } elseif ($score < 250000) {
+        $scoreMax = max($scoreMax, 8);       // 4 Kolonien möglich
+    } else {
+        $scoreMax = max($scoreMax, 10);      // 5 Kolonien möglich
+    }
 }
 
         $finalMax = min($configMax, $labMax, $scoreMax);

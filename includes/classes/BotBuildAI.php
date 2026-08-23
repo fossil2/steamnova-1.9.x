@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 class BotBuildAI
 {
+    /**
+     * Ab dieser Punktzahl schaltet der Hauptplanet
+     * in den Eco-Fokus: Minen + Solar weiter pushen
+     */
+    private const ECO_FOCUS_POINTS = 35000;
+
     /* =========================
      * ENTRY POINT
      * ========================= */
@@ -17,7 +23,9 @@ class BotBuildAI
 
         /* USER */
         $USER = $db->selectSingle(
-            "SELECT id FROM " . DB_PREFIX . "users WHERE id = :uid",
+            "SELECT *
+             FROM " . DB_PREFIX . "users
+             WHERE id = :uid",
             [':uid' => $userId]
         );
 
@@ -38,178 +46,312 @@ class BotBuildAI
         if ((int)$PLANET['b_building'] > time()) {
             self::log([
                 'action' => 'QUEUE_ACTIVE',
+                'planet_id' => $PLANET['id'],
                 'until'  => $PLANET['b_building']
             ]);
             return;
         }
 
+        $points = self::getUserPoints($userId, $USER);
+        $ecoFocus = ($points >= self::ECO_FOCUS_POINTS);
+
+        self::log([
+            'action'    => 'STATE',
+            'planet_id' => $PLANET['id'],
+            'points'    => $points,
+            'ecoFocus'  => $ecoFocus ? 1 : 0,
+            'freeFields'=> self::getFreeFields($PLANET),
+        ]);
+
         /* =========================
-         * TRY-NEXT-POSSIBLE-BUILD
+         * BUILD ORDER
          * ========================= */
+        $buildOrder = [
+            /* Wenn keine freien Felder vorhanden sind */
+            self::ID_TERRAFORMER,
 
+            /* Energie immer zuerst prüfbar */
+            self::ID_SOLAR_PLANT,
 
-     $buildOrder = [
+            /* Eco Core */
+            self::ID_METAL_MINE,
+            self::ID_CRYSTAL_MINE,
+            self::ID_DEUTERIUM_SYNTH,
 
-      /* Energie immer prüfen */
-      self::ID_SOLAR_PLANT,
+            /* Speicher dynamisch */
+            self::ID_METAL_STORE,
+            self::ID_CRYSTAL_STORE,
+            self::ID_DEUTERIUM_STORE,
 
-      /* Eco Core */
-      self::ID_METAL_MINE,
-      self::ID_CRYSTAL_MINE,
-      self::ID_DEUTERIUM_SYNTH,
+            /* Infra */
+            self::ID_ROBOT_FACTORY,
+            self::ID_NANITE_FACTORY,
+            self::ID_HANGAR,
 
-      /* Speicher dynamisch */
-      self::ID_METAL_STORE,
-      self::ID_CRYSTAL_STORE,
-      self::ID_DEUTERIUM_STORE,
-
-      /* Infra Scaling */
-      self::ID_ROBOT_FACTORY,
-      self::ID_NANITE_FACTORY,
-      self::ID_HANGAR,
-
-      /* Forschung Support */
-      self::ID_LABORATORY,
-     ];
+            /* Forschung */
+            self::ID_LABORATORY,
+        ];
 
         foreach ($buildOrder as $elementId) {
-
-            if (!self::shouldBuild($PLANET, $elementId)) {
+            if (!self::shouldBuild($PLANET, $elementId, $points)) {
                 continue;
             }
 
             if (self::startBuild($PLANET, $elementId)) {
+                self::log([
+                    'action'    => 'RUN_FINISHED_BUILD_STARTED',
+                    'planet_id' => $PLANET['id'],
+                    'elementId' => $elementId,
+                    'points'    => $points,
+                ]);
                 return; // exakt EIN Bauvorgang
             }
         }
 
-        self::log(['action' => 'NO_ACTION']);
+        self::log([
+            'action'    => 'NO_ACTION',
+            'planet_id' => $PLANET['id'],
+            'points'    => $points,
+        ]);
     }
-
 
     /* =========================
      * SHOULD BUILD ?
      * ========================= */
-      private static function shouldBuild(array $p, int $id): bool
-{
-    /* Midgame Trigger über Mine-Level (kein Stats Join nötig) */
-    $midgame =
-        $p['metal_mine'] >= 22 ||
-        $p['crystal_mine'] >= 18 ||
-        $p['deuterium_sintetizer'] >= 12;
+    private static function shouldBuild(array $p, int $id, int $points = 0): bool
+    {
+        $metal   = (int)($p['metal_mine'] ?? 0);
+        $crystal = (int)($p['crystal_mine'] ?? 0);
+        $deut    = (int)($p['deuterium_sintetizer'] ?? 0);
+        $solar   = (int)($p['solar_plant'] ?? 0);
 
-    $metal   = (int)$p['metal_mine'];
-    $crystal = (int)$p['crystal_mine'];
-    $deut    = (int)$p['deuterium_sintetizer'];
+        $ecoFocus = ($points >= self::ECO_FOCUS_POINTS);
 
-    $nextMineLevel = max($metal, $crystal, $deut) + 1;
+        /* Midgame Trigger über Mine-Level */
+        $midgame =
+            $metal >= 22 ||
+            $crystal >= 18 ||
+            $deut >= 12;
 
-    /* Energie Deadlock Schutz */
-      if (self::needsMoreEnergy($p, $nextMineLevel) && $id !== self::ID_SOLAR_PLANT) {
-    if (in_array($id, [
-        self::ID_METAL_MINE,
-        self::ID_CRYSTAL_MINE,
-        self::ID_DEUTERIUM_SYNTH
-    ])) {
-        return false;
-    }
-}
-    return match ($id) {
+        $nextMineLevel = max($metal, $crystal, $deut) + 1;
 
-        /* =========================
-         * MINEN
-         * ========================= */
-
-        self::ID_METAL_MINE =>
-            $midgame
-                ? $metal <= ($crystal + 3)
-                : $metal < 22,
-
-        self::ID_CRYSTAL_MINE =>
-            $midgame
-                ? $crystal <= ($metal - 1)
-                : $crystal < 18,
-
-        self::ID_DEUTERIUM_SYNTH =>
-            $midgame
-                ? $deut <= ($crystal - 2)
-                : $deut < 12,
+        /* Energie Deadlock Schutz:
+           Wenn Energie fehlt, keine Minen außer Solar erlauben */
+        $needsEnergy = self::needsMoreEnergy($p, $nextMineLevel);
+        if (
+            $needsEnergy &&
+            in_array($id, [
+                self::ID_METAL_MINE,
+                self::ID_CRYSTAL_MINE,
+                self::ID_DEUTERIUM_SYNTH
+            ], true)
+        ) {
+            return false;
+        }
 
         /* =========================
-         * SPEICHER dynamisch
+         * ECO-FOCUS ab X Punkten
          * ========================= */
+        if ($ecoFocus) {
+            return match ($id) {
+                self::ID_TERRAFORMER =>
+                    self::getFreeFields($p) <= 0,
 
-        self::ID_METAL_STORE =>
-            self::isStorageNeeded($p, 'metal'),
+                self::ID_SOLAR_PLANT =>
+                    $needsEnergy || $solar < (int)ceil(max($metal, $crystal, $deut) * 0.85),
 
-        self::ID_CRYSTAL_STORE =>
-            self::isStorageNeeded($p, 'crystal'),
+                self::ID_METAL_MINE =>
+                    $metal <= ($crystal + 2),
 
-        self::ID_DEUTERIUM_STORE =>
-            self::isStorageNeeded($p, 'deuterium'),
+                self::ID_CRYSTAL_MINE =>
+                    $crystal <= $metal,
+
+                self::ID_DEUTERIUM_SYNTH =>
+                    $deut <= ($crystal - 3),
+
+                self::ID_METAL_STORE =>
+                    self::isStorageNeeded($p, 'metal'),
+
+                self::ID_CRYSTAL_STORE =>
+                    self::isStorageNeeded($p, 'crystal'),
+
+                self::ID_DEUTERIUM_STORE =>
+                    self::isStorageNeeded($p, 'deuterium'),
+
+                /* Im Eco-Fokus keine Infra priorisieren */
+                self::ID_ROBOT_FACTORY,
+                self::ID_NANITE_FACTORY,
+                self::ID_HANGAR,
+                self::ID_LABORATORY => false,
+
+                default => false,
+            };
+        }
 
         /* =========================
-         * INFRA
+         * NORMALE PHASE
          * ========================= */
+        return match ($id) {
+            self::ID_TERRAFORMER =>
+                self::getFreeFields($p) <= 0,
 
-        self::ID_ROBOT_FACTORY =>
-            $p['robot_factory'] < floor($metal / ($midgame ? 4 : 6)),
+            self::ID_SOLAR_PLANT =>
+                $solar === 0 || $needsEnergy,
 
-            self::ID_NANITE_FACTORY =>
-            $midgame
-            && $p['robot_factory'] >= 10
-            && ($p['nanite_factory'] ?? 0) < floor($p['robot_factory'] / 10),
+            self::ID_METAL_MINE =>
+                $midgame
+                    ? $metal <= ($crystal + 3)
+                    : $metal < 22,
 
-        self::ID_HANGAR =>
-           $p['hangar'] < ($midgame ? 12 : 6),
+            self::ID_CRYSTAL_MINE =>
+                $midgame
+                    ? $crystal <= ($metal - 1)
+                    : $crystal < 18,
 
-        /* =========================
-         * FORSCHUNG SUPPORT
-         * ========================= */
+            self::ID_DEUTERIUM_SYNTH =>
+                $midgame
+                    ? $deut <= ($crystal - 2)
+                    : $deut < 12,
 
-        self::ID_LABORATORY =>
-            $p['laboratory'] < floor($crystal / ($midgame ? 3 : 5)),
+            self::ID_METAL_STORE =>
+                self::isStorageNeeded($p, 'metal'),
 
-        default => false,
-    };
+            self::ID_CRYSTAL_STORE =>
+                self::isStorageNeeded($p, 'crystal'),
+
+            self::ID_DEUTERIUM_STORE =>
+                self::isStorageNeeded($p, 'deuterium'),
+
+            self::ID_ROBOT_FACTORY =>
+                (int)($p['robot_factory'] ?? 0) < 10
+                || (
+                 $midgame
+                && (int)($p['robot_factory'] ?? 0) < floor($metal / 4)
+                 ),
+
+             self::ID_NANITE_FACTORY =>
+              $midgame
+              && (int)($p['robot_factory'] ?? 0) >= 10
+              && (int)($p['nanite_factory'] ?? 0) < 1,
+
+            self::ID_HANGAR =>
+                (int)($p['hangar'] ?? 0) < ($midgame ? 12 : 6),
+
+            self::ID_LABORATORY =>
+                (int)($p['laboratory'] ?? 0) < floor($crystal / ($midgame ? 3 : 5)),
+
+            default => false,
+        };
     }
 
     /* =========================
-     * ⚡ ENERGY CHECK
+     * ENERGY CHECK
      * ========================= */
     private static function needsMoreEnergy(array $p, int $nextMineLevel): bool
+    {
+        $solarPlant = (int)($p['solar_plant'] ?? 0);
+
+        // Vereinfachtes Solar-Modell
+        $solarOutput = max(0, $solarPlant) * 55;
+
+        // Vereinfachter aktueller Bedarf
+        $currentNeed =
+              ((int)($p['metal_mine'] ?? 0) * 10)
+            + ((int)($p['crystal_mine'] ?? 0) * 15)
+            + ((int)($p['deuterium_sintetizer'] ?? 0) * 25);
+
+        // Zukünftiger Bedarf nach nächstem Minenlevel
+        $futureNeed = $currentNeed + ($nextMineLevel * 18);
+
+        // Sicherheits-Puffer
+        $requiredWithBuffer = (int)ceil($futureNeed * 1.30);
+
+        return $solarOutput < $requiredWithBuffer;
+    }
+
+    private static function isStorageNeeded(array $p, string $res): bool
+    {
+        $storage = match ($res) {
+            'metal'     => (int)($p['metal_store'] ?? 0),
+            'crystal'   => (int)($p['crystal_store'] ?? 0),
+            'deuterium' => (int)($p['deuterium_store'] ?? 0),
+            default     => 0,
+        };
+
+        $capacity = pow(1.5, $storage) * 5000;
+
+        return (float)($p[$res] ?? 0) > ($capacity * 0.80);
+    }
+
+    /* =========================
+     * USER POINTS
+     * ========================= */
+private static function getUserPoints(int $userId, array $USER = []): int
 {
-    // Aktuelle Energieproduktion (vereinfachtes Solar-Modell)
-    $solarOutput = max(0, (int)$p['solar_plant']) * 55;
+    /*
+     * Reihenfolge:
+     * 1) users.total_points
+     * 2) users.points
+     * 3) user_points.total_points
+     * Fallback = 0
+     */
+    try {
+        if (isset($USER['total_points'])) {
+            return (int)$USER['total_points'];
+        }
 
-    // Geschätzter Energieverbrauch der aktuellen Minen
-    $currentNeed =
-          ((int)$p['metal_mine']             * 10)
-        + ((int)$p['crystal_mine']           * 15)
-        + ((int)$p['deuterium_sintetizer']   * 25);
+        if (isset($USER['points'])) {
+            return (int)$USER['points'];
+        }
+    } catch (\Throwable $e) {
+        // ignorieren
+    }
 
-    // Verbrauch nach dem NÄCHSTEN Minenlevel (aggressivere Planung)
-    $futureNeed = $currentNeed + ($nextMineLevel * 18);
+    try {
+        $row = Database::get()->selectSingle(
+            "SELECT total_points
+             FROM " . DB_PREFIX . "user_points
+             WHERE id_owner = :uid
+             LIMIT 1",
+            [':uid' => $userId]
+        );
 
-    // Sicherheits-Puffer (Bots sollen IMMER +30% Reserve haben)
-    $requiredWithBuffer = (int)ceil($futureNeed * 1.30);
+        if ($row && isset($row['total_points'])) {
+            return (int)$row['total_points'];
+        }
+    } catch (\Throwable $e) {
+        self::log([
+            'action'  => 'POINTS_LOOKUP_FAILED',
+            'source'  => 'user_points.total_points',
+            'message' => $e->getMessage(),
+        ]);
+    }
 
-    // Energie zu gering? → Solar bauen!
-    return $solarOutput < $requiredWithBuffer;
+    return 0;
 }
 
-private static function isStorageNeeded(array $p, string $res): bool
-{
-    $storage = match ($res) {
-        'metal' => (int)$p['metal_store'],
-        'crystal' => (int)$p['crystal_store'],
-        'deuterium' => (int)$p['deuterium_store'],
-    };
 
-    $capacity = pow(1.5, $storage) * 5000;
+    /* =========================
+     * PLANET FIELDS / TERRAFORMER CHECK
+     * ========================= */
+    private static function getFreeFields(array $planet): int
+    {
+        $used = (int)($planet['field_current'] ?? 0);
+        $max  = (int)($planet['field_max'] ?? 0);
 
-    return $p[$res] > ($capacity * 0.80);
-}
+        // Falls die Spalten in einem alten Datenstand fehlen,
+        // soll der Bot nicht versehentlich komplett blockieren.
+        if ($max <= 0) {
+            return 999;
+        }
+
+        return max(0, $max - $used);
+    }
+
+    private static function needsTerraformer(array $planet): bool
+    {
+        return self::getFreeFields($planet) <= 0;
+    }
 
     /* =========================
      * START BUILD
@@ -218,8 +360,26 @@ private static function isStorageNeeded(array $p, string $res): bool
     {
         global $resource;
 
+        /* Normale Gebäude blockieren, wenn keine freien Felder vorhanden sind.
+         * Dann zuerst Terraformer versuchen. Wenn der nicht bezahlt/gebaut werden kann,
+         * bleibt es sauber bei NO_ACTION statt falschem Bauauftrag.
+         */
+        if ($elementId !== self::ID_TERRAFORMER && self::needsTerraformer($planet)) {
+            self::log([
+                'action'     => 'NO_FREE_FIELDS_TRY_TERRAFORMER',
+                'planet_id'  => $planet['id'] ?? 0,
+                'wantedId'   => $elementId,
+                'freeFields' => self::getFreeFields($planet),
+            ]);
+
+            return self::startBuild($planet, self::ID_TERRAFORMER);
+        }
+
         if (!isset($resource[$elementId])) {
-            self::log(['action' => 'UNKNOWN_ELEMENT', 'id' => $elementId]);
+            self::log([
+                'action' => 'UNKNOWN_ELEMENT',
+                'id'     => $elementId
+            ]);
             return false;
         }
 
@@ -229,23 +389,30 @@ private static function isStorageNeeded(array $p, string $res): bool
 
         $cost = self::getBuildCost($elementId, $targetLevel);
 
-        // Ressourcenprüfung
+        /* Ressourcenprüfung */
         if (
-            (float)$planet['metal']     < $cost['metal'] ||
-            (float)$planet['crystal']   < $cost['crystal'] ||
-            (float)$planet['deuterium'] < $cost['deuterium']
+            (float)($planet['metal'] ?? 0)     < $cost['metal'] ||
+            (float)($planet['crystal'] ?? 0)   < $cost['crystal'] ||
+            (float)($planet['deuterium'] ?? 0) < $cost['deuterium']
         ) {
             self::log([
-                'action' => 'NOT_ENOUGH_RESOURCES',
-                'field'  => $field,
-                'level'  => $targetLevel,
-                'need'   => $cost
+                'action'     => 'NOT_ENOUGH_RESOURCES',
+                'planet_id'  => $planet['id'] ?? 0,
+                'elementId'  => $elementId,
+                'field'      => $field,
+                'level'      => $targetLevel,
+                'need'       => $cost,
+                'have'       => [
+                    'metal'     => (float)($planet['metal'] ?? 0),
+                    'crystal'   => (float)($planet['crystal'] ?? 0),
+                    'deuterium' => (float)($planet['deuterium'] ?? 0),
+                ],
             ]);
             return false;
         }
 
         $now = time();
-        $end = $now + 10; // TEST-dauer — später realer Buildtime-Calc
+        $end = $now + 10; // TEST-dauer
 
         $queue = serialize([
             [$elementId, $targetLevel, [], (float)$end, 'build']
@@ -272,6 +439,7 @@ private static function isStorageNeeded(array $p, string $res): bool
 
         self::log([
             'action'     => 'BUILD_STARTED',
+            'planet_id'  => $planet['id'],
             'elementId'  => $elementId,
             'field'      => $field,
             'from'       => $levelBefore,
@@ -281,7 +449,6 @@ private static function isStorageNeeded(array $p, string $res): bool
 
         return true;
     }
-
 
     /* =========================
      * COSTS FROM vars
@@ -296,18 +463,17 @@ private static function isStorageNeeded(array $p, string $res): bool
         );
 
         if (!$v) {
-            return ['metal'=>0,'crystal'=>0,'deuterium'=>0];
+            return ['metal' => 0, 'crystal' => 0, 'deuterium' => 0];
         }
 
         $factor = (float)$v['factor'];
 
         return [
-            'metal'     => (int)floor($v['cost901'] * pow($factor, $level - 1)),
-            'crystal'   => (int)floor($v['cost902'] * pow($factor, $level - 1)),
-            'deuterium' => (int)floor($v['cost903'] * pow($factor, $level - 1)),
+            'metal'     => (int)floor((float)$v['cost901'] * pow($factor, $level - 1)),
+            'crystal'   => (int)floor((float)$v['cost902'] * pow($factor, $level - 1)),
+            'deuterium' => (int)floor((float)$v['cost903'] * pow($factor, $level - 1)),
         ];
     }
-
 
     /* =========================
      * MAIN PLANET
@@ -319,11 +485,11 @@ private static function isStorageNeeded(array $p, string $res): bool
              FROM " . DB_PREFIX . "planets
              WHERE id_owner = :uid
                AND planet_type = 1
+             ORDER BY id ASC
              LIMIT 1",
             [':uid' => $uid]
         );
     }
-
 
     /* =========================
      * LOGGING
@@ -345,7 +511,6 @@ private static function isStorageNeeded(array $p, string $res): bool
         );
     }
 
-
     /* =========================
      * BUILDING IDS
      * ========================= */
@@ -354,11 +519,11 @@ private static function isStorageNeeded(array $p, string $res): bool
     private const ID_DEUTERIUM_SYNTH = 3;
     private const ID_SOLAR_PLANT     = 4;
     private const ID_ROBOT_FACTORY   = 14;
+    private const ID_NANITE_FACTORY  = 15;
     private const ID_HANGAR          = 21;
     private const ID_METAL_STORE     = 22;
     private const ID_CRYSTAL_STORE   = 23;
     private const ID_DEUTERIUM_STORE = 24;
     private const ID_LABORATORY      = 31;
-    private const ID_NANITE_FACTORY  = 15;
-
+    private const ID_TERRAFORMER     = 33;
 }

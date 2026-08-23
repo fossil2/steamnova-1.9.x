@@ -8,61 +8,58 @@ class BotDefenseAI
     private const ID_LIGHT_LASER     = 402;
     private const ID_HEAVY_LASER     = 403;
 
-    /** MINDESTLEVEL FÜR DEFENSE */
+    /** MINDESTLEVEL */
     private const MIN_SHIPYARD_LEVEL = 2;
 
     public static function run(int $userId): void
     {
-        self::log([
-            'action' => 'DEFENSE_RUN',
-            'uid'    => $userId,
-        ]);
-
         $db = Database::get();
 
-        /* USER LADEN */
+        /* USER */
         $USER = $db->selectSingle(
-            "SELECT *
-             FROM " . DB_PREFIX . "users
-             WHERE id = :uid",
+            'SELECT * FROM %%USERS%% WHERE id = :uid AND is_bot = 1;',
             [':uid' => $userId]
         );
 
         if (!$USER) {
-            self::log(['action' => 'NO_USER']);
             return;
         }
 
-        /* PLANET LADEN */
+        /* USER POINTS (WICHTIG – FIX) */
+        $scoreRow = $db->selectSingle(
+            'SELECT total_points
+             FROM %%USER_POINTS%%
+             WHERE id_owner = :uid
+               AND universe = :uni;',
+            [
+                ':uid' => $USER['id'],
+                ':uni' => (int)($USER['universe'] ?? 1),
+            ]
+        );
+
+        $USER['total_points'] = (int)($scoreRow['total_points'] ?? 0);
+
+        /* HAUPTPLANET */
         $PLANET = $db->selectSingle(
-            "SELECT *
-             FROM " . DB_PREFIX . "planets
+            'SELECT *
+             FROM %%PLANETS%%
              WHERE id_owner = :uid
                AND planet_type = 1
-             LIMIT 1",
+             LIMIT 1;',
             [':uid' => $userId]
         );
 
         if (!$PLANET) {
-            self::log(['action' => 'NO_PLANET']);
             return;
         }
 
-        /* NICHT BAUEN WENN QUEUE LÄUFT */
+        /* QUEUE AKTIV */
         if ((int)$PLANET['b_building'] > time()) {
-            self::log([
-                'action' => 'SKIP_QUEUE_ACTIVE',
-                'until'  => $PLANET['b_building']
-            ]);
             return;
         }
 
-        /* WERFTLEVEL */
+        /* WERFT */
         if ((int)$PLANET['hangar'] < self::MIN_SHIPYARD_LEVEL) {
-            self::log([
-                'action' => 'SKIP_SHIPYARD_TOO_LOW',
-                'level'  => $PLANET['hangar']
-            ]);
             return;
         }
 
@@ -74,17 +71,14 @@ class BotDefenseAI
         ];
 
         foreach ($buildOrder as $defId) {
-
             if (!self::shouldBuild($USER, $PLANET, $defId)) {
                 continue;
             }
 
             if (self::buildDefense($PLANET, $defId)) {
-                return;
+                return; // exakt EIN Bau
             }
         }
-
-        self::log(['action' => 'NO_DEFENSE_ACTION']);
     }
 
     /* =========================
@@ -94,28 +88,40 @@ class BotDefenseAI
     {
         global $resource;
 
-        // sauberes Spalten-Mapping
         $field = $resource[$id] ?? null;
+        if ($field === null) {
+            return false;
+        }
+
         $count = (int)($PLANET[$field] ?? 0);
+
+        // Dynamisches Limit Heavy Laser
+        $maxHeavyLaser = 3;
+        if ($USER['total_points'] >= 8000) {
+            $maxHeavyLaser = 6;
+        }
+        if ($USER['total_points'] >= 15000) {
+            $maxHeavyLaser = 10;
+        }
 
         return match ($id) {
 
-            /* Raketenwerfer max 20 */
+            // 🚀 Raketenwerfer
             self::ID_ROCKET_LAUNCHER =>
                 $count < 20,
 
-            /* Light Laser nur wenn Laser-Tech vorhanden */
+            // 🔫 Leichter Laser
             self::ID_LIGHT_LASER =>
                 ($USER['laser_tech'] ?? 0) >= 1
                 && $count < 10,
 
-              /* Schwerer Laser – ab 5000 Punkte */
+            // 🔥 Schwerer Laser (JETZT FUNKTIONIERT)
             self::ID_HEAVY_LASER =>
-            ($USER['total_points'] ?? 0) >= 5000               // Noobschutz vorbei
-            && ($USER['energy_tech'] ?? 0) >= 3                // Energy Tech 3
-            && ($USER['laser_tech'] ?? 0) >= 6                 // Laser Tech 6
-            && ($PLANET['hangar'] ?? 0) >= 4                   // Werft 4
-            && $count < 5,                                     // Limit (Testwert)   
+                $USER['total_points'] >= 4000
+                && ($USER['energy_tech'] ?? 0) >= 3
+                && ($USER['laser_tech'] ?? 0) >= 6
+                && ($PLANET['hangar'] ?? 0) >= 4
+                && $count < $maxHeavyLaser,
 
             default => false,
         };
@@ -129,18 +135,16 @@ class BotDefenseAI
         global $resource;
 
         if (!isset($resource[$elementId])) {
-            self::log(['action' => 'UNKNOWN_DEF_ID', 'id' => $elementId]);
             return false;
         }
 
-        $field = $resource[$elementId];
-
+        $field   = $resource[$elementId];
         $current = (int)($planet[$field] ?? 0);
         $target  = $current + 1;
 
-        // Baukosten berechnen
+        // Kosten berechnen
         $cost = BuildFunctions::getElementPrice(
-            [], // USER optional
+            [],          // USER nicht nötig
             $planet,
             $elementId,
             false,
@@ -149,74 +153,40 @@ class BotDefenseAI
 
         // Ressourcen prüfen
         if (
-            $planet['metal']     < ($cost[901] ?? 0) ||
-            $planet['crystal']   < ($cost[902] ?? 0) ||
-            $planet['deuterium'] < ($cost[903] ?? 0)
+            ($planet['metal']     ?? 0) < ($cost[901] ?? 0) ||
+            ($planet['crystal']   ?? 0) < ($cost[902] ?? 0) ||
+            ($planet['deuterium'] ?? 0) < ($cost[903] ?? 0)
         ) {
-            self::log([
-                'action' => 'NOT_ENOUGH_RES',
-                'id'     => $elementId,
-                'need'   => $cost
-            ]);
             return false;
         }
 
-        /* =========================
-         * QUEUE EINTRAGEN (ENGINE FORMAT)
-         * ========================= */
+        /* QUEUE */
         $now = time();
-        $end = $now + 12; // Testdauer
+        $end = $now + 15; // kurze Bauzeit für Bots
 
         $queue = serialize([
             [$elementId, $target, [], (float)$end, 'build']
         ]);
 
         Database::get()->update(
-            "UPDATE " . DB_PREFIX . "planets
+            'UPDATE %%PLANETS%%
              SET
                 metal         = metal - :m,
                 crystal       = crystal - :c,
                 deuterium     = deuterium - :d,
                 b_building    = :end,
                 b_building_id = :queue
-             WHERE id = :pid",
+             WHERE id = :pid;',
             [
-                ':m'     => $cost[901] ?? 0,
-                ':c'     => $cost[902] ?? 0,
-                ':d'     => $cost[903] ?? 0,
+                ':m'     => (int)($cost[901] ?? 0),
+                ':c'     => (int)($cost[902] ?? 0),
+                ':d'     => (int)($cost[903] ?? 0),
                 ':end'   => $end,
                 ':queue' => $queue,
                 ':pid'   => $planet['id'],
             ]
         );
 
-        self::log([
-            'action' => 'DEFENSE_BUILD_START',
-            'id'     => $elementId,
-            'from'   => $current,
-            'to'     => $target,
-        ]);
-
         return true;
-    }
-
-    /* =========================
-     * DEBUG LOG
-     * ========================= */
-    private static function log(array $data): void
-    {
-        $dir = ROOT_PATH . 'includes/ai_log/';
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-
-        $data['time']     = time();
-        $data['datetime'] = date('Y-m-d H:i:s');
-
-        file_put_contents(
-            $dir . 'bot_defense.json',
-            json_encode($data, JSON_UNESCAPED_UNICODE) . PHP_EOL,
-            FILE_APPEND
-        );
     }
 }

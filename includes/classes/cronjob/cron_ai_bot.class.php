@@ -54,7 +54,7 @@ class cron_ai_bot
 
             /* =========================
              * 🟢 TEST: ONLINE-ZEIT SETZEN
-             * ========================= */
+             * ========================= 
             if (empty($USER['onlinetime']) || ($now - (int)$USER['onlinetime']) >= 3 * 86400) {
            $db->update(
             "UPDATE {$usersTable}
@@ -65,7 +65,27 @@ class cron_ai_bot
               ':uid'  => $userId,
           ]
           );
-        }
+        } */
+        
+        /* =========================
+ * 🟢 BOT ONLINE-ZEIT SIMULIEREN
+ * =========================
+ * Nicht jeder Bot ist immer online.
+ * Ca. 35% Chance pro Bot-Tick.
+ * onlinetime wird leicht zufällig gesetzt.
+ */
+if (mt_rand(1, 100) <= 35) {
+    $db->update(
+        "UPDATE {$usersTable}
+         SET onlinetime = :time
+         WHERE id = :uid
+           AND is_bot = 1;",
+        [
+            ':time' => $now - random_int(0, 900), // 0 bis 15 Minuten Versatz
+            ':uid'  => $userId,
+        ]
+    );
+}
 
             // Faktor wie beim Login
             $USER['factor'] = getFactors($USER, 'basic', $now);
@@ -73,18 +93,19 @@ class cron_ai_bot
             /* =========================
              * 🪐 HAUPTPLANET
              * ========================= */
-            $PLANET = $db->selectSingle(
-                "SELECT *
-                 FROM {$planetsTable}
-                 WHERE id_owner = :uid
-                   AND planet_type = 1
-                 LIMIT 1;",
-                [':uid' => $userId]
-            );
+             $PLANETS = $db->select(
+             "SELECT *
+             FROM {$planetsTable}
+             WHERE id_owner = :uid
+             AND planet_type = 1;",
+             [':uid' => $userId]
+             );
 
-            if (!$PLANET) {
-                continue;
+            if (empty($PLANETS)) {
+            continue;
             }
+
+            foreach ($PLANETS as $PLANET) {
 
             /* =========================
              * 🟢 Ressourcenproduktion
@@ -100,7 +121,7 @@ class cron_ai_bot
             ) {
                 $this->finishPlanetBuilding($PLANET, $resource, $planetsTable);
             }
-
+            }
             /* =========================
              * 🤖 BOT LOGIK
              * ========================= */
