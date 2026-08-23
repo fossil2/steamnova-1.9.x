@@ -185,7 +185,13 @@ HTML;
 		$fleetIntoDebris	= Config::get($this->_fleet['fleet_universe'])->Fleet_Cdr;
 		$defIntoDebris		= Config::get($this->_fleet['fleet_universe'])->Defs_Cdr;
 
-		$combatResult 		= calculateAttack($fleetAttack, $fleetDefend, $fleetIntoDebris, $defIntoDebris);
+		$combatResult = calculateAttack(
+        $fleetAttack,
+        $fleetDefend,
+        $fleetIntoDebris,
+        $defIntoDebris,
+        (int)$this->_fleet['fleet_universe']
+        );
 
 		foreach ($fleetAttack as $fleetID => $fleetDetail)
 		{

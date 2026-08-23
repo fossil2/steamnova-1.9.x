@@ -541,7 +541,14 @@ class MissionCaseExpedition extends MissionFunctions implements Mission
 				$fleetDefend[0]['unit']		= $targetFleetData;
 
 				require_once 'includes/classes/missions/functions/calculateAttack.php';
-				$combatResult	= calculateAttack($fleetAttack, $fleetDefend, $config->Fleet_Cdr, $config->Defs_Cdr);
+
+$combatResult = calculateAttack(
+    $fleetAttack,
+    $fleetDefend,
+    $config->Fleet_Cdr,
+    $config->Defs_Cdr,
+    (int)$this->_fleet['fleet_universe']
+);
 
 				$fleetArray = '';
 				$totalCount = 0;

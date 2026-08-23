@@ -26,7 +26,7 @@ class ShowBattleSimulatorPage extends AbstractGamePage
 
 	function send()
 	{
-		global $reslist, $pricelist, $LNG;
+		global $reslist, $pricelist, $LNG, $USER;
 
 		if(!isset($_REQUEST['battleinput'])) {
 			$this->sendJSON(0);
@@ -126,7 +126,13 @@ class ShowBattleSimulatorPage extends AbstractGamePage
 		require_once 'includes/classes/missions/functions/calculateSteal.php';
 		require_once 'includes/classes/missions/functions/GenerateReport.php';
 
-		$combatResult	= calculateAttack($attackers, $defenders, Config::get()->Fleet_Cdr, Config::get()->Defs_Cdr);
+		$combatResult = calculateAttack(
+        $attackers,
+        $defenders,
+        Config::get()->Fleet_Cdr,
+        Config::get()->Defs_Cdr,
+        (int)$USER['universe']
+        );
 
 		if($combatResult['won'] == "a")
 		{
