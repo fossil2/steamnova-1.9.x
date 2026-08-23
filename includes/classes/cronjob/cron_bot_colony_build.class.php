@@ -6,7 +6,7 @@ class cron_bot_colony_build
     public function run(): void
     {
         // 🔑 AI-Klasse laden (WICHTIG!)
-        require_once ROOT_PATH . 'includes/classes/BotColonyBuildAI.php';
+        require_once ROOT_PATH . 'includes/classes/aibot/BotColonyBuildAI.php';
 
         $db = Database::get();
 

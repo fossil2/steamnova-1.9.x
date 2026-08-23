@@ -4,7 +4,7 @@ class cron_bot_colonize
 {
     public function run(): void
     {
-        require_once ROOT_PATH . 'includes/classes/BotColonizeAI.php';
+        require_once ROOT_PATH . 'includes/classes/aibot/BotColonyBuildAI.php';
 
         $db  = Database::get();
         $now = TIMESTAMP;

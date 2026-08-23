@@ -4,9 +4,10 @@ class cron_ai_bot
 {
     public function run(): void
     {
-        require_once ROOT_PATH . 'includes/classes/BotBuildAI.php';
-        require_once ROOT_PATH . 'includes/classes/BotResearchAI.php';
-        require_once ROOT_PATH . 'includes/classes/BotDefenseAI.php';
+        
+        require_once ROOT_PATH . 'includes/classes/aibot/BotBuildAI.php';
+        require_once ROOT_PATH . 'includes/classes/aibot/BotResearchAI.php';
+        require_once ROOT_PATH . 'includes/classes/aibot/BotDefenseAI.php';
 
         require_once ROOT_PATH . 'includes/vars.php';
         $cache = Cache::get();
@@ -149,7 +150,9 @@ if (mt_rand(1, 100) <= 35) {
      * ========================= */
     private function applyResourceProduction(array $USER, array $PLANET): array
     {
-        require_once ROOT_PATH . 'includes/classes/class.PlanetRessUpdate.php';
+        
+
+      require_once ROOT_PATH . 'includes/classes/class.PlanetRessUpdate.php'; 
 
         if (empty($USER['factor'])) {
             $USER['factor'] = getFactors($USER, 'basic', TIMESTAMP);
