@@ -1252,11 +1252,12 @@ INSERT INTO `%PREFIX%cronjobs` (`cronjobID`, `name`, `isActive`, `min`, `hours`,
 (NULL, 'databasedump', 1, '30', '1', '*', '*', '1', 'DumpCronjob', 0, NULL),
 (NULL,'Asteroids', 1, '*', '*', '*', '*', '*', 'AsteroidsCronjob', 1532144700, NULL),
 (NULL, 'tracking', 1, FLOOR(RAND() * 60), FLOOR(RAND() * 24), '*', '*', '0', 'TrackingCronjob', 0, NULL),
-(NULL, 'aibot', 1, '*/5', '*', '*', '*', '*', 'cron_ai_bot', 0, NULL),
 (NULL, 'fleet_engine', 1, '*', '2', '*', '*', '*', 'cron_fleet_engine', 0, NULL),
 (NULL, 'Colonie', 1, '*/30', '*', '*', '*', '*', 'cron_bot_colonize', 0, NULL),
-(NULL, 'bot_colony_build', 1, '*/5', '*', '*', '*', '*', 'cron_bot_colony_build', 0, NULL),
-(NULL, 'spytestai', 1, '*', '5', '*', '*', '*', 'cron_bot_ai', 0, NULL);
+(NULL, 'aiboteconomy', 1, '*/5', '*', '*', '*', '*', 'cron_bot_economy', 0, NULL),
+(NULL, 'aibotactions', 1, '*/5', '*', '*', '*', '*', 'cron_bot_actions', 0, NULL);
+
+
 
 INSERT INTO `%PREFIX%system` (`dbVersion`) VALUES
 (%DB_VERSION%);
