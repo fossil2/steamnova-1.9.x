@@ -57,15 +57,31 @@ class MissionCaseMIP extends MissionFunctions implements Mission
 			':userId'	=> $this->_fleet['fleet_owner']
 		));
 
-		if (
-			!in_array($this->_fleet['fleet_target_obj'], array_merge($reslist['defense'], $reslist['missile']))
-			|| $this->_fleet['fleet_target_obj'] == 502
-			|| $this->_fleet['fleet_target_obj'] == 0
-		) {
-			$primaryTarget	= 401;
-		} else {
-			$primaryTarget	= $this->_fleet['fleet_target_obj'];
-		}
+		if ($this->_fleet['fleet_target_obj'] == 0) {
+
+	// "Alle" gewählt -> kein spezielles Primärziel
+	$primaryTarget = 0;
+
+} elseif (
+	!in_array(
+		$this->_fleet['fleet_target_obj'],
+		array_merge(
+			$reslist['defense'],
+			$reslist['missile']
+		)
+	)
+	|| $this->_fleet['fleet_target_obj'] == 502
+) {
+
+	// ungültiges Ziel -> Raketenwerfer als Fallback
+	$primaryTarget = 401;
+
+} else {
+
+	// vom Spieler gewähltes Ziel
+	$primaryTarget =
+		$this->_fleet['fleet_target_obj'];
+}
 
 		$targetDefensive    = array();
 
