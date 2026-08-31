@@ -1,6 +1,6 @@
 <?php
 
-class cron_bot_ai
+class cron_bot_actions
 {
     public function run(): void
     {

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+require_once ROOT_PATH . 'includes/classes/class.PlanetRessUpdate.php';
 
 class BotColonyBuildAI
 {
@@ -15,6 +18,7 @@ class BotColonyBuildAI
     private const ID_CRYSTAL_STORE   = 23;
     private const ID_DEUTERIUM_STORE = 24;
     private const ID_TERRAFORMER     = 33;
+    private const ID_SILO            = 44;
 
     private const MAX_STORAGE_LEVEL = 10;
     private const MAX_FUSION_LEVEL  = 16;
@@ -49,7 +53,7 @@ class BotColonyBuildAI
         $USER['factor']['ResearchTime'] = $USER['factor']['ResearchTime'] ?? 0;
         $USER['factor']['ShipTime']     = $USER['factor']['ShipTime'] ?? 0;
         $USER['factor']['ShipyardTime'] = $USER['factor']['ShipyardTime'] ?? 0;
-        $USER['factor']['DefTime']      = $USER['factor']['DefTime'] ?? 0;
+        $USER['factor']['DefensiveTime'] = $USER['factor']['DefensiveTime'] ?? 0;
 
         $USER['BuildingTime']  = (float)($USER['BuildingTime'] ?? 0);
         $USER['ResearchTime']  = (float)($USER['ResearchTime'] ?? 0);
@@ -215,6 +219,7 @@ class BotColonyBuildAI
                 self::ID_CRYSTAL_STORE,
                 self::ID_DEUTERIUM_STORE,
                 self::ID_HANGAR,
+                self::ID_SILO,
             ],
 
             default => [
@@ -228,6 +233,7 @@ class BotColonyBuildAI
                 self::ID_DEUTERIUM_STORE,
                 self::ID_ROBOT_FACTORY,
                 self::ID_HANGAR,
+                self::ID_SILO,
             ],
         };
     }
@@ -347,6 +353,10 @@ class BotColonyBuildAI
 
                 self::ID_HANGAR =>
                     $robot >= 2 && $hangar < 4,
+                    
+                 self::ID_SILO =>
+                    $hangar >= 1
+                    && (int)($p['silo'] ?? 0) < 2,  
 
                 default => false,
             },
@@ -386,7 +396,11 @@ class BotColonyBuildAI
                     $robot < 8,
 
                 self::ID_HANGAR =>
-                    $robot >= 2 && $hangar < 6,
+                    $robot >= 2 && $hangar < 12,
+                    
+                self::ID_SILO =>
+                    $hangar >= 1
+                    && (int)($p['silo'] ?? 0) < 4,
 
                 default => false,
             },

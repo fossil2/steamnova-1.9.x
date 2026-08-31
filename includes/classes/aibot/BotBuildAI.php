@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once ROOT_PATH . 'includes/classes/aibot/BotAIResourceTransfer.php';
+
 class BotBuildAI
 {
     /**
@@ -87,6 +89,7 @@ class BotBuildAI
             self::ID_ROBOT_FACTORY,
             self::ID_NANITE_FACTORY,
             self::ID_HANGAR,
+            self::ID_SILO,
 
             /* Forschung */
             self::ID_LABORATORY,
@@ -104,7 +107,7 @@ class BotBuildAI
                     'elementId' => $elementId,
                     'points'    => $points,
                 ]);
-                return; // exakt EIN Bauvorgang
+                return;
             }
         }
 
@@ -127,7 +130,6 @@ class BotBuildAI
 
         $ecoFocus = ($points >= self::ECO_FOCUS_POINTS);
 
-        /* Midgame Trigger über Mine-Level */
         $midgame =
             $metal >= 22 ||
             $crystal >= 18 ||
@@ -135,9 +137,8 @@ class BotBuildAI
 
         $nextMineLevel = max($metal, $crystal, $deut) + 1;
 
-        /* Energie Deadlock Schutz:
-           Wenn Energie fehlt, keine Minen außer Solar erlauben */
         $needsEnergy = self::needsMoreEnergy($p, $nextMineLevel);
+
         if (
             $needsEnergy &&
             in_array($id, [
@@ -149,16 +150,14 @@ class BotBuildAI
             return false;
         }
 
-        /* =========================
-         * ECO-FOCUS ab X Punkten
-         * ========================= */
         if ($ecoFocus) {
             return match ($id) {
                 self::ID_TERRAFORMER =>
                     self::getFreeFields($p) <= 0,
 
                 self::ID_SOLAR_PLANT =>
-                    $needsEnergy || $solar < (int)ceil(max($metal, $crystal, $deut) * 0.85),
+                    $needsEnergy ||
+                    $solar < (int)ceil(max($metal, $crystal, $deut) * 0.85),
 
                 self::ID_METAL_MINE =>
                     $metal <= ($crystal + 2),
@@ -178,19 +177,19 @@ class BotBuildAI
                 self::ID_DEUTERIUM_STORE =>
                     self::isStorageNeeded($p, 'deuterium'),
 
-                /* Im Eco-Fokus keine Infra priorisieren */
                 self::ID_ROBOT_FACTORY,
                 self::ID_NANITE_FACTORY,
                 self::ID_HANGAR,
                 self::ID_LABORATORY => false,
 
+                self::ID_SILO =>
+                    (int)($p['hangar'] ?? 0) >= 1
+                    && (int)($p['silo'] ?? 0) < 4,
+
                 default => false,
             };
         }
 
-        /* =========================
-         * NORMALE PHASE
-         * ========================= */
         return match ($id) {
             self::ID_TERRAFORMER =>
                 self::getFreeFields($p) <= 0,
@@ -225,17 +224,21 @@ class BotBuildAI
             self::ID_ROBOT_FACTORY =>
                 (int)($p['robot_factory'] ?? 0) < 10
                 || (
-                 $midgame
-                && (int)($p['robot_factory'] ?? 0) < floor($metal / 4)
-                 ),
+                    $midgame
+                    && (int)($p['robot_factory'] ?? 0) < floor($metal / 4)
+                ),
 
-             self::ID_NANITE_FACTORY =>
-              $midgame
-              && (int)($p['robot_factory'] ?? 0) >= 10
-              && (int)($p['nanite_factory'] ?? 0) < 1,
+            self::ID_NANITE_FACTORY =>
+                $midgame
+                && (int)($p['robot_factory'] ?? 0) >= 10
+                && (int)($p['nanite_factory'] ?? 0) < 1,
 
             self::ID_HANGAR =>
                 (int)($p['hangar'] ?? 0) < ($midgame ? 12 : 6),
+
+            self::ID_SILO =>
+                (int)($p['hangar'] ?? 0) >= 1
+                && (int)($p['silo'] ?? 0) < 4,
 
             self::ID_LABORATORY =>
                 (int)($p['laboratory'] ?? 0) < floor($crystal / ($midgame ? 3 : 5)),
@@ -251,19 +254,15 @@ class BotBuildAI
     {
         $solarPlant = (int)($p['solar_plant'] ?? 0);
 
-        // Vereinfachtes Solar-Modell
         $solarOutput = max(0, $solarPlant) * 55;
 
-        // Vereinfachter aktueller Bedarf
         $currentNeed =
               ((int)($p['metal_mine'] ?? 0) * 10)
             + ((int)($p['crystal_mine'] ?? 0) * 15)
             + ((int)($p['deuterium_sintetizer'] ?? 0) * 25);
 
-        // Zukünftiger Bedarf nach nächstem Minenlevel
         $futureNeed = $currentNeed + ($nextMineLevel * 18);
 
-        // Sicherheits-Puffer
         $requiredWithBuffer = (int)ceil($futureNeed * 1.30);
 
         return $solarOutput < $requiredWithBuffer;
@@ -286,61 +285,50 @@ class BotBuildAI
     /* =========================
      * USER POINTS
      * ========================= */
-private static function getUserPoints(int $userId, array $USER = []): int
-{
-    /*
-     * Reihenfolge:
-     * 1) users.total_points
-     * 2) users.points
-     * 3) user_points.total_points
-     * Fallback = 0
-     */
-    try {
-        if (isset($USER['total_points'])) {
-            return (int)$USER['total_points'];
+    private static function getUserPoints(int $userId, array $USER = []): int
+    {
+        try {
+            if (isset($USER['total_points'])) {
+                return (int)$USER['total_points'];
+            }
+
+            if (isset($USER['points'])) {
+                return (int)$USER['points'];
+            }
+        } catch (\Throwable $e) {
         }
 
-        if (isset($USER['points'])) {
-            return (int)$USER['points'];
+        try {
+            $row = Database::get()->selectSingle(
+                "SELECT total_points
+                 FROM " . DB_PREFIX . "user_points
+                 WHERE id_owner = :uid
+                 LIMIT 1",
+                [':uid' => $userId]
+            );
+
+            if ($row && isset($row['total_points'])) {
+                return (int)$row['total_points'];
+            }
+        } catch (\Throwable $e) {
+            self::log([
+                'action'  => 'POINTS_LOOKUP_FAILED',
+                'source'  => 'user_points.total_points',
+                'message' => $e->getMessage(),
+            ]);
         }
-    } catch (\Throwable $e) {
-        // ignorieren
+
+        return 0;
     }
-
-    try {
-        $row = Database::get()->selectSingle(
-            "SELECT total_points
-             FROM " . DB_PREFIX . "user_points
-             WHERE id_owner = :uid
-             LIMIT 1",
-            [':uid' => $userId]
-        );
-
-        if ($row && isset($row['total_points'])) {
-            return (int)$row['total_points'];
-        }
-    } catch (\Throwable $e) {
-        self::log([
-            'action'  => 'POINTS_LOOKUP_FAILED',
-            'source'  => 'user_points.total_points',
-            'message' => $e->getMessage(),
-        ]);
-    }
-
-    return 0;
-}
-
 
     /* =========================
-     * PLANET FIELDS / TERRAFORMER CHECK
+     * PLANET FIELDS
      * ========================= */
     private static function getFreeFields(array $planet): int
     {
         $used = (int)($planet['field_current'] ?? 0);
         $max  = (int)($planet['field_max'] ?? 0);
 
-        // Falls die Spalten in einem alten Datenstand fehlen,
-        // soll der Bot nicht versehentlich komplett blockieren.
         if ($max <= 0) {
             return 999;
         }
@@ -360,11 +348,10 @@ private static function getUserPoints(int $userId, array $USER = []): int
     {
         global $resource;
 
-        /* Normale Gebäude blockieren, wenn keine freien Felder vorhanden sind.
-         * Dann zuerst Terraformer versuchen. Wenn der nicht bezahlt/gebaut werden kann,
-         * bleibt es sauber bei NO_ACTION statt falschem Bauauftrag.
-         */
-        if ($elementId !== self::ID_TERRAFORMER && self::needsTerraformer($planet)) {
+        if (
+            $elementId !== self::ID_TERRAFORMER
+            && self::needsTerraformer($planet)
+        ) {
             self::log([
                 'action'     => 'NO_FREE_FIELDS_TRY_TERRAFORMER',
                 'planet_id'  => $planet['id'] ?? 0,
@@ -372,7 +359,10 @@ private static function getUserPoints(int $userId, array $USER = []): int
                 'freeFields' => self::getFreeFields($planet),
             ]);
 
-            return self::startBuild($planet, self::ID_TERRAFORMER);
+            return self::startBuild(
+                $planet,
+                self::ID_TERRAFORMER
+            );
         }
 
         if (!isset($resource[$elementId])) {
@@ -380,6 +370,7 @@ private static function getUserPoints(int $userId, array $USER = []): int
                 'action' => 'UNKNOWN_ELEMENT',
                 'id'     => $elementId
             ]);
+
             return false;
         }
 
@@ -387,35 +378,110 @@ private static function getUserPoints(int $userId, array $USER = []): int
         $levelBefore = (int)($planet[$field] ?? 0);
         $targetLevel = $levelBefore + 1;
 
-        $cost = self::getBuildCost($elementId, $targetLevel);
+        $cost = self::getBuildCost(
+            $elementId,
+            $targetLevel
+        );
 
-        /* Ressourcenprüfung */
+        /* =========================
+         * RESSOURCENPRÜFUNG
+         * ========================= */
         if (
-            (float)($planet['metal'] ?? 0)     < $cost['metal'] ||
-            (float)($planet['crystal'] ?? 0)   < $cost['crystal'] ||
+            (float)($planet['metal'] ?? 0) < $cost['metal']
+            ||
+            (float)($planet['crystal'] ?? 0) < $cost['crystal']
+            ||
             (float)($planet['deuterium'] ?? 0) < $cost['deuterium']
         ) {
+            $haveMetal =
+                (float)($planet['metal'] ?? 0);
+
+            $haveCrystal =
+                (float)($planet['crystal'] ?? 0);
+
+            $haveDeuterium =
+                (float)($planet['deuterium'] ?? 0);
+
+            $missingMetal = max(
+                0,
+                $cost['metal'] - $haveMetal
+            );
+
+            $missingCrystal = max(
+                0,
+                $cost['crystal'] - $haveCrystal
+            );
+
+            $missingDeuterium = max(
+                0,
+                $cost['deuterium'] - $haveDeuterium
+            );
+
+            /*
+             * Neue Rohstofflogistik:
+             * andere eigene Planeten nach Überschuss durchsuchen.
+             */
+            $transferStarted =
+                BotAIResourceTransfer::requestForBuild(
+                    (int)($planet['id_owner'] ?? 0),
+                    $planet,
+                    $missingMetal,
+                    $missingCrystal,
+                    $missingDeuterium
+                );
+
             self::log([
-                'action'     => 'NOT_ENOUGH_RESOURCES',
-                'planet_id'  => $planet['id'] ?? 0,
-                'elementId'  => $elementId,
-                'field'      => $field,
-                'level'      => $targetLevel,
-                'need'       => $cost,
-                'have'       => [
-                    'metal'     => (float)($planet['metal'] ?? 0),
-                    'crystal'   => (float)($planet['crystal'] ?? 0),
-                    'deuterium' => (float)($planet['deuterium'] ?? 0),
+                'action'    => 'NOT_ENOUGH_RESOURCES',
+                'planet_id' => $planet['id'] ?? 0,
+                'elementId' => $elementId,
+                'field'     => $field,
+                'level'     => $targetLevel,
+
+                'need' => $cost,
+
+                'missing' => [
+                    'metal' =>
+                        (int)$missingMetal,
+
+                    'crystal' =>
+                        (int)$missingCrystal,
+
+                    'deuterium' =>
+                        (int)$missingDeuterium,
                 ],
+
+                'have' => [
+                    'metal' =>
+                        $haveMetal,
+
+                    'crystal' =>
+                        $haveCrystal,
+
+                    'deuterium' =>
+                        $haveDeuterium,
+                ],
+
+                'transfer_started' =>
+                    $transferStarted ? 1 : 0,
             ]);
+
             return false;
         }
 
+        /* =========================
+         * BAU STARTEN
+         * ========================= */
         $now = time();
         $end = $now + 10; // TEST-dauer
 
         $queue = serialize([
-            [$elementId, $targetLevel, [], (float)$end, 'build']
+            [
+                $elementId,
+                $targetLevel,
+                [],
+                (float)$end,
+                'build'
+            ]
         ]);
 
         Database::get()->update(
@@ -428,12 +494,23 @@ private static function getUserPoints(int $userId, array $USER = []): int
                 b_building_id = :queue
              WHERE id = :pid",
             [
-                ':m'     => $cost['metal'],
-                ':c'     => $cost['crystal'],
-                ':d'     => $cost['deuterium'],
-                ':end'   => $end,
-                ':queue' => $queue,
-                ':pid'   => $planet['id'],
+                ':m' =>
+                    $cost['metal'],
+
+                ':c' =>
+                    $cost['crystal'],
+
+                ':d' =>
+                    $cost['deuterium'],
+
+                ':end' =>
+                    $end,
+
+                ':queue' =>
+                    $queue,
+
+                ':pid' =>
+                    $planet['id'],
             ]
         );
 
@@ -463,15 +540,33 @@ private static function getUserPoints(int $userId, array $USER = []): int
         );
 
         if (!$v) {
-            return ['metal' => 0, 'crystal' => 0, 'deuterium' => 0];
+            return [
+                'metal' => 0,
+                'crystal' => 0,
+                'deuterium' => 0
+            ];
         }
 
         $factor = (float)$v['factor'];
 
         return [
-            'metal'     => (int)floor((float)$v['cost901'] * pow($factor, $level - 1)),
-            'crystal'   => (int)floor((float)$v['cost902'] * pow($factor, $level - 1)),
-            'deuterium' => (int)floor((float)$v['cost903'] * pow($factor, $level - 1)),
+            'metal' =>
+                (int)floor(
+                    (float)$v['cost901']
+                    * pow($factor, $level - 1)
+                ),
+
+            'crystal' =>
+                (int)floor(
+                    (float)$v['cost902']
+                    * pow($factor, $level - 1)
+                ),
+
+            'deuterium' =>
+                (int)floor(
+                    (float)$v['cost903']
+                    * pow($factor, $level - 1)
+                ),
         ];
     }
 
@@ -496,17 +591,29 @@ private static function getUserPoints(int $userId, array $USER = []): int
      * ========================= */
     private static function log(array $data): void
     {
-        $dir = ROOT_PATH . 'includes/ai_log/';
+        $dir =
+            ROOT_PATH . 'includes/ai_log/';
+
         if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
+            mkdir(
+                $dir,
+                0755,
+                true
+            );
         }
 
-        $data['time']     = time();
-        $data['datetime'] = date('Y-m-d H:i:s');
+        $data['time'] =
+            time();
+
+        $data['datetime'] =
+            date('Y-m-d H:i:s');
 
         file_put_contents(
             $dir . 'bot_actions.json',
-            json_encode($data, JSON_UNESCAPED_UNICODE) . PHP_EOL,
+            json_encode(
+                $data,
+                JSON_UNESCAPED_UNICODE
+            ) . PHP_EOL,
             FILE_APPEND
         );
     }
@@ -526,4 +633,5 @@ private static function getUserPoints(int $userId, array $USER = []): int
     private const ID_DEUTERIUM_STORE = 24;
     private const ID_LABORATORY      = 31;
     private const ID_TERRAFORMER     = 33;
+    private const ID_SILO            = 44;
 }
