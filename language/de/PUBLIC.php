@@ -111,7 +111,7 @@ $LNG['registerSendComplete']		= 'Vielen Dank für die Registration. Du erhälst 
 
 $LNG['registerWelcomePMSenderName']	= 'Administrator';
 $LNG['registerWelcomePMSubject']	= 'Willkommen';
-$LNG['registerWelcomePMText']		= 'Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um diese zu bauen, klicke links im Menu auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast, kannst du anfangen Minen zu bauen. Gehe dazu wieder im Menü auf Gebäude und baue eine Metallmine, danach wieder eine Kristallmine. Um Schiffe bauen zu können musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird findest du links im Menüpunkt Technologie.Schau unter Anomalie Nutze Bonus und Tutorial. Das Team wünscht dir viel Spaß beim Erkunden des Universums!';
+$LNG['registerWelcomePMText'] = 'Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um dieses zu bauen, klicke links im Menü auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast, kannst du anfangen, Minen zu bauen. Gehe dazu wieder im Menü auf "Gebäude" und baue zuerst eine Metallmine und danach eine Kristallmine. Um Schiffe bauen zu können, musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird, findest du links im Menüpunkt "Technologie". Nutze unter "Anomalie" das Tutorial und den Bonus, um dich mit dem Game vertraut zu machen. Das Team wünscht dir viel Spaß beim Erkunden des Universums!';
 
 $LNG['registerSecretQuestionText'] = "Bitte wählen Sie eine Geheimfrage aus";
 $LNG['registerSecretQuestionAnswerText'] = "Beantworten Sie Ihre geheime Frage";

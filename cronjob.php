@@ -16,27 +16,41 @@
  */
 
 define('MODE', 'CRON');
-define('ROOT_PATH', str_replace('\\', '/',dirname(__FILE__)).'/');
+define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)) . '/');
 set_include_path(ROOT_PATH);
 
 require 'includes/common.php';
 
-$session	= Session::load();
-
-// Output transparent gif
-//HTTP::sendHeader('Cache-Control', 'no-cache');
-//HTTP::sendHeader('Content-Type', 'image/gif');
-//HTTP::sendHeader('Expires', '0');
-
-
-echo("\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x21\xF9\x04\x01\x00\x00\x00\x00\x2C\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3B");
+$session = Session::load();
 
 if(!$session->isValidSession())
 {
 	exit;
 }
 
-$cronjobID	= HTTP::_GP('cronjobID', 0);
+/*
+ * WICHTIG:
+ * Der Cron braucht die PHP-Session ab hier nicht mehr.
+ *
+ * Dadurch wird die Session-Datei sofort freigegeben und andere
+ * Spieler-/Cron-Requests müssen nicht mehrere Sekunden auf
+ * session_start() warten.
+ */
+if (session_status() === PHP_SESSION_ACTIVE)
+{
+	session_write_close();
+}
+
+
+// Output transparent gif
+//HTTP::sendHeader('Cache-Control', 'no-cache');
+//HTTP::sendHeader('Content-Type', 'image/gif');
+//HTTP::sendHeader('Expires', '0');
+
+echo("\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x21\xF9\x04\x01\x00\x00\x00\x00\x2C\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3B");
+
+
+$cronjobID = HTTP::_GP('cronjobID', 0);
 
 if(empty($cronjobID))
 {
@@ -45,8 +59,7 @@ if(empty($cronjobID))
 
 require 'includes/classes/Cronjob.class.php';
 
-$cronjobsTodo	= Cronjob::getNeedTodoExecutedJobs();
-
+$cronjobsTodo = Cronjob::getNeedTodoExecutedJobs();
 
 if(!in_array($cronjobID, $cronjobsTodo))
 {
