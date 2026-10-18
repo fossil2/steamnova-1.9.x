@@ -64,9 +64,9 @@ $LNG['loginHeader']					= 'Login';
 $LNG['loginUsername']				= 'Nickname';
 $LNG['loginPassword']				= 'Passwort';
 $LNG['loginButton']					= 'Login';
-$LNG['loginInfo']			  		= 'Logując się akceptujesz %s.';
+$LNG['loginInfo']					= 'Logując się akceptujesz %s.';
 $LNG['loginWelcome']				= 'Witaj na %s';
-$LNG['loginServerDesc']     = '%s to darmowa internetowa gra strategiczna osadzona w kosmosie, dostępna bezpośrednio w przeglądarce. Rozwijaj swoje planety, badaj nowe technologie, buduj obronę i dowodź potężnymi flotami. Gromadź i zarządzaj surowcami, zakładaj nowe kolonie i rywalizuj z innymi graczami w strategicznych bitwach. Potrzebujesz tylko nowoczesnej przeglądarki internetowej – bez pobierania i instalacji.';
+$LNG['loginServerDesc']             = '%s to darmowa internetowa gra strategiczna osadzona w kosmosie, dostępna bezpośrednio w przeglądarce. Rozwijaj swoje planety, badaj nowe technologie, buduj obronę i dowodź potężnymi flotami. Gromadź i zarządzaj surowcami, zakładaj nowe kolonie i rywalizuj z innymi graczami w strategicznych bitwach. Potrzebujesz tylko nowoczesnej przeglądarki internetowej – bez pobierania i instalacji.';
 
 // Register
 $LNG['registerFacebookAccount']		= 'Konto na Facebooku';

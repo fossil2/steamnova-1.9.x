@@ -14,15 +14,25 @@
 	{/if}
 	<tr>
 		<td class="left" colspan="2">
-			<p>{if !$answerRow@first}
-				<b>{$LNG.ti_subject}: {$answerRow.subject}</b><br>
-			{$LNG.ti_responded}: <b>{$answerRow.time}</b> {$LNG.ti_from} <b>{$answerRow.ownerName}</b>
-			{/if}
-			{if $answerRow@first}
-			{$LNG.ti_create}: <b>{$answerRow.time}</b> {$LNG.ti_from} <b>{$answerRow.ownerName}</b>
-				<br>{$LNG.ti_category}: {$categoryList[$answerRow.categoryID]}
-			{/if}
-			</p>
+		<p>
+	{if !$answerRow@first}
+		<b>{$LNG.ti_subject}: {$answerRow.subject}</b><br>
+		{$LNG.ti_responded}: <b>{$answerRow.time}</b>
+		{$LNG.ti_from} <b>{$answerRow.ownerName}</b>
+	{/if}
+
+	{if $answerRow@first}
+		{$LNG.ti_create}: <b>{$answerRow.time}</b>
+		{$LNG.ti_from} <b>{$answerRow.ownerName}</b>
+
+		<br>{$LNG.ti_category}:
+		{if isset($categoryList[$answerRow.categoryID])}
+			{$categoryList[$answerRow.categoryID]}
+		{else}
+			Unbekannte Kategorie ({$answerRow.categoryID})
+		{/if}
+	{/if}
+</p>
 			<hr>
 			<p>
 				{$answerRow.message}

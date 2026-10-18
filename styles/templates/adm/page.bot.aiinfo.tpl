@@ -7,6 +7,7 @@
 <thead>
 <tr class="text-yellow">
     <th>Bot</th>
+    <th>Aktionen</th>
     <th>Planeten</th>
     <th>Ressourcen</th>
     <th>Bauqueue</th>
@@ -18,16 +19,51 @@
 {foreach $bots as $bot}
 <tr>
 
-<td class="text-yellow">{$bot.username}</td>
+<td class="text-yellow align-middle">{$bot.username}</td>
 
-<td class="text-left">
+<td class="align-middle" style="min-width:220px;">
+    <div class="d-flex flex-column gap-1">
+
+        <a class="btn btn-success btn-sm mb-1" href="game.php?page=botsTasks&mode=runBotAll&id={$bot.id}">
+            ⚡ All
+        </a>
+
+        <a class="btn btn-danger btn-sm mb-1" href="game.php?page=botsTasks&mode=runBotAttack&id={$bot.id}">
+            ⚔ Attack
+        </a>
+
+        <a class="btn btn-info btn-sm mb-1" href="game.php?page=botsTasks&mode=runBotSpy&id={$bot.id}">
+            👁 Spy
+        </a>
+
+        <a class="btn btn-warning btn-sm mb-2" href="game.php?page=botsTasks&mode=runBotExpedition&id={$bot.id}">
+            🚀 Expedition
+        </a>
+
+        <a class="btn btn-sm mb-1 {if $bot.bot_enable_attack == 1}btn-outline-danger{else}btn-outline-secondary{/if}"
+           href="game.php?page=botsTasks&mode=toggleAttack&id={$bot.id}">
+            Attack {if $bot.bot_enable_attack == 1}ON{else}OFF{/if}
+        </a>
+
+        <a class="btn btn-sm mb-1 {if $bot.bot_enable_spy == 1}btn-outline-info{else}btn-outline-secondary{/if}"
+           href="game.php?page=botsTasks&mode=toggleSpy&id={$bot.id}">
+            Spy {if $bot.bot_enable_spy == 1}ON{else}OFF{/if}
+        </a>
+
+        <a class="btn btn-sm {if $bot.bot_enable_expedition == 1}btn-outline-warning{else}btn-outline-secondary{/if}"
+           href="game.php?page=botsTasks&mode=toggleExpedition&id={$bot.id}">
+            Expo {if $bot.bot_enable_expedition == 1}ON{else}OFF{/if}
+        </a>
+    </div>
+</td>
+
+<td class="text-left align-middle">
 {foreach $bot.planets as $p}
     {$p.name} [{$p.coords}]<br>
 {/foreach}
 </td>
 
 <td class="text-left">
-
 {foreach $bot.planets as $p}
 
 <div style="border-bottom:1px solid #333; margin-bottom:6px; padding-bottom:4px;">
@@ -66,10 +102,9 @@ GS {$p.bs}
 </div>
 
 {/foreach}
-
 </td>
 
-<td class="text-left">
+<td class="text-left align-middle">
 {foreach $bot.planets as $p}
     {if $p.build_end > time()}
         <span class="text-orange">{$p.build_status}</span><br>
@@ -79,13 +114,38 @@ GS {$p.bs}
 {/foreach}
 </td>
 
-<td>{$bot.next_action}</td>
+<td class="align-middle">
+    <div>{$bot.next_action}</div>
+    <div class="fs-11 text-info">
+        Spy: {$bot.next_spy}
+        {if $bot.bot_enable_spy == 1}
+            <span class="text-green">ON</span>
+        {else}
+            <span class="text-red">OFF</span>
+        {/if}
+    </div>
+    <div class="fs-11 text-warning">
+        Expo: {$bot.next_expedition}
+        {if $bot.bot_enable_expedition == 1}
+            <span class="text-green">ON</span>
+        {else}
+            <span class="text-red">OFF</span>
+        {/if}
+    </div>
+    <div class="fs-11 text-danger">
+        Attack: {$bot.next_attack}
+        {if $bot.bot_enable_attack == 1}
+            <span class="text-green">ON</span>
+        {else}
+            <span class="text-red">OFF</span>
+        {/if}
+    </div>
+</td>
 
 </tr>
 {/foreach}
 </tbody>
 </table>
-
 
 <h3 class="text-yellow mt-4 mb-2">🔬 Forschungsübersicht</h3>
 

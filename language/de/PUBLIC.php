@@ -51,7 +51,8 @@ $LNG['buttonScreenshot']			= 'Screenshots';
 $LNG['buttonLostPassword']			= 'Passwort vergessen?';
 
 // Start
-$LNG['gameInformations']			= "Ein Weltraum-Strategiespiel in Echtzeit.\nSpiele zusammen mit hunderten Usern.\nKein Download, es wird nur ein Standardbrowser benötigt.\nKostenlose Registrierung";
+
+$LNG['registerWelcomePMText'] = "Willkommen bei %s!\n\nBaue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um dieses zu bauen, klicke links im Menü auf \"Gebäude\". Danach baue das 4. Gebäude von oben.\n\nDa du nun Energie hast, kannst du anfangen, Minen zu bauen. Gehe dazu wieder im Menü auf \"Gebäude\" und baue zuerst eine Metallmine und danach eine Kristallmine.\n\nUm Schiffe bauen zu können, musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird, findest du links im Menüpunkt \"Technologie\".\n\nNutze unter \"Anomalie\" das Tutorial und den Bonus, um dich mit dem Game vertraut zu machen.\n\nDas Team wünscht dir viel Spaß beim Erkunden des Universums!";
 
 // Login
 $LNG['login_error_1']               = "E-mail ist nicht eingegeben !";
@@ -65,7 +66,7 @@ $LNG['loginPassword']				= 'Passwort';
 $LNG['loginButton']					= 'Login';
 $LNG['loginInfo']					= 'Mit dem Login akzeptiere ich die %s.';
 $LNG['loginWelcome']				= 'Willkommen bei %s';
-$LNG['loginServerDesc']       = '%s ist ein kostenloses Weltraum-Strategiespiel im Browser. Baue deine Planeten aus, erforsche neue Technologien, errichte Verteidigungsanlagen und stelle mächtige Flotten zusammen. Sammle und verwalte Ressourcen, gründe neue Kolonien und kämpfe strategisch gegen andere Spieler. Alles, was du zum Spielen brauchst, ist ein moderner Webbrowser – kein Download und keine Installation erforderlich.';
+$LNG['loginServerDesc']             = '%s ist ein kostenloses Weltraum-Strategiespiel im Browser. Baue deine Planeten aus, erforsche neue Technologien, errichte Verteidigungsanlagen und stelle mächtige Flotten zusammen. Sammle und verwalte Ressourcen, gründe neue Kolonien und kämpfe strategisch gegen andere Spieler. Alles, was du zum Spielen brauchst, ist ein moderner Webbrowser – kein Download und keine Installation erforderlich.';
 // Register
 $LNG['registerFacebookAccount']		= 'Facebook-Account';
 $LNG['registerUsername']			= 'Spieler Name';
@@ -111,7 +112,7 @@ $LNG['registerSendComplete']		= 'Vielen Dank für die Registration. Du erhälst 
 
 $LNG['registerWelcomePMSenderName']	= 'Administrator';
 $LNG['registerWelcomePMSubject']	= 'Willkommen';
-$LNG['registerWelcomePMText'] = 'Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um dieses zu bauen, klicke links im Menü auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast, kannst du anfangen, Minen zu bauen. Gehe dazu wieder im Menü auf "Gebäude" und baue zuerst eine Metallmine und danach eine Kristallmine. Um Schiffe bauen zu können, musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird, findest du links im Menüpunkt "Technologie". Nutze unter "Anomalie" das Tutorial und den Bonus, um dich mit dem Game vertraut zu machen. Das Team wünscht dir viel Spaß beim Erkunden des Universums!';
+$LNG['registerWelcomePMText']		= 'Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um diese zu bauen, klicke links im Menu auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast, kannst du anfangen Minen zu bauen. Gehe dazu wieder im Menü auf Gebäude und baue eine Metallmine, danach wieder eine Kristallmine. Um Schiffe bauen zu können musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird findest du links im Menüpunkt Technologie.Schau unter Anomalie Nutze Bonus und Tutorial. Das Team wünscht dir viel Spaß beim Erkunden des Universums!';
 
 $LNG['registerSecretQuestionText'] = "Bitte wählen Sie eine Geheimfrage aus";
 $LNG['registerSecretQuestionAnswerText'] = "Beantworten Sie Ihre geheime Frage";

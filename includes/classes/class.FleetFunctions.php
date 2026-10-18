@@ -681,7 +681,9 @@ class FleetFunctions
 			':fleetResource902'			=> $fleetResource[902],
 			':fleetResource903'			=> $fleetResource[903],
 			':fleetNoMReturn' => $fleetNoMReturn,
-			':fleetGroup'				=> $fleetGroup,
+			':fleetGroup'			 	
+
+d03e6139	=> $fleetGroup,
 			':missileTarget'			=> $missileTarget,
 			':timestamp'				=> TIMESTAMP,
 			':universe'	   				=> Universe::current(),

@@ -84,66 +84,113 @@ $LNG['type_mission_19']	= 'Misja zapisu';
 $LNG['modul_51'] = 'Misja - Zapis';
 
 // Mods Quests PL
-$LNG['quest_categorie_1'] = "Konstrukcja";
+$LNG['quest_categorie_1'] = "Budowa";
 $LNG['quest_categorie_2'] = "Badania";
 $LNG['quest_categorie_3'] = "Flota";
 $LNG['quest_categorie_4'] = "Obrona";
 $LNG['quest_categorie_5'] = "Oficerowie";
-$LNG['quest_01']          = "Utwórz kategorię";
-$LNG['quest_02']          = "Utwórz misję";
-$LNG['quest_03']          = "Aktywne zadanie";
-$LNG['quest_04']          = "Wybierz kategorię*";
-$LNG['quest_05']          = "Nazwa misji*";
-$LNG['quest_06']          = "Opis misji";
-$LNG['quest_07']          = "Cel";
-$LNG['quest_08']          = "Poziom docelowy";
-$LNG['quest_09']          = "Punkty nagrody";
-$LNG['quest_10']          = "Nagroda za";
-$LNG['quest_11']          = "Dodaj";
-$LNG['quest_12']          = "Utwórz kategorię";
-$LNG['quest_13']          = "Misja wydarzenia";
-$LNG['quest_14']          = "Koniec wydarzenia";
-$LNG['quest_15']          = "Utwórz misję";
-$LNG['quest_16']          = "Koniec wydarzenia";
-$LNG['quest_17']          = "Lista kategorii";
-$LNG['quest_18']          = "Lista misji";
-$LNG['quest_19']          = "ID misji";
-$LNG['quest_20']          = "Nagrody";
-$LNG['quest_21']          = "Zadania gry";
-$LNG['quest_22']          = "Nagrody";
-$LNG['quest_23']          = "Kategoria";
-$LNG['quest_24']          = "Opis";
-$LNG['quest_25']          = "Cel";
-$LNG['quest_26']          = "Misja aktywna";
-$LNG['quest_27']          = "Utwórz";
-$LNG['quest_28']          = "Misja specjalna";
-$LNG['quest_29']          = "Misja specjalna wygasła";
-$LNG['quest_30']          = "Akcja";
-$LNG['quest_31']          = "Cel";
-$LNG['quest_32']          = "Brak dostępnych misji dla tej kategorii.";
-$LNG['quest_33']          = "Nie rozpoczęto";
-$LNG['quest_34']          = "Misja zakończona";
-$LNG['quest_35']          = "Wybrana przez Ciebie kategoria nie istnieje";
-$LNG['quest_36']          = "Wybierz kategorię";
-$LNG['quest_37']          = "Ten numer kategorii już istnieje, przejdź do listy";
-$LNG['quest_38']          = "Zakończone";
-$LNG['quest_39']          = "Koniec wydarzenia";
-$LNG['quest_40']          = "W toku";
-$LNG['quest_41']          = "Zakończone";
-$LNG['quest_42']          = "Przepraszam, ale obecnie brak dostępnej zawartości.";
 
-// Mods Quests PL ADMIN
-$LNG['adm_quest_info_title'] = "Informacje operacyjne";
+$LNG['quest_01'] = "Utwórz kategorię";
+$LNG['quest_02'] = "Utwórz misję";
+$LNG['quest_03'] = "Aktywna misja";
+$LNG['quest_04'] = "Wybierz kategorię*";
+$LNG['quest_05'] = "Nazwa misji*";
+$LNG['quest_06'] = "Opis misji";
+$LNG['quest_07'] = "Cel";
+$LNG['quest_08'] = "Poziom docelowy";
+$LNG['quest_09'] = "Punkty nagrody";
+$LNG['quest_10'] = "Nagroda";
+$LNG['quest_11'] = "Dodaj";
+$LNG['quest_12'] = "Utwórz kategorię";
+$LNG['quest_13'] = "Misja wydarzenia";
+$LNG['quest_14'] = "Koniec wydarzenia";
+$LNG['quest_15'] = "Utwórz misję";
+$LNG['quest_16'] = "Koniec wydarzenia";
+$LNG['quest_17'] = "Kategorie";
+$LNG['quest_18'] = "Misje";
+$LNG['quest_19'] = "ID misji";
+
+$LNG['quest_20'] = "Rozpocznij misję";
+$LNG['quest_21'] = "Misje w grze";
+$LNG['quest_22'] = "Nagrody";
+$LNG['quest_23'] = "Kategoria";
+$LNG['quest_24'] = "Opis";
+$LNG['quest_25'] = "Cel";
+$LNG['quest_26'] = "Misja aktywna";
+$LNG['quest_27'] = "Utwórz";
+$LNG['quest_28'] = "Misja specjalna";
+$LNG['quest_29'] = "Misja specjalna wygasła";
+$LNG['quest_30'] = "Akcja";
+$LNG['quest_31'] = "Cel";
+
+$LNG['quest_32'] = "W tej kategorii nie ma dostępnych misji.";
+$LNG['quest_33'] = "Nie rozpoczęto";
+$LNG['quest_34'] = "To wydarzenie już się zakończyło.";
+$LNG['quest_35'] = "Wybrana kategoria nie istnieje.";
+$LNG['quest_36'] = "Wybierz kategorię";
+$LNG['quest_37'] = "Ten numer kategorii już istnieje.";
+$LNG['quest_38'] = "Ukończono";
+$LNG['quest_39'] = "Koniec wydarzenia:";
+$LNG['quest_40'] = "W trakcie";
+$LNG['quest_41'] = "Gotowe";
+$LNG['quest_42'] = "Obecnie nie ma dostępnej zawartości misji.";
+$LNG['quest_loading'] = "Ładowanie misji ...";
+
+
+// =========================================================
+// DODATKOWE TEKSTY MISJI
+// =========================================================
+
+$LNG['quest_event'] = "Wydarzenie";
+$LNG['quest_event_finished'] = "Wydarzenie zakończone";
+
+$LNG['quest_error_not_exists'] =
+    "Ta misja już nie istnieje.";
+
+$LNG['quest_error_not_active'] =
+    "Ta misja nie jest aktywna.";
+
+$LNG['quest_error_already_accepted'] =
+    "Ta misja została już przez ciebie przyjęta.";
+
+$LNG['quest_error_invalid_target'] =
+    "Nieprawidłowy cel misji.";
+
+$LNG['quest_error_not_found'] =
+    "Nie znaleziono misji.";
+
+$LNG['quest_error_already_finished'] =
+    "Ta misja została już przez ciebie ukończona.";
+
+$LNG['quest_started'] =
+    "Misja „%s” została rozpoczęta.";
+
+$LNG['quest_finish_success'] =
+    "Misja ukończona. Nagrody zostały dodane do twojego konta.";
+
+$LNG['quest_finish_invalid'] =
+    "Warunki wymagane do ukończenia tej misji nie zostały jeszcze spełnione.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
+$LNG['adm_quest_info_title'] = "Informacje dotyczące działania";
+
 $LNG['adm_quest_info_content'] = "
-<p>Aby optymalnie korzystać z tego moda, zalecamy:</p>
+<p>Aby korzystać z tego modu w optymalny sposób, zalecamy następujące kroki:</p>
+
 <ul style='margin-top: 20px;'>
     <li style='padding-bottom: 10px;'>1 - Utwórz wszystkie wymagane kategorie</li>
-    <li style='padding-bottom: 10px;'>2 - Odśwież stronę, aby dodać kategorie do misji (lista wyboru)</li>
-    <li style='padding-bottom: 10px;'>3 - Utwórz swoje misje</li>
+    <li style='padding-bottom: 10px;'>2 - Odśwież stronę, aby kategorie pojawiły się na liście wyboru misji</li>
+    <li style='padding-bottom: 10px;'>3 - Utwórz swoje różne misje</li>
 </ul>
-<p style='color: red; font-weight: bold; size: 18; margin-top: 10px;'>Uwaga: Nawet jeśli dodasz kategorie, które nie są zawarte w kodzie źródłowym, gracze nie będą mogli ich ukończyć.</p>
-";
 
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Uwaga: Kategorie, które nie są obsługiwane przez system misji, mogą nie być możliwe do ukończenia przez graczy.
+</p>
+";
 
 
  ?>

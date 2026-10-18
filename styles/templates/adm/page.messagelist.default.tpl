@@ -1,6 +1,7 @@
 {block name="content"}
 <form action="admin.php?page=messageList" method="post" id="form">
 <input type="hidden" name="side" value="{$page}" id="side">
+<input type="hidden" name="deleteAllMessages" value="0" id="deleteAllMessages">
 <table class="table table-dark table-striped table-sm fs-12 w-50 my-5 mx-auto">
 	<tr>
 		<th colspan="5">{$LNG.ml_message_list}</th>
@@ -19,10 +20,25 @@
 		<td style="width:35%" colspan="2"><input type="text" id="receiver" name="receiver" value="{$receiver}" length="11"></td>
 	</tr>
 	<tr>
-		<th colspan="5" class="center">
-			<input type="submit" value="{$LNG.ml_type_submit}">
-		</th>
-	</tr>
+		<tr>
+	<th colspan="5" class="center">
+		<input type="submit" value="{$LNG.ml_type_submit}">
+
+		<input
+			type="submit"
+			value="Alle Nachrichten löschen & Counter zurücksetzen"
+			class="button"
+			style="margin-left:10px;"
+			onclick="
+				if(confirm('Willst du wirklich ALLE Nachrichten dieses Universums löschen und den Counter zurücksetzen?')) {
+					document.getElementById('deleteAllMessages').value = '1';
+					return true;
+				}
+				return false;
+			"
+		>
+	</th>
+</tr>
 </table>
 <table width="90%" class="table table-dark table-striped table-sm fs-12 my-5 mx-auto">
 	<tr>

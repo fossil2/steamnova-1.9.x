@@ -27,6 +27,23 @@ $LNG['fs_time_hours'] = "Hora";
 $LNG['fs_time_seconds'] = "Segundo";
 $LNG['fs_time_minutes'] = "Minuto";
 
+// Tarefas de missão geradas automaticamente
+$LNG['quest_task_build']    = 'Construir: %s';
+$LNG['quest_task_research'] = 'Pesquisar: %s';
+$LNG['quest_task_fleet']    = 'Construir frota: %s';
+$LNG['quest_task_defense']  = 'Construir defesa: %s';
+$LNG['quest_task_officer']  = 'Melhorar oficial: %s';
+
+$LNG['quest_desc_build']    = 'Melhore %s em %d nível(is).';
+$LNG['quest_desc_research'] = 'Pesquise %s em %d nível(is).';
+$LNG['quest_desc_fleet']    = 'Construa %d unidade(s) de %s.';
+$LNG['quest_desc_defense']  = 'Construa %d unidade(s) de %s.';
+$LNG['quest_desc_officer']  = 'Melhore %s em %d nível(is).';
+
+$LNG['quest_select_task']   = 'Selecionar tarefa';
+$LNG['quest_task_type']     = 'Tipo de tarefa';
+$LNG['quest_target']        = 'Objetivo';
+
 
 //Mover módulo
 $LNG['cm_error_1'] = "Não é possível consolidar em modo de férias!";

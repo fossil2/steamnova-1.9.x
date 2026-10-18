@@ -21,6 +21,23 @@ $LNG['fs_percantage'] = "%";
 $LNG['fs_time_hours'] = "Hora";
 $LNG['fs_time_seconds'] = "Segundo";
 $LNG['fs_time_minutes'] = "Minuto";
+
+// Tareas de misión generadas automáticamente
+$LNG['quest_task_build']    = 'Construir: %s';
+$LNG['quest_task_research'] = 'Investigar: %s';
+$LNG['quest_task_fleet']    = 'Construir flota: %s';
+$LNG['quest_task_defense']  = 'Construir defensa: %s';
+$LNG['quest_task_officer']  = 'Mejorar oficial: %s';
+
+$LNG['quest_desc_build']    = 'Mejora %s en %d nivel(es).';
+$LNG['quest_desc_research'] = 'Investiga %s en %d nivel(es).';
+$LNG['quest_desc_fleet']    = 'Construye %d unidad(es) de %s.';
+$LNG['quest_desc_defense']  = 'Construye %d unidad(es) de %s.';
+$LNG['quest_desc_officer']  = 'Mejora %s en %d nivel(es).';
+
+$LNG['quest_select_task']   = 'Seleccionar tarea';
+$LNG['quest_task_type']     = 'Tipo de tarea';
+$LNG['quest_target']        = 'Objetivo';
  
 // Módulo mover
 $LNG['cm_error_1'] = "¡No es posible recolectar en modo vacaciones!";
@@ -1358,4 +1375,14 @@ $LNG['tut_m9_quest5']                       = 'Gratis';
 $LNG['tut_m9_gain']                         = '<font color="orange">Recompensa: 5000 Materia Oscura.</font>';
 $LNG['tut_m9_ready']                        = 'Felicidades por haber completado la misión 9 del tutorial!<br>Ya has recibido 5000 Materia Oscura!';
 $LNG['tut_compleat']                        = 'Has completado con éxito toda las misiones!';
+
+$LNG['kb_fleets_stood_against']   = 'Las siguientes flotas se enfrentaron';
+$LNG['kb_round']                  = 'Ronda de combate';
+$LNG['kb_attacker_before_round']  = 'Atacante antes de la ronda';
+$LNG['kb_defender_before_round']  = 'Defensor antes de la ronda';
+$LNG['kb_attacker_after_round']   = 'Atacante después de la ronda';
+$LNG['kb_defender_after_round']   = 'Defensor después de la ronda';
+$LNG['kb_repaired_defense']       = 'Defensa reparada';
+$LNG['kb_moon_chance']            = 'Probabilidad de formación de luna';
+$LNG['kb_moon_created']           = '¡Una gran cantidad de escombros formó una luna!';
 // Translated into Spanish by Angelus_ira . All rights reversed (C) 2011

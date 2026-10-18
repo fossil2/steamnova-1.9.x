@@ -25,6 +25,23 @@ $LNG['fs_time_hours'] = "Час";
 $LNG['fs_time_seconds'] = "Секунда";
 $LNG['fs_time_minutes'] = "Минута";
 
+// Автоматически создаваемые задания квестов
+$LNG['quest_task_build']    = 'Построить: %s';
+$LNG['quest_task_research'] = 'Исследовать: %s';
+$LNG['quest_task_fleet']    = 'Построить флот: %s';
+$LNG['quest_task_defense']  = 'Построить оборону: %s';
+$LNG['quest_task_officer']  = 'Улучшить офицера: %s';
+
+$LNG['quest_desc_build']    = 'Улучшите %s на %d уровень(ня).';
+$LNG['quest_desc_research'] = 'Исследуйте %s на %d уровень(ня).';
+$LNG['quest_desc_fleet']    = 'Постройте %d ед. %s.';
+$LNG['quest_desc_defense']  = 'Постройте %d ед. %s.';
+$LNG['quest_desc_officer']  = 'Улучшите %s на %d уровень(ня).';
+
+$LNG['quest_select_task']   = 'Выберите задание';
+$LNG['quest_task_type']     = 'Тип задания';
+$LNG['quest_target']        = 'Цель';
+
 //Перемещение модуля
 $LNG['cm_error_1'] = "Сбор ресурсов невозможен в режиме отпуска!";
 $LNG['cm_error_2'] = "Сбор ресурсов невозможен во время атаки!";
@@ -1324,6 +1341,15 @@ $LNG['tut_m9_ready']                        = 'Поздравляем, вы за
 
 $LNG['tut_compleat']                        = 'Вы успешно завершили все миссии!';
 
+$LNG['kb_fleets_stood_against']   = 'Следующие флоты сошлись в бою';
+$LNG['kb_round']                  = 'Раунд боя';
+$LNG['kb_attacker_before_round']  = 'Атакующий до раунда';
+$LNG['kb_defender_before_round']  = 'Защитник до раунда';
+$LNG['kb_attacker_after_round']   = 'Атакующий после раунда';
+$LNG['kb_defender_after_round']   = 'Защитник после раунда';
+$LNG['kb_repaired_defense']       = 'Восстановленная оборона';
+$LNG['kb_moon_chance']            = 'Шанс образования луны';
+$LNG['kb_moon_created']           = 'Огромное количество обломков сформировало луну!';
 
 
 

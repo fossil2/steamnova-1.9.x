@@ -85,9 +85,120 @@ $LNG['cronjob_asteroid_msg_from'] = 'Système d\'Événements';
 $LNG['cronjob_asteroid_msg_to'] = 'Message de l\'Événement';
 $LNG['cronjob_asteroid_msg_user_event_close'] = 'L\'événement Astéroïde est terminé, tous les astéroïdes ont été détruits.';
 
+
+
 // Mission de sauvegarde
 $LNG['type_mission_19']	= 'Mission de sauvegarde';
 $LNG['modul_51'] = 'Mission - Sauvegarde';
+
+//Quest
+$LNG['quest_categorie_1'] = "Construction";
+$LNG['quest_categorie_2'] = "Recherche";
+$LNG['quest_categorie_3'] = "Flotte";
+$LNG['quest_categorie_4'] = "Défense";
+$LNG['quest_categorie_5'] = "Officiers";
+
+$LNG['quest_01'] = "Créer une catégorie";
+$LNG['quest_02'] = "Créer une quête";
+$LNG['quest_03'] = "Quête active";
+$LNG['quest_04'] = "Sélectionner une catégorie*";
+$LNG['quest_05'] = "Nom de la quête*";
+$LNG['quest_06'] = "Description de la quête";
+$LNG['quest_07'] = "Objectif";
+$LNG['quest_08'] = "Niveau cible";
+$LNG['quest_09'] = "Points de récompense";
+$LNG['quest_10'] = "Récompense";
+$LNG['quest_11'] = "Ajouter";
+$LNG['quest_12'] = "Créer une catégorie";
+$LNG['quest_13'] = "Mission événement";
+$LNG['quest_14'] = "Fin de l’événement";
+$LNG['quest_15'] = "Créer une quête";
+$LNG['quest_16'] = "Fin de l’événement";
+$LNG['quest_17'] = "Catégories";
+$LNG['quest_18'] = "Quêtes";
+$LNG['quest_19'] = "ID de quête";
+
+$LNG['quest_20'] = "Démarrer la quête";
+$LNG['quest_21'] = "Missions du jeu";
+$LNG['quest_22'] = "Récompenses";
+$LNG['quest_23'] = "Catégorie";
+$LNG['quest_24'] = "Description";
+$LNG['quest_25'] = "Objectif";
+$LNG['quest_26'] = "Quête active";
+$LNG['quest_27'] = "Créer";
+$LNG['quest_28'] = "Mission spéciale";
+$LNG['quest_29'] = "Mission spéciale expirée";
+$LNG['quest_30'] = "Action";
+$LNG['quest_31'] = "Objectif";
+
+$LNG['quest_32'] = "Aucune quête n’est disponible dans cette catégorie.";
+$LNG['quest_33'] = "Non démarrée";
+$LNG['quest_34'] = "Cet événement est déjà terminé.";
+$LNG['quest_35'] = "La catégorie sélectionnée n’existe pas.";
+$LNG['quest_36'] = "Sélectionner une catégorie";
+$LNG['quest_37'] = "Ce numéro de catégorie existe déjà.";
+$LNG['quest_38'] = "Terminée";
+$LNG['quest_39'] = "Fin de l’événement :";
+$LNG['quest_40'] = "En cours";
+$LNG['quest_41'] = "Terminé";
+$LNG['quest_42'] = "Aucun contenu de quête n’est actuellement disponible.";
+$LNG['quest_loading'] = "Chargement des quêtes ...";
+
+
+// =========================================================
+// TEXTES DE QUÊTE SUPPLÉMENTAIRES
+// =========================================================
+
+$LNG['quest_event'] = "Événement";
+$LNG['quest_event_finished'] = "Événement terminé";
+
+$LNG['quest_error_not_exists'] =
+    "Cette quête n’existe plus.";
+
+$LNG['quest_error_not_active'] =
+    "Cette quête n’est pas active.";
+
+$LNG['quest_error_already_accepted'] =
+    "Vous avez déjà accepté cette quête.";
+
+$LNG['quest_error_invalid_target'] =
+    "Objectif de quête invalide.";
+
+$LNG['quest_error_not_found'] =
+    "La quête n’a pas été trouvée.";
+
+$LNG['quest_error_already_finished'] =
+    "Vous avez déjà terminé cette quête.";
+
+$LNG['quest_started'] =
+    "La quête « %s » a été démarrée.";
+
+$LNG['quest_finish_success'] =
+    "Quête terminée. Les récompenses ont été créditées sur votre compte.";
+
+$LNG['quest_finish_invalid'] =
+    "Les conditions requises pour terminer cette quête ne sont pas encore remplies.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
+$LNG['adm_quest_info_title'] = "Informations de fonctionnement";
+
+$LNG['adm_quest_info_content'] = "
+<p>Pour utiliser ce mod de manière optimale, nous recommandons ce qui suit :</p>
+
+<ul style='margin-top: 20px;'>
+    <li style='padding-bottom: 10px;'>1 - Créez toutes les catégories nécessaires</li>
+    <li style='padding-bottom: 10px;'>2 - Actualisez la page afin que les catégories apparaissent dans la liste de sélection des quêtes</li>
+    <li style='padding-bottom: 10px;'>3 - Créez vos différentes quêtes</li>
+</ul>
+
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Attention : les catégories qui ne sont pas prises en charge par le système de quêtes peuvent ne pas être réalisables par les joueurs.
+</p>
+";
 
 
 // If you have custom lang vars, you can include them here. The file ll be not overwrite by updatemanager

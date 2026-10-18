@@ -6,29 +6,99 @@
 }
 /*main.topnav.tpl*/
 .resourceWrapperOuter{
-	margin:2px;
+	margin: 2px;
 	width: calc(50% - 4px);
 	height: 40px;
+	position: relative;
+	overflow: hidden;
+
 	clip-path:
-      polygon(0 0, calc(100% - 10px) 0, 100% 10px,
-              100% 100%, 10px 100%,0 calc(100% - 10px)
-             );
-						 background: #8c8c8c;
-						 border: 2px solid #8c8c8c;
-						 cursor: pointer;
+		polygon(
+			0 0,
+			calc(100% - 10px) 0,
+			100% 10px,
+			100% 100%,
+			10px 100%,
+			0 calc(100% - 10px)
+		);
+
+	background: rgba(42, 58, 76, 0.70);
+	border: 1px solid rgba(58, 118, 178, 0.38);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.05),
+		0 2px 5px rgba(0,0,0,0.38);
+
+	cursor: pointer;
+
+	transition:
+		background 0.18s ease,
+		border-color 0.18s ease,
+		box-shadow 0.18s ease,
+		transform 0.18s ease;
 }
 
 .resourceWrapper{
-	background: rgb(51,77,108);
-  background: linear-gradient(0deg, rgba(2,1,42,1) 27%, rgba(66,120,120,1) 95%);
-  clip-path:
-      polygon(0 0, calc(100% - 12px) 0, 100% 12px,
-              100% 100%, 12px 100%,0 calc(100% - 12px)
-             );
+	width: 100%;
+	height: 100%;
+
+	background: linear-gradient(
+		180deg,
+		rgba(34, 42, 56, 0.98) 0%,
+		rgba(20, 26, 38, 0.98) 52%,
+		rgba(11, 16, 25, 1) 100%
+	);
+
+	clip-path:
+		polygon(
+			0 0,
+			calc(100% - 12px) 0,
+			100% 12px,
+			100% 100%,
+			12px 100%,
+			0 calc(100% - 12px)
+		);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.04);
+
+	transition:
+		background 0.18s ease,
+		box-shadow 0.18s ease;
+}
+
+.resourceWrapperOuter:hover{
+	background: rgba(55, 90, 125, 0.78);
+	border-color: rgba(84, 155, 220, 0.62);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.07),
+		0 0 8px rgba(45,120,200,0.20),
+		0 2px 5px rgba(0,0,0,0.38);
+
+	transform: translateY(-1px);
+}
+
+.resourceWrapperOuter:hover .resourceWrapper{
+	background: linear-gradient(
+		180deg,
+		rgba(42, 55, 72, 0.99) 0%,
+		rgba(24, 34, 50, 0.99) 52%,
+		rgba(13, 21, 34, 1) 100%
+	);
+}
+
+.res_name{
+	color: #ffd600;
+	font-weight: 700;
+	font-size: 11px;
+	text-shadow: 0 1px 2px rgba(0,0,0,0.85);
 }
 
 .res_current{
-	color: #ddd;
+	color: #d7e2ef;
+	font-size: 11px;
+	text-shadow: 0 1px 2px rgba(0,0,0,0.85);
 }
 
 .layout,.footer{
@@ -76,10 +146,6 @@ contentLeft{
 .ui-widget-header{
 	background-color:#D20000;
 }
-.res_name{
-	color:#D20000;
-}
-
 body {
 	background:url("img/space.avif") no-repeat fixed center center #0d0d0d;
 	background-size: cover;
@@ -123,16 +189,29 @@ input[type="radio"] {
 }
 
 .buildItemSmall{
-	border: 3px solid #276094;
+	border: 1px solid #00345c;
 	width: 86px;
 	height: 86px;
 	margin: 2px;
 	background: #000;
+	box-shadow: 0 0 6px rgba(0,75,135,0.55);
 	transition: 0.2s ease;
 }
-.buildItemSmall:hover{
-	border-color: #aa8719;
+
+.buildItemSmall img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
+
+
+
+.buildItemSmall:hover{
+	border-color: #0088cc;
+	box-shadow: 0 0 12px rgba(0,136,204,0.9);
+}
+
 .black-screen{
 	width: 100%;
 	height: 100%;
@@ -296,13 +375,23 @@ input[type="radio"] {
 }
 
 .border-orange{
-	border: 1px solid #d57b1c;
+	border: 1px solid rgba(58, 118, 178, 0.45);
+	border-radius: 6px;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.03),
+		0 0 8px rgba(45,120,200,0.16);
 }
+
 .border-yellow{
 	border: 1px solid yellow;
 }
+
 .border-gray{
-    border: 1px solid gray;
+	border: 1px solid rgba(58, 118, 178, 0.45);
+	border-radius: 6px;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.03),
+		0 0 8px rgba(45,120,200,0.16);
 }
 
 .fs-12{
@@ -348,32 +437,47 @@ input[type="radio"] {
 
 /*general fonts for font sizes*/
 table{
-	background-color:#151212;
+	background-color: #151212;
 	color: #fff;
 }
 
 .table-gow{
-	background-color:#151212;
+	background: rgba(14, 18, 26, 0.96);
 	margin: 0 auto;
-	/*border: 3px solid #c4731f;*/
-	border: 3px solid gray;
+	border: 1px solid rgba(58, 118, 178, 0.40);
+	border-radius: 7px;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.03),
+		0 0 8px rgba(45,120,200,0.13),
+		0 3px 8px rgba(0,0,0,0.35);
+	overflow: hidden;
+	border-collapse: separate;
+	border-spacing: 0;
 }
+
 .table-tooltip{
 	background: transparent;
 }
+
 .table-gow td{
-	border: 1px solid rgba(119,117,117,0.2);
+	border: 1px solid rgba(70, 130, 190, 0.16);
 }
-.table-gow td,.table-gow th,.table-gow a{
+
+.table-gow td,
+.table-gow th,
+.table-gow a{
 	color: #ffd600;
 }
 
-.table-gow button,.table-gow select,.table-gow input{
+.table-gow button,
+.table-gow select,
+.table-gow input{
 	color: #ddd;
 }
 
 .table-gow th{
-	border: 1px solid #444444;
+	border: 1px solid rgba(70, 130, 190, 0.22);
+	background: rgba(18, 25, 36, 0.92);
 }
 
 .font-size-12{
@@ -386,21 +490,87 @@ table{
 	font-size: 10px;
 }
 
-
 .fleetWrapper{
 	margin: 5px 0;
 	padding: 5px;
-	background: #000;
-	border: 1px solid rgba(188,188,188,0.5);
+	background: rgba(10, 14, 20, 0.96);
+	color: #d8d8d8;
+	border: 1px solid rgba(58, 118, 178, 0.38);
+	border-radius: 6px;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.02),
+		0 2px 6px rgba(0,0,0,0.28);
 }
+
+.fleetWrapper span,
+.fleetWrapper td{
+	color: #d8d8d8;
+}
+
+.fleetWrapper .fleets{
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.fleetWrapper a,
+.fleetWrapper .owndeploy{
+	color: #ffd400;
+	text-decoration: none;
+}
+
+.fleetWrapper a:hover,
+.fleetWrapper .owndeploy:hover{
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+/* Angriff rot */
+.fleetWrapper .attack,
+.fleetWrapper .attack span,
+.fleetWrapper a.attack,
+.fleetWrapper .ownattack,
+.fleetWrapper .ownattack span,
+.fleetWrapper a.ownattack {
+	color: #ff4d4d;
+	font-weight: bold;
+}
+
+/* Spionage in Flottenanzeige hellgelb */
+.fleetWrapper .ownespionage,
+.fleetWrapper .ownespionage span,
+.fleetWrapper a.ownespionage,
+.fleetWrapper .espionage,
+.fleetWrapper .espionage span,
+.fleetWrapper a.espionage {
+	color: #ffff66;
+	font-weight: bold;
+}
+
+/* Transport in Flottenanzeige grün */
+.fleetWrapper .owntransport,
+.fleetWrapper .owntransport span,
+.fleetWrapper a.owntransport,
+.fleetWrapper .transport,
+.fleetWrapper .transport span,
+.fleetWrapper a.transport {
+	color: #00ff66;
+	font-weight: bold;
+}
+
+/* Angriff Hover auch rot/hellrot */
+.fleetWrapper a.attack:hover,
+.fleetWrapper a.ownattack:hover {
+	color: #ff8080;
+	text-decoration: underline;
+}
+
 .fleetRow{
-	background-color:#151212;
+	background: rgba(14, 18, 26, 0.96);
 	margin: 1px 0;
-	color: #ddd;
+	color: #e0e0e0;
 	padding: 3px;
-	border: 1px solid rgba(197,164,61,0.5);
+	border: 1px solid rgba(70, 130, 190, 0.18);
 }
-/*-*/
 
 /*Global Messgae */
 
@@ -431,11 +601,7 @@ table{
 	color:#0F0
 }
 
-.res_name {
-	color:red;
-	font-weight:700
-}
-
+/* .res_name wird im Topnav-Bereich oben definiert. */
 .galaxy-alliance-member {
 	color:#99FF66!important;
 }
@@ -478,76 +644,91 @@ table{
 }
 
 .ownattack {
-	color:#6c3
+	color: #ff4d4d;
+	font-weight: bold;
+}
+
+.ownattack,
+.attack {
+	color: #ff4d4d;
+	font-weight: bold;
 }
 
 .owncolony {
-	color:#c1c1c1
+	color: #c1c1c1;
 }
 
 .owndeploy {
-	color:#666
+	color: #d8d8d8;
 }
 
 .owndestroy {
-	color:#ff9
+	color: #ffff99;
 }
 
 .ownfederation {
-	color:#c66
+	color: #cc6666;
 }
 
 .ownharvest {
-	color:#ceff68
+	color: #ceff68;
 }
 
 .ownhold {
-	color:#80a0c0
+	color: #80a0c0;
 }
 
 .destroy {
-	color:#d4a017
+	color: #d4a017;
 }
 
 .hold {
-	color:#39c
+	color: #3399cc;
 }
 
 .warning {
-	color:#FF8040
+	color: #ff8040;
 }
 
 .notice {
-	color:#FF0
+	color: #ffff00;
 }
 
 .return {
-	color:#444
+	color: #a8a8a8;
 }
 
-.allymember,.colony,.deploy,.harvest,.transport,.success {
-	color:lime
+.allymember,
+.colony,
+.deploy,
+.harvest,
+.transport,
+.success {
+	color: #00ff00;
 }
 
 .owntransport {
-	color:#a0ffa0
+	color: #a0ffa0;
 }
 
-.ownespionage,.ownmissile {
-	color:#fc6
+.ownespionage,
+.ownmissile {
+	color: #ffcc66;
 }
 
-.espionage,.missile {
-	color:#f60
+.espionage,
+.missile {
+	color: #ff6600;
 }
 
 .build_submit {
-    background: none repeat scroll 0 0 transparent;
-    border: 0 none;
-    color: lime;
+	background: none repeat scroll 0 0 transparent;
+	border: 0 none;
+	color: #00ff00;
 }
-.onlist{
-    color: #DDD;
+
+.onlist {
+	color: #dddddd;
 }
 
 /** HEADER **/
@@ -624,47 +805,132 @@ table{
 }
 
 /*button test */
-.menu-button a{
+/* Modernes linkes Spielmenü - dunkler und kompakter */
+.menu-button {
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+
+	margin: 2px 0;
+	min-height: 26px;
+
+	background: linear-gradient(
+		180deg,
+		rgba(34, 42, 56, 0.98) 0%,
+		rgba(20, 26, 38, 0.98) 52%,
+		rgba(11, 16, 25, 1) 100%
+	);
+
+	border: 1px solid rgba(58, 118, 178, 0.35);
+	border-radius: 6px;
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.05),
+		0 2px 4px rgba(0,0,0,0.35);
+
+	transition:
+		background 0.18s ease,
+		border-color 0.18s ease,
+		box-shadow 0.18s ease,
+		transform 0.18s ease;
+}
+
+.menu-button a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	width: 100%;
 	height: 100%;
-	color: #ddd;
+	min-height: 26px;
+	padding: 4px 10px;
+
+	color: #d7e2ef;
 	text-align: center;
-}
-.menu-button a:hover{
-	color: #999999;
-}
+	text-decoration: none;
 
-.menu-button {
-  cursor: pointer;
-  color: #12405f;
-	background: rgb(68,90,117);
-	background: linear-gradient(0deg, rgba(68,90,117,1) 27%, rgba(42,47,54,1) 95%);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
 
-  clip-path:
-      polygon(0 0, calc(100% - 10px) 0, 100% 10px,
-              100% 100%, 10px 100%,0 calc(100% - 10px)
-             );
-	transition: 0.3 ease;
+	text-shadow: 0 1px 2px rgba(0,0,0,0.85);
+
+	transition:
+		color 0.18s ease,
+		text-shadow 0.18s ease;
 }
 
-.menu-button:hover{
-	background:#2a2f36;
+.menu-button:hover {
+	background: linear-gradient(
+		180deg,
+		rgba(52, 72, 98, 1) 0%,
+		rgba(28, 45, 68, 1) 50%,
+		rgba(16, 28, 46, 1) 100%
+	);
+
+	border-color: rgba(84, 155, 220, 0.75);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.08),
+		0 0 8px rgba(45, 120, 200, 0.22),
+		0 2px 6px rgba(0,0,0,0.35);
+
+	transform: translateX(1px);
+}
+
+.menu-button:hover a {
+	color: #ffffff;
+	text-shadow:
+		0 0 4px rgba(90, 160, 230, 0.35),
+		0 1px 2px rgba(0,0,0,0.85);
+}
+
+/* Aktiver Menüpunkt */
+#menu .menuActive {
+	background: linear-gradient(
+		180deg,
+		rgba(28, 78, 125, 1) 0%,
+		rgba(16, 53, 92, 1) 52%,
+		rgba(10, 33, 62, 1) 100%
+	);
+
+	border-color: rgba(88, 170, 235, 0.9);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.10),
+		0 0 10px rgba(40, 125, 210, 0.28),
+		0 2px 6px rgba(0,0,0,0.35);
+}
+
+#menu .menuActive a {
+	color: #ffd600;
+	font-weight: 700;
+	text-shadow:
+		0 0 4px rgba(255, 214, 0, 0.18),
+		0 1px 2px rgba(0,0,0,0.85);
 }
 
 .tooltip-inner{
-	background: rgb(36,33,34);
-	background: linear-gradient(0deg, rgba(36,33,34,1) 44%, rgba(78,85,93,1) 100%);
-	border: 1px solid #000;
-	color: #ddd;
+	background: linear-gradient(
+		180deg,
+		rgba(34, 42, 56, 0.98) 0%,
+		rgba(20, 26, 38, 0.98) 100%
+	);
+	border: 1px solid rgba(58, 118, 178, 0.45);
+	color: #d7e2ef;
 	font-size: 12px!important;
 	max-width: 400px!important;
+	box-shadow:
+		0 4px 12px rgba(0,0,0,0.45),
+		0 0 8px rgba(45,120,200,0.15);
 }
 .tooltip.show {
-    opacity: 1;
+	opacity: 1;
 }
 .bs-tooltip-bottom .tooltip-arrow::before{
-  border-bottom-color: #736767!important; /* black */
+	border-bottom-color: rgba(34, 42, 56, 0.98)!important;
 }
+
 
 /**/
 
@@ -753,13 +1019,7 @@ table{
 	justify-content: center;
 }
 /* main.navigation.tpl */
-
-#menu .menuActive{
-	color: #ffd600;
-	background: #12405f;
-}
-
-
+/* menuActive wird im modernen Menüblock oben definiert. */
 
 @media only screen and (min-width: 576px) {
 
@@ -906,13 +1166,14 @@ System Container
 }
 
 .container-page {
-  border: 1px solid #524d4d;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  background: rgba(6, 5, 5, 0.8);
+  border: 1px solid rgba(58, 118, 178, 0.42);
+  border-radius: 6px;
+  background: rgba(10, 14, 20, 0.90);
   padding: 5px;
   overflow: visible;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.02),
+    0 0 8px rgba(45,120,200,0.12);
 }
 /* Test matz */
 .infos {
@@ -989,128 +1250,602 @@ Ritsch
 ****************/
 /* main.planetmenu.tpl */
 .pl_highlight {
-	border-radius: 50px 50px 50px 50px;
-	box-shadow: 0 0 5px #ffd700,
-				0 0 10px #ffd700,
-				0 0 13px #ffd700;
-	transition: 0.5s ease;
+	border-radius: 50%;
+	box-shadow:
+		0 0 4px rgba(255, 214, 0, 0.95),
+		0 0 9px rgba(255, 214, 0, 0.65),
+		0 0 14px rgba(255, 214, 0, 0.30);
+	transition:
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
 }
+
 .pl_hover:hover {
-	border-radius: 50px 50px 50px 50px;
-	box-shadow: 0 0 5px #9c0,
-				0 0 10px #9c0,
-				0 0 13px #9c0;
-	transition: 0.5s ease;
-} 
+	border-radius: 50%;
+	box-shadow:
+		0 0 4px rgba(90, 170, 255, 0.85),
+		0 0 9px rgba(90, 170, 255, 0.55),
+		0 0 14px rgba(90, 170, 255, 0.25);
+	transform: translateY(-1px);
+	transition:
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
+}
+/* =========================================================
+   QUESTS - modernes SteamNova Design
+   ========================================================= */
 
-/* Quest matz */
-/** Ajout du CSS des Quests **/
-.badge {
-	color: white;
-	padding: 4px 8px;
-	text-align: center;
-	border-radius: 5px;
+body#quests .quest_page,
+body.quests .quest_page,
+.quest_page {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(4, 9, 16, 0.94);
+    border: 1px solid #0d5d91;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+        0 0 12px rgba(0, 132, 255, 0.18),
+        inset 0 0 14px rgba(0, 45, 78, 0.22);
 }
 
-.badge.warning {
-	background-color: #BC622A;
+.quest_page_title {
+    padding: 9px 12px;
+    background: linear-gradient(
+        180deg,
+        rgba(18, 50, 78, 0.95),
+        rgba(7, 24, 39, 0.95)
+    );
+    border-bottom: 1px solid #0b5482;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(76, 179, 255, 0.35);
 }
 
-.badge.danger {
-	background-color: #AB3232;
-}
+/* =========================================================
+   QUEST LAYOUT
+   ========================================================= */
 
-.badge.success {
-	background-color: #298C2E;
-}
-
-.badge.info {
-	background-color: #29578C;
-}
-
+.quest_page > .quests,
 .quests {
-	display: flex;
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(2, 7, 12, 0.94);
+    border-radius: 13px;
+    overflow: hidden;
+}
+
+/* =========================================================
+   CATEGORY MENU
+   ========================================================= */
+
+.quests .categories {
+    flex: 0 0 135px;
+    width: 135px;
 }
 
 .quests .categories ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	cursor: pointer;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .quests .categories ul li {
-	padding: 20px;
-	border-left: 2px solid #FFFFFF;
+    display: block;
+    margin: 0 0 6px 0;
+    padding: 11px 10px;
+    box-sizing: border-box;
+    background: linear-gradient(
+        180deg,
+        rgba(17, 39, 59, 0.95),
+        rgba(8, 22, 35, 0.95)
+    );
+    border: 1px solid #164f76;
+    border-radius: 7px;
+    color: #d7e9f7;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease;
+}
+
+.quests .categories ul li:hover {
+    color: #ffffff;
+    border-color: #2697d5;
+    background: linear-gradient(
+        180deg,
+        rgba(21, 64, 96, 0.98),
+        rgba(10, 34, 52, 0.98)
+    );
+    box-shadow: 0 0 8px rgba(0, 157, 255, 0.22);
 }
 
 .quests .categories ul li.actif {
-	background: #444444;
-	border-radius: 0 10px 10px 0;
-	border-left: 2px solid #178531;
+    color: #ffe600;
+    border-color: #147db4;
+    background: linear-gradient(
+        180deg,
+        rgba(17, 67, 101, 0.98),
+        rgba(7, 34, 52, 0.98)
+    );
+    box-shadow:
+        0 0 10px rgba(0, 148, 255, 0.25),
+        inset 0 0 10px rgba(0, 79, 130, 0.25);
 }
+
+/* =========================================================
+   QUEST CONTENT
+   ========================================================= */
 
 .quests .quest_content {
-	margin-left: 20px;
-	width: 100%;
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 11px;
+    overflow: hidden;
 }
 
-.quests .quest_content .label_list {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-right: 10px;
+/* =========================================================
+   QUEST CARD
+   ========================================================= */
+
+.quest_page .quest_list,
+.quest_list {
+    position: relative;
+    margin: 0 0 10px 0;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    background: linear-gradient(
+        180deg,
+        rgba(12, 20, 29, 0.98),
+        rgba(6, 12, 19, 0.98)
+    );
+    border: 1px solid #174d70;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 12px rgba(0, 57, 91, 0.15),
+        0 0 8px rgba(0, 0, 0, 0.28);
 }
 
-.quests .quest_content .quest_list .reward {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.quest_list:last-child {
+    margin-bottom: 0;
 }
 
-.quests .quest_content .quest_list {
-	border-bottom: 1px solid #7E3A8A;
-	padding-bottom: 10px;
-	margin-top: 10px;
+.quest_list:hover {
+    border-color: #1d78aa;
+    box-shadow:
+        inset 0 0 14px rgba(0, 84, 128, 0.18),
+        0 0 10px rgba(0, 119, 187, 0.16);
 }
 
-/* Ajout du CSS PARTIE 5 */
-.quests .quest_content .quest_list .reward div {
-	width: 25%;
-	text-align: center;
-}
-/* Fin */
+/* =========================================================
+   TOP STATUS LINE
+   ========================================================= */
 
-.quests .quest_content .quest_list .reward div ul {
-	list-style: none;
-	padding: 0;
-}
-
-.quests .quest_content .quest_list .reward div button {
-	background: transparent;
-	border: 1px solid #31AB35;
-	padding: 10px;
-	border-radius: 5px;
+.quest_list .label_list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
 }
 
+.quest_list .label_list > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
 
-.quests .quest_content .quest_list .reward div button { background: transparent; border: 1px solid #31AB35; padding: 10px; border-radius: 5px; color: #FFFFFF; }
+/* =========================================================
+   BADGES
+   ========================================================= */
 
-/** ADDON PART 5 **/
+.quest_list .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 20px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.quest_list .badge.info {
+    color: #d7f0ff;
+    background: #075889;
+    border-color: #1778ad;
+}
+
+.quest_list .badge.danger {
+    color: #ffffff;
+    background: #9a3038;
+    border-color: #c74d56;
+}
+
+.quest_list .badge.warning {
+    color: #fff6dc;
+    background: #98611f;
+    border-color: #c7812f;
+}
+
+.quest_list .badge.success {
+    color: #dfffe8;
+    background: #19713b;
+    border-color: #2fa459;
+}
+
+.quest_event_badge {
+    margin-right: 0 !important;
+}
+
+/* =========================================================
+   TITLE + DESCRIPTION
+   ========================================================= */
+
+.quest_list .title_quest {
+    margin: 0 0 5px 0;
+}
+
+.quest_list .title_quest h2 {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.quest_description {
+    margin: 0 0 12px 0;
+    color: #aebdca;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* =========================================================
+   REWARD / OBJECTIVE / ACTION
+   ========================================================= */
+
+.quest_page .reward > div {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    float: none !important;
+    clear: none !important;
+    margin: 0 !important;
+}
+
+.quest_page .quest_list .reward,
+.quest_list .reward {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+    gap: 10px 14px;
+    align-items: center;
+    width: 100%;
+    padding: 12px 0 0 0;
+    margin: 10px 0 0 0;
+    border-top: 1px solid rgba(24, 94, 139, 0.55);
+}
+
+/* =========================================================
+   REWARDS - 2 x 2 GRID
+   ========================================================= */
+
+.quest_page .quest_rewards,
+.quest_rewards {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+.quest_page .quest_rewards ul,
+.quest_rewards ul {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 6px 10px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.quest_page .quest_rewards ul li,
+.quest_rewards li {
+    display: grid;
+    grid-template-columns:
+        minmax(65px, auto)
+        minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    min-width: 0;
+    min-height: 27px;
+    margin: 0;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    background: linear-gradient(
+        180deg,
+        rgba(11, 31, 45, 0.90),
+        rgba(5, 18, 28, 0.92)
+    );
+    border: 1px solid rgba(23, 86, 124, 0.70);
+    border-radius: 6px;
+    color: #d7e1e8;
+    font-size: 11px;
+}
+
+.quest_page .quest_reward_amount,
+.quest_reward_amount {
+    display: block;
+    min-width: 0;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.quest_page .quest_reward_name,
+.quest_reward_name {
+    display: block;
+    min-width: 0;
+    color: #b8cedd;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   OBJECTIVE
+   ========================================================= */
+
+.quest_page .quest_objective,
+.quest_objective {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    min-height: 32px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    background: rgba(7, 30, 44, 0.90);
+    border: 1px solid #185777;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.quest_page .quest_objective_value,
+.quest_objective_value {
+    color: #ffe600;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.quest_page .quest_objective_name,
+.quest_objective_name {
+    color: #d8e8f2;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   ACTION BUTTON
+   ========================================================= */
+
+.quest_page .quest_action,
+.quest_action {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.quest_action button,
+.quest_finish_button {
+    width: 115px;
+    max-width: 115px;
+    min-height: 30px;
+    padding: 5px 10px;
+    margin: 0;
+    border: 1px solid #00a85c;
+    border-radius: 6px;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 72, 47, 0.95),
+        rgba(0, 37, 27, 0.98)
+    );
+    color: #00ff88;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow:
+        0 0 7px rgba(0, 255, 136, 0.14),
+        inset 0 0 7px rgba(0, 112, 73, 0.20);
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.quest_action button:hover,
+.quest_finish_button:hover {
+    border-color: #00dc78;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 96, 59, 0.98),
+        rgba(0, 53, 35, 0.98)
+    );
+    box-shadow:
+        0 0 10px rgba(0, 255, 136, 0.22),
+        inset 0 0 10px rgba(0, 120, 78, 0.24);
+}
+
+.quest_action button:disabled,
+.quest_finish_button:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+.quest_page .reward > .progresse_bar_border,
+.progresse_bar_border {
+    grid-column: 2;
+    position: relative;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: 28px;
+    margin: 0;
+    box-sizing: border-box;
+    background: rgba(2, 8, 13, 0.95);
+    border: 1px solid #12547b;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progresseBar {
+    position: relative;
+    height: 100%;
+    min-width: 0;
+    border-radius: 4px;
+    transition:
+        width 0.35s ease,
+        background 0.25s ease;
+}
+
+.progresseBar span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px #000000;
+}
+
+.progresseBar.progress-low {
+    background: linear-gradient(90deg, #7d252d, #b23741);
+}
+
+.progresseBar.progress-medium {
+    background: linear-gradient(90deg, #89521f, #c87b27);
+}
+
+.progresseBar.progress-high {
+    background: linear-gradient(90deg, #176a38, #25a654);
+}
+
+/* =========================================================
+   EMPTY MESSAGE
+   ========================================================= */
+
+.quest_empty {
+    padding: 25px 15px;
+    text-align: center;
+}
+
+.quest_empty h2 {
+    margin: 0;
+    color: #9eb5c5;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+    .quests {
+        flex-direction: column;
+    }
+
+    .quests .categories {
+        width: 100%;
+        flex: none;
+    }
+
+    .quests .categories ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .quests .categories ul li {
+        flex: 1 1 120px;
+        margin: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .quest_page .quest_rewards ul,
+    .quest_rewards ul {
+        grid-template-columns: 1fr;
+    }
+
+    .quest_page .quest_list .reward,
+    .quest_list .reward {
+        grid-template-columns: 1fr;
+    }
+
+    .quest_page .quest_objective,
+    .quest_page .quest_action,
+    .quest_page .reward > .progresse_bar_border,
+    .quest_objective,
+    .quest_action,
+    .progresse_bar_border {
+        grid-column: 1;
+    }
+
+    .quest_page .quest_action,
+    .quest_action {
+        justify-content: flex-start;
+    }
+}
+
+/* Fortschrittsbalken */
 .progresse_bar_border {
 	width: 25%;
-    border: 1px solid;
-    border-radius: 5px;
-    margin-right: 10px;
+	border: 1px solid #00345c;
+	border-radius: 4px;
+	margin-right: 10px;
 	overflow: hidden;
+	background: #050505;
+	box-shadow: 0 0 6px rgba(0,75,135,0.55);
 }
 
 .progresse_bar_border .progresseBar {
 	height: 20px;
-	background-color: #04AA6D;
-	text-align: center; 
+	background-color: #005fa3;
+	text-align: center;
 	line-height: 20px;
-	color: white;
+	color: #ffffff;
+	box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
 }
 
 .progresse_bar_border .progresseBar span {
@@ -1168,4 +1903,109 @@ Ritsch
     min-width: 20px;
     text-align: center;
     font-size: 16px;
+}
+
+/* ================================
+   U700 Fleet / Table polish
+   Runde Kanten für Tabellen, Felder und kleine Buttons
+   ================================ */
+
+.table-gow input,
+.table-gow select,
+.table-gow button {
+	border-radius: 5px;
+	border: 1px solid rgba(92, 132, 170, 0.55);
+	background: rgba(18, 24, 34, 0.96);
+	color: #d7e2ef;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.03),
+		0 1px 3px rgba(0,0,0,0.30);
+	transition:
+		border-color 0.18s ease,
+		background 0.18s ease,
+		box-shadow 0.18s ease;
+}
+
+.table-gow input:hover,
+.table-gow select:hover,
+.table-gow button:hover {
+	border-color: rgba(84, 155, 220, 0.75);
+	background: rgba(24, 34, 48, 0.98);
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.04),
+		0 0 6px rgba(45,120,200,0.14);
+}
+
+.table-gow input:focus,
+.table-gow select:focus {
+	outline: none;
+	border-color: rgba(90, 170, 235, 0.90);
+	box-shadow:
+		0 0 0 1px rgba(90,170,235,0.18),
+		0 0 7px rgba(45,120,200,0.16);
+}
+
+.button-blue {
+	border-radius: 5px;
+	border: 1px solid rgba(84, 155, 220, 0.55);
+	background: linear-gradient(
+		180deg,
+		rgba(39, 83, 126, 0.96) 0%,
+		rgba(25, 57, 90, 0.98) 100%
+	);
+	color: #dce9f7;
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.05),
+		0 2px 4px rgba(0,0,0,0.28);
+	transition:
+		background 0.18s ease,
+		border-color 0.18s ease,
+		box-shadow 0.18s ease;
+}
+
+.button-blue:hover {
+	background: linear-gradient(
+		180deg,
+		rgba(48, 102, 155, 0.98) 0%,
+		rgba(29, 70, 111, 1) 100%
+	);
+	border-color: rgba(98, 177, 240, 0.78);
+	box-shadow:
+		inset 0 1px 0 rgba(255,255,255,0.06),
+		0 0 7px rgba(45,120,200,0.18);
+}
+
+/* Tabellenköpfe und erste/letzte sichtbare Zellen etwas weicher */
+.table-gow thead tr:first-child th:first-child,
+.table-gow tbody tr:first-child td:first-child {
+	border-top-left-radius: 6px;
+}
+
+.table-gow thead tr:first-child th:last-child,
+.table-gow tbody tr:first-child td:last-child {
+	border-top-right-radius: 6px;
+}
+
+.table-gow tbody tr:last-child td:first-child {
+	border-bottom-left-radius: 6px;
+}
+
+.table-gow tbody tr:last-child td:last-child {
+	border-bottom-right-radius: 6px;
+}
+
+/* Flottenboxen */
+.fleetWrapper {
+	border-radius: 7px;
+	overflow: hidden;
+}
+
+.fleetRow:first-child {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.fleetRow:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }

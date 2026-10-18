@@ -49,7 +49,7 @@ if(!defined('CACHE_PATH')) {
 	define('CACHE_PATH', ROOT_PATH.'cache/');
 }
 
-define('DISCORD_URL'				, 'https://discord.gg/buzwPuna');
+define('DISCORD_URL'				, 'https://discord.gg/4hZesFNSM2');
 
 define('COMBAT_ENGINE'				, 'xnova');
 
@@ -78,7 +78,7 @@ define('FACTOR_CANCEL_SHIPYARD'		, 0.6);
 define('MIN_FLEET_TIME'				, 5);
 
 // PHALANX COST'S
-define('PHALANX_DEUTERIUM'			, 5000);
+define('PHALANX_DEUTERIUM'			, 10000);
 
 // Time of changable nick after changing nick.
 define('USERNAME_CHANGETIME'		, 604800);
@@ -97,7 +97,7 @@ define('BANNED_USERS_PER_PAGE'		, 25);
 define('COMPARE_IP_BLOCKS'			, 2);
 
 // Max Round on Combats
-define('MAX_ATTACK_ROUNDS'			, 6);
+define('MAX_ATTACK_ROUNDS'			, 5);
 
 // Enable the one-Click SImulation on Spy-Raports
 define('ENABLE_SIMULATOR_LINK'		, true);
@@ -138,7 +138,7 @@ define('SPY_VIEW_FACTOR'			, 1);
 // Bash Settings
 define('BASH_ON'					, true);
 define('BASH_COUNT'					, 2);
-define('BASH_TIME'					, 86400);
+define('BASH_TIME'					, 172800);
 
 // Bash rule on wars:
 // 0 = NORMAL

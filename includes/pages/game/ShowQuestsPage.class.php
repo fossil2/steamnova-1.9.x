@@ -11,36 +11,45 @@
 
 class ShowQuestsPage extends AbstractGamePage
 {
-	public static $requireModule = 0;
+    public static $requireModule = 0;
 
-	function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	function show()
-	{
-		global $USER, $LNG;
+    public function show()
+    {
+        global $LNG;
 
         $db = Database::get();
 
         $list_cat = [];
-        $sql_cat_list = "SELECT questsCategories FROM %%QUESTS_CATEGORIES%% ORDER BY questsCategories ;";
+
+        $sql_cat_list = "SELECT questsCategories FROM %%QUESTS_CATEGORIES%% ORDER BY questsCategories;";
         $result_cat_list = $db->select($sql_cat_list);
-        
-        foreach($result_cat_list as $categories) {
+
+        foreach ($result_cat_list as $categories) {
+
+            $categoryId = (int) $categories['questsCategories'];
+            $langKey = 'quest_categorie_' . $categoryId;
+
+            $categoryName = isset($LNG[$langKey])
+                ? $LNG[$langKey]
+                : 'Kategorie ' . $categoryId;
+
             $list_cat[] = [
-                "id_cat" => $categories['questsCategories'],
-                "name_cat" => $LNG["quest_categorie_".$categories['questsCategories']],
+                'id_cat'   => $categoryId,
+                'name_cat' => $categoryName,
             ];
         }
 
-        $this->tplObj->loadscript('quests.js');
-
-		$this->assign([
-            "result_cat_list" => $list_cat,
+        $this->assign([
+            'result_cat_list' => $list_cat,
         ]);
 
-		$this->display('page.quests.default.tpl');
-	}
+        $this->tplObj->loadscript('quests.js');
+
+        $this->display('page.quests.default.tpl');
+    }
 }

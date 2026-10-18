@@ -87,66 +87,116 @@ $LNG['cronjob_asteroid_msg_user_event_close'] = "Das Asteroiden-Event ist vorbei
 $LNG['type_mission_19']	= 'Saveflug';
 $LNG['modul_51'] = 'Mission - Save'; 
 
-// Mods Quests DE
+// =========================================================
+// MOD QUESTS - DEUTSCH
+// =========================================================
+
 $LNG['quest_categorie_1'] = "Konstruktion";
 $LNG['quest_categorie_2'] = "Forschung";
 $LNG['quest_categorie_3'] = "Flotten";
 $LNG['quest_categorie_4'] = "Verteidigung";
 $LNG['quest_categorie_5'] = "Offiziere";
-$LNG['quest_01']          = "Erstellen Sie eine Kategorie";
-$LNG['quest_02']          = "Erstelle ein Quest";
-$LNG['quest_03']          = "Aktive Aufgabe";
-$LNG['quest_04']          = "Wählen Sie eine Kategorie*";
-$LNG['quest_05']          = "Quest Name*";
-$LNG['quest_06']          = "Quest Beschreibung";
-$LNG['quest_07']          = "Ziel";
-$LNG['quest_08']          = "Zielniveau";
-$LNG['quest_09']          = "Prämienpunkte";
-$LNG['quest_10']          = "Belohnung für";
-$LNG['quest_11']          = "Hinzufügen";
-$LNG['quest_12']          = "Kategorie erstellen";
-$LNG['quest_13']          = "Event-Mission";
-$LNG['quest_14']          = "Event-Ende";
-$LNG['quest_15']          = "Erstelle die Quest";
-$LNG['quest_16']          = "Event-Ende";
-$LNG['quest_17']          = "Kategorielisten";
-$LNG['quest_18']          = "Questlisten";
-$LNG['quest_19']          = "Quest-ID";
-$LNG['quest_20']          = "Belohnungen";
-$LNG['quest_21']          = "Spiel Aufträge";
-$LNG['quest_22']          = "Belohnungen";
-$LNG['quest_23']          = "Kategorie";
-$LNG['quest_24']          = "Beschreibung";
-$LNG['quest_25']          = "Objektiv";
-$LNG['quest_26']          = "Quest aktiv";
-$LNG['quest_27']          = "Erstellen";
-$LNG['quest_28']          = "Spezialmission";
-$LNG['quest_29']          = "Spezialmission abgelaufen";
-$LNG['quest_30']          = "Aktion";
-$LNG['quest_31']          = "Objektiv";
-$LNG['quest_32']          = "Keine Quest verfügbar für diese Kategorie.";
-$LNG['quest_33']          = "Nicht gestartet";
-$LNG['quest_34']          = "Quest abgeschlossen";
-$LNG['quest_35']          = "Die von Ihnen gewählte Kategorie existiert nicht";
-$LNG['quest_36']          = "Kategorie Auswählen";
-$LNG['quest_37']          = "Diese Kategorienummer existiert bereits, bitte navigieren Sie zur Liste";
-$LNG['quest_38']          = "abgeschlossen";
-$LNG['quest_39']          = "Event-Ende";
-$LNG['quest_40']          = "In Bearbeitung";
-$LNG['quest_41']          = "Fertig";
-$LNG['quest_42']          = "Es tut mir leid, aber derzeit ist kein Inhalt verfügbar.";
 
-// Mods Quests DE ADMIN
+$LNG['quest_01'] = "Kategorie erstellen";
+$LNG['quest_02'] = "Quest erstellen";
+$LNG['quest_03'] = "Aktive Quest";
+$LNG['quest_04'] = "Kategorie auswählen*";
+$LNG['quest_05'] = "Quest-Name*";
+$LNG['quest_06'] = "Quest-Beschreibung";
+$LNG['quest_07'] = "Ziel";
+$LNG['quest_08'] = "Zielstufe";
+$LNG['quest_09'] = "Belohnungspunkte";
+$LNG['quest_10'] = "Belohnung";
+$LNG['quest_11'] = "Hinzufügen";
+$LNG['quest_12'] = "Kategorie erstellen";
+$LNG['quest_13'] = "Event-Mission";
+$LNG['quest_14'] = "Event-Ende";
+$LNG['quest_15'] = "Quest erstellen";
+$LNG['quest_16'] = "Event-Ende";
+$LNG['quest_17'] = "Kategorien";
+$LNG['quest_18'] = "Quests";
+$LNG['quest_19'] = "Quest-ID";
+
+$LNG['quest_20'] = "Quest starten";
+$LNG['quest_21'] = "Spielaufträge";
+$LNG['quest_22'] = "Belohnungen";
+$LNG['quest_23'] = "Kategorie";
+$LNG['quest_24'] = "Beschreibung";
+$LNG['quest_25'] = "Ziel";
+$LNG['quest_26'] = "Quest aktiv";
+$LNG['quest_27'] = "Erstellen";
+$LNG['quest_28'] = "Spezialmission";
+$LNG['quest_29'] = "Spezialmission abgelaufen";
+$LNG['quest_30'] = "Aktion";
+$LNG['quest_31'] = "Ziel";
+
+$LNG['quest_32'] = "Für diese Kategorie sind keine Quests verfügbar.";
+$LNG['quest_33'] = "Nicht gestartet";
+$LNG['quest_34'] = "Dieses Event ist bereits beendet.";
+$LNG['quest_35'] = "Die gewählte Kategorie existiert nicht.";
+$LNG['quest_36'] = "Kategorie auswählen";
+$LNG['quest_37'] = "Diese Kategorienummer existiert bereits.";
+$LNG['quest_38'] = "Abgeschlossen";
+$LNG['quest_39'] = "Event-Ende:";
+$LNG['quest_40'] = "In Bearbeitung";
+$LNG['quest_41'] = "Fertig";
+$LNG['quest_42'] = "Derzeit sind keine Quest-Inhalte verfügbar.";
+$LNG['quest_loading']     = "Quests werden geladen ...";
+
+
+// =========================================================
+// ZUSÄTZLICHE QUEST-TEXTE
+// =========================================================
+
+$LNG['quest_event'] = "Event";
+$LNG['quest_event_finished'] = "Event beendet";
+
+$LNG['quest_error_not_exists'] =
+    "Diese Quest existiert nicht mehr.";
+
+$LNG['quest_error_not_active'] =
+    "Diese Quest ist nicht aktiv.";
+
+$LNG['quest_error_already_accepted'] =
+    "Du hast diese Quest bereits angenommen.";
+
+$LNG['quest_error_invalid_target'] =
+    "Ungültiges Quest-Ziel.";
+
+$LNG['quest_error_not_found'] =
+    "Quest wurde nicht gefunden.";
+
+$LNG['quest_error_already_finished'] =
+    "Du hast diese Quest bereits abgeschlossen.";
+
+$LNG['quest_started'] =
+    "Die Quest „%s“ wurde gestartet.";
+
+$LNG['quest_finish_success'] =
+    "Quest abgeschlossen. Die Belohnungen wurden deinem Konto gutgeschrieben.";
+
+$LNG['quest_finish_invalid'] =
+    "Die Voraussetzungen für den Abschluss der Quest sind noch nicht erfüllt.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
 $LNG['adm_quest_info_title'] = "Betriebsinformationen";
+
 $LNG['adm_quest_info_content'] = "
 <p>Um dieses Mod optimal zu nutzen, empfehlen wir Folgendes:</p>
+
 <ul style='margin-top: 20px;'>
     <li style='padding-bottom: 10px;'>1 - Erstelle alle benötigten Kategorien</li>
-    <li style='padding-bottom: 10px;'>2 - Aktualisiere die Seite, um die Kategorien in die Quest (Auswahlliste) aufzunehmen</li>
+    <li style='padding-bottom: 10px;'>2 - Aktualisiere die Seite, damit die Kategorien in der Quest-Auswahlliste erscheinen</li>
     <li style='padding-bottom: 10px;'>3 - Erstelle deine verschiedenen Quests</li>
 </ul>
-<p style='color: red; font-weight: bold; size: 18; margin-top: 10px;'>Achtung: Auch wenn du Kategorien hinzufügst, die nicht im Quellcode enthalten sind, können diese nicht von den Spielern abgeschlossen werden.</p>
-";
 
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Achtung: Kategorien, die nicht vom Quest-System unterstützt werden, können von Spielern möglicherweise nicht abgeschlossen werden.
+</p>
+";
 
 

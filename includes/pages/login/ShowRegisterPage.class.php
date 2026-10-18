@@ -172,9 +172,11 @@ class ShowRegisterPage extends AbstractLoginPage
 			$error[]	= $LNG['registerErrorRules'];
 		}
 
-		if ($_COOKIE['csrfToken'] != $csrfToken) {
-			$error[] = "csrf attack";
-		}
+		$csrfCookie = $_COOKIE['csrfToken'] ?? '';
+
+        if (empty($csrfToken) || empty($csrfCookie) || !hash_equals($csrfCookie, $csrfToken)) {
+            $error[] = $LNG['registerErrorCSRF'] ?? 'Ungültige Anfrage. Bitte lade die Registrierungsseite neu.';
+        }
 
 		$db = Database::get();
 
@@ -231,7 +233,7 @@ class ShowRegisterPage extends AbstractLoginPage
             $resp = $recaptcha->verify(HTTP::_GP('g-recaptcha-response', ''), Session::getClientIp());
             if (!$resp->isSuccess())
             {
-                $errors[]	= $LNG['registerErrorCaptcha'];
+                $error[]	= $LNG['registerErrorCaptcha'];
             }
 		}
 

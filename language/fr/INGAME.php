@@ -12,6 +12,23 @@ $LNG['fs_percantage'] = "%";
 $LNG['fs_time_hours'] = "Heure";
 $LNG['fs_time_seconds'] = "Seconde";
 $LNG['fs_time_minutes'] = "Minute";
+
+// Tâches de quête générées automatiquement
+$LNG['quest_task_build']    = 'Construire : %s';
+$LNG['quest_task_research'] = 'Rechercher : %s';
+$LNG['quest_task_fleet']    = 'Construire une flotte : %s';
+$LNG['quest_task_defense']  = 'Construire une défense : %s';
+$LNG['quest_task_officer']  = 'Améliorer l’officier : %s';
+
+$LNG['quest_desc_build']    = 'Améliorez %s de %d niveau(x).';
+$LNG['quest_desc_research'] = 'Recherchez %s de %d niveau(x).';
+$LNG['quest_desc_fleet']    = 'Construisez %d unité(s) de %s.';
+$LNG['quest_desc_defense']  = 'Construisez %d unité(s) de %s.';
+$LNG['quest_desc_officer']  = 'Améliorez %s de %d niveau(x).';
+
+$LNG['quest_select_task']   = 'Sélectionner une tâche';
+$LNG['quest_task_type']     = 'Type de tâche';
+$LNG['quest_target']        = 'Objectif';
  
 // Module déplacer
 $LNG['cm_error_1'] = "Impossible de collecter en mode vacances !";
@@ -1354,6 +1371,15 @@ $LNG['tut_m9_gain']                         = '<font color="orange">Récompense 
 $LNG['tut_m9_ready']                        = 'Félicitations, vous avez terminé la mission 9 du tutoriel !<br>Vous avez déjà reçu 5000 Matière Noire !';
 $LNG['tut_compleat']                        = 'Vous avez terminé avec succès toutes les missions !';
 
+$LNG['kb_fleets_stood_against']   = 'Les flottes suivantes se sont affrontées';
+$LNG['kb_round']                  = 'Tour de combat';
+$LNG['kb_attacker_before_round']  = 'Attaquant avant le tour';
+$LNG['kb_defender_before_round']  = 'Défenseur avant le tour';
+$LNG['kb_attacker_after_round']   = 'Attaquant après le tour';
+$LNG['kb_defender_after_round']   = 'Défenseur après le tour';
+$LNG['kb_repaired_defense']       = 'Défense réparée';
+$LNG['kb_moon_chance']            = 'Chance de formation d’une lune';
+$LNG['kb_moon_created']           = 'Une grande quantité de débris a formé une lune !';
 
 
 

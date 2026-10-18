@@ -75,6 +75,115 @@ $LNG['cronjob_asteroid_msg_from'] = "Sistema de Evento";
 $LNG['cronjob_asteroid_msg_to'] = "Mensagem do Evento";
 $LNG['cronjob_asteroid_msg_user_event_close'] = "O evento de asteroides terminou, todos os asteroides foram destruídos.";
 
+//Quest
+$LNG['quest_categorie_1'] = "Construção";
+$LNG['quest_categorie_2'] = "Pesquisa";
+$LNG['quest_categorie_3'] = "Frota";
+$LNG['quest_categorie_4'] = "Defesa";
+$LNG['quest_categorie_5'] = "Oficiais";
+
+$LNG['quest_01'] = "Criar categoria";
+$LNG['quest_02'] = "Criar missão";
+$LNG['quest_03'] = "Missão ativa";
+$LNG['quest_04'] = "Selecionar categoria*";
+$LNG['quest_05'] = "Nome da missão*";
+$LNG['quest_06'] = "Descrição da missão";
+$LNG['quest_07'] = "Objetivo";
+$LNG['quest_08'] = "Nível alvo";
+$LNG['quest_09'] = "Pontos de recompensa";
+$LNG['quest_10'] = "Recompensa";
+$LNG['quest_11'] = "Adicionar";
+$LNG['quest_12'] = "Criar categoria";
+$LNG['quest_13'] = "Missão de evento";
+$LNG['quest_14'] = "Fim do evento";
+$LNG['quest_15'] = "Criar missão";
+$LNG['quest_16'] = "Fim do evento";
+$LNG['quest_17'] = "Categorias";
+$LNG['quest_18'] = "Missões";
+$LNG['quest_19'] = "ID da missão";
+
+$LNG['quest_20'] = "Iniciar missão";
+$LNG['quest_21'] = "Missões do jogo";
+$LNG['quest_22'] = "Recompensas";
+$LNG['quest_23'] = "Categoria";
+$LNG['quest_24'] = "Descrição";
+$LNG['quest_25'] = "Objetivo";
+$LNG['quest_26'] = "Missão ativa";
+$LNG['quest_27'] = "Criar";
+$LNG['quest_28'] = "Missão especial";
+$LNG['quest_29'] = "Missão especial expirada";
+$LNG['quest_30'] = "Ação";
+$LNG['quest_31'] = "Objetivo";
+
+$LNG['quest_32'] = "Não existem missões disponíveis nesta categoria.";
+$LNG['quest_33'] = "Não iniciada";
+$LNG['quest_34'] = "Este evento já terminou.";
+$LNG['quest_35'] = "A categoria selecionada não existe.";
+$LNG['quest_36'] = "Selecionar categoria";
+$LNG['quest_37'] = "Este número de categoria já existe.";
+$LNG['quest_38'] = "Concluída";
+$LNG['quest_39'] = "Fim do evento:";
+$LNG['quest_40'] = "Em andamento";
+$LNG['quest_41'] = "Concluído";
+$LNG['quest_42'] = "Atualmente não há conteúdo de missões disponível.";
+$LNG['quest_loading'] = "A carregar missões ...";
+
+
+// =========================================================
+// TEXTOS ADICIONAIS DAS MISSÕES
+// =========================================================
+
+$LNG['quest_event'] = "Evento";
+$LNG['quest_event_finished'] = "Evento terminado";
+
+$LNG['quest_error_not_exists'] =
+    "Esta missão já não existe.";
+
+$LNG['quest_error_not_active'] =
+    "Esta missão não está ativa.";
+
+$LNG['quest_error_already_accepted'] =
+    "Já aceitaste esta missão.";
+
+$LNG['quest_error_invalid_target'] =
+    "Objetivo de missão inválido.";
+
+$LNG['quest_error_not_found'] =
+    "A missão não foi encontrada.";
+
+$LNG['quest_error_already_finished'] =
+    "Já concluíste esta missão.";
+
+$LNG['quest_started'] =
+    "A missão «%s» foi iniciada.";
+
+$LNG['quest_finish_success'] =
+    "Missão concluída. As recompensas foram creditadas na tua conta.";
+
+$LNG['quest_finish_invalid'] =
+    "Os requisitos para concluir esta missão ainda não foram cumpridos.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
+$LNG['adm_quest_info_title'] = "Informações de funcionamento";
+
+$LNG['adm_quest_info_content'] = "
+<p>Para utilizar este mod da melhor forma, recomendamos o seguinte:</p>
+
+<ul style='margin-top: 20px;'>
+    <li style='padding-bottom: 10px;'>1 - Cria todas as categorias necessárias</li>
+    <li style='padding-bottom: 10px;'>2 - Atualiza a página para que as categorias apareçam na lista de seleção de missões</li>
+    <li style='padding-bottom: 10px;'>3 - Cria as diferentes missões</li>
+</ul>
+
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Atenção: categorias que não sejam suportadas pelo sistema de missões podem não ser concluídas pelos jogadores.
+</p>
+";
+
 // Salvar missão
 $LNG['type_mission_19']	= 'Voo de Salvamento';
 $LNG['modul_51'] = 'Missão - Salvar';

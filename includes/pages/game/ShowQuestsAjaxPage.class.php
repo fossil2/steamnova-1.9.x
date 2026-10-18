@@ -13,145 +13,581 @@ class ShowQuestsAjaxPage extends AbstractGamePage
 {
     public static $requireModule = 0;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->setWindow('ajax');
     }
 
-    function show()
+
+    /**
+     * Automatische Quest-Texte in der aktuell
+     * geladenen Sprache erzeugen.
+     *
+     * Alte Quests ohne AUTO: bleiben unverändert.
+     */
+    private function getQuestLanguageText(
+        string $storedTitle,
+        string $storedDescription,
+        int $objectiveId,
+        int $objectiveLevel
+    ): array {
+        global $LNG;
+
+        /*
+         * Alte Quest mit fest gespeichertem Titel.
+         */
+        if (strpos($storedTitle, 'AUTO:') !== 0) {
+            return [
+                'title'       => $storedTitle,
+                'description' => $storedDescription,
+            ];
+        }
+
+        $type = substr($storedTitle, 5);
+
+        $allowedTypes = [
+            'build',
+            'research',
+            'fleet',
+            'defense',
+            'officer',
+        ];
+
+        if (
+            !in_array($type, $allowedTypes, true)
+            || !isset($LNG['tech'][$objectiveId])
+        ) {
+            return [
+                'title'       => $storedTitle,
+                'description' => $storedDescription,
+            ];
+        }
+
+        $objectName = $LNG['tech'][$objectiveId];
+
+        switch ($type) {
+
+            case 'build':
+
+                $title = isset($LNG['quest_task_build'])
+                    ? sprintf(
+                        $LNG['quest_task_build'],
+                        $objectName
+                    )
+                    : $objectName;
+
+                $description = isset($LNG['quest_desc_build'])
+                    ? sprintf(
+                        $LNG['quest_desc_build'],
+                        $objectName,
+                        $objectiveLevel
+                    )
+                    : $objectName;
+
+                break;
+
+
+            case 'research':
+
+                $title = isset($LNG['quest_task_research'])
+                    ? sprintf(
+                        $LNG['quest_task_research'],
+                        $objectName
+                    )
+                    : $objectName;
+
+                $description = isset($LNG['quest_desc_research'])
+                    ? sprintf(
+                        $LNG['quest_desc_research'],
+                        $objectName,
+                        $objectiveLevel
+                    )
+                    : $objectName;
+
+                break;
+
+
+            case 'fleet':
+
+                $title = isset($LNG['quest_task_fleet'])
+                    ? sprintf(
+                        $LNG['quest_task_fleet'],
+                        $objectName
+                    )
+                    : $objectName;
+
+                $description = isset($LNG['quest_desc_fleet'])
+                    ? sprintf(
+                        $LNG['quest_desc_fleet'],
+                        $objectiveLevel,
+                        $objectName
+                    )
+                    : $objectName;
+
+                break;
+
+
+            case 'defense':
+
+                $title = isset($LNG['quest_task_defense'])
+                    ? sprintf(
+                        $LNG['quest_task_defense'],
+                        $objectName
+                    )
+                    : $objectName;
+
+                $description = isset($LNG['quest_desc_defense'])
+                    ? sprintf(
+                        $LNG['quest_desc_defense'],
+                        $objectiveLevel,
+                        $objectName
+                    )
+                    : $objectName;
+
+                break;
+
+
+            case 'officer':
+
+                $title = isset($LNG['quest_task_officer'])
+                    ? sprintf(
+                        $LNG['quest_task_officer'],
+                        $objectName
+                    )
+                    : $objectName;
+
+                $description = isset($LNG['quest_desc_officer'])
+                    ? sprintf(
+                        $LNG['quest_desc_officer'],
+                        $objectName,
+                        $objectiveLevel
+                    )
+                    : $objectName;
+
+                break;
+
+
+            default:
+
+                $title = $storedTitle;
+                $description = $storedDescription;
+
+                break;
+        }
+
+        return [
+            'title'       => $title,
+            'description' => $description,
+        ];
+    }
+
+
+    /**
+     * Quest-Liste anzeigen.
+     */
+    public function show()
     {
         global $LNG, $USER;
 
-        extract($_GET);
-
         $db = Database::get();
 
-        if (empty($categorie_id)) {
+        $categorie_id = isset($_GET['categorie_id'])
+            ? (int) $_GET['categorie_id']
+            : 1;
+
+        if ($categorie_id <= 0) {
             $categorie_id = 1;
         }
 
-        $sql_cat = "SELECT * FROM %%QUESTS_CATEGORIES%% ;";
-        $result_cat = $db->select($sql_cat);
+        /*
+         * Kategorien laden.
+         */
+        $result_cat = $db->select(
+            "SELECT * FROM %%QUESTS_CATEGORIES%%;"
+        );
 
-        $sql = "SELECT ql.*, qu.* FROM %%QUESTS_LISTS%% ql
-            LEFT JOIN %%QUESTS_USERS%% qu ON qu.user_questsID = ql.questsID AND qu.userId = :userID
-            WHERE ql.quest_actif = 1 AND ql.questsCategories = :idCat
-            ORDER BY ql.questsID ;";
-        
-        $result = $db->select($sql, [":idCat" => $categorie_id, ":userID" => $USER['id']]);
+        /*
+         * Aktive Quests dieser Kategorie laden.
+         */
+        $sql = "SELECT ql.*, qu.*
+FROM %%QUESTS_LISTS%% ql
+LEFT JOIN %%QUESTS_USERS%% qu
+    ON qu.user_questsID = ql.questsID
+    AND qu.userId = :userID
+WHERE ql.quest_actif = 1
+    AND ql.questsCategories = :idCat
+ORDER BY ql.questsID;";
 
-        $content_list = "";
+        $result = $db->select($sql, [
+            ':idCat'  => $categorie_id,
+            ':userID' => $USER['id'],
+        ]);
+
+        $content_list = '';
+
         foreach ($result as $response) {
 
-            if ($response['quest_time_finish_event'] > TIMESTAMP) {
-                $event_finish = _date($LNG['php_tdformat'], $response['quest_time_finish_event'], $USER['timezone']);
-            } else if (!empty($response['quest_time_finish_event']) && $response['quest_time_finish_event'] <= TIMESTAMP) {
+            /*
+             * Event-Ende prüfen.
+             */
+            if (
+                !empty($response['quest_time_finish_event'])
+                && (int) $response['quest_time_finish_event'] > TIMESTAMP
+            ) {
+
+                $event_finish = _date(
+                    $LNG['php_tdformat'],
+                    $response['quest_time_finish_event'],
+                    $USER['timezone']
+                );
+
+            } elseif (
+                !empty($response['quest_time_finish_event'])
+                && (int) $response['quest_time_finish_event'] <= TIMESTAMP
+            ) {
+
                 $event_finish = -1;
-                $db->update("UPDATE %%QUESTS_LISTS%% SET quest_actif = 0 WHERE questsID = :questsID ;", [
-                    "questsID" => $response['questsID'],
-                ]);
+
+                $db->update(
+                    "UPDATE %%QUESTS_LISTS%%
+                     SET quest_actif = 0
+                     WHERE questsID = :questsID;",
+                    [
+                        ':questsID' => $response['questsID'],
+                    ]
+                );
+
             } else {
+
                 $event_finish = 0;
             }
 
+            /*
+             * Belohnungen.
+             */
             $list_reward = [
-                '901' => $response['quest_metal_reward'],
-                '902' => $response['quest_crystal_reward'],
-                '903' => $response['quest_deuterium_reward'],
-                '921' => $response['quest_darkmatter_reward'],
+                901 => $response['quest_metal_reward'],
+                902 => $response['quest_crystal_reward'],
+                903 => $response['quest_deuterium_reward'],
+                921 => $response['quest_darkmatter_reward'],
             ];
 
-            $content_list .= "<div class='quest_list' id='quest_" . $response['questsID'] . "'>
-                <div class='label_list'>
-                    <div>";
-            if ($response['quest_event'] == 1) {
-                $content_list .= "<span class='badge info' style='margin-right: 5px;'>Event</span>";
+            /*
+             * Quest-Container.
+             */
+            $content_list .= "
+                <div class='quest_list'
+                     id='quest_" . (int) $response['questsID'] . "'>
+
+                    <div class='label_list'>
+                        <div>
+            ";
+
+            /*
+             * Event-Badge.
+             */
+            if ((int) $response['quest_event'] === 1) {
+
+                $content_list .= "
+                    <span class='badge info quest_event_badge'>
+                        " . $LNG['quest_event'] . "
+                    </span>
+                ";
             }
+
+            /*
+             * Quest-Status:
+             *
+             * NULL = Noch nicht angenommen
+             * 1    = In Bearbeitung
+             * 2    = Abgeschlossen
+             */
             if (is_null($response['user_quest_users_finish'])) {
-                $content_list .= "<span id='quest_badge_" . $response['questsID'] . "' class='badge danger'>{$LNG['quest_33']}</span>";
-            } else if ($response['user_quest_users_finish'] == 1) {
-                $content_list .= "<span id='quest_badge_" . $response['questsID'] . "' class='badge warning'>{$LNG['bd_operating']}</span>";
+
+                $content_list .= "
+                    <span
+                        id='quest_badge_" . (int) $response['questsID'] . "'
+                        class='badge danger'>
+                        " . $LNG['quest_33'] . "
+                    </span>
+                ";
+
+            } elseif ((int) $response['user_quest_users_finish'] === 1) {
+
+                $content_list .= "
+                    <span
+                        id='quest_badge_" . (int) $response['questsID'] . "'
+                        class='badge warning'>
+                        " . $LNG['quest_40'] . "
+                    </span>
+                ";
+
             } else {
-                $content_list .= "<span id='quest_badge_" . $response['questsID'] . "' class='badge success'>{$LNG['quest_38']}</span>";
+
+                $content_list .= "
+                    <span
+                        id='quest_badge_" . (int) $response['questsID'] . "'
+                        class='badge success'>
+                        " . $LNG['quest_38'] . "
+                    </span>
+                ";
             }
-           $content_list .= "</div>";
-            if ($event_finish > 0) {
-                $content_list .= "<span class='badge info'>{$LNG['quest_39']} " . $event_finish . "</span>";
-            } else if ($event_finish < 0) {
-                $content_list .= "<span class='badge warning'>Event {$LNG['gl_ajax_status_ok']}</span>";
+
+            $content_list .= "</div>";
+
+            /*
+             * Event-Ende anzeigen.
+             */
+            if ($event_finish !== 0 && $event_finish !== -1) {
+
+                $content_list .= "
+                    <span class='badge info'>
+                        " . $LNG['quest_39'] . " " . $event_finish . "
+                    </span>
+                ";
+
+            } elseif ($event_finish === -1) {
+
+                $content_list .= "
+                    <span class='badge warning'>
+                        " . $LNG['quest_event_finished'] . "
+                    </span>
+                ";
             }
-            //$content_list .= "<span class='badge info'> " . number_format(0) . "</span>";
-            //$content_list .= "<span class='badge info'> 0 </span>";
-         $content_list .= " " . number_format($response['quest_points_reward']) . "</span>
-                </div>
-                <div class='title_quest'>
-                   
-                    <br>
-                    <h2>" . $response['quest_title'] . "</h2>
-                </div>
-                <p>" . $response['quest_description'] . "</p>
-                <div class='reward'>
-                    <div>
-                        <ul>";
-            foreach ($list_reward as $key => $reward) {
-                if ($reward > 0) {
-                    $content_list .= "<li>" . number_format($reward) . " " . $LNG['tech'][$key] . "<li>";
-                }
+
+
+            /*
+             * Quest-Titel und Beschreibung automatisch
+             * in der aktuellen Sprache erzeugen.
+             */
+            $questText = $this->getQuestLanguageText(
+                (string) $response['quest_title'],
+                (string) $response['quest_description'],
+                (int) $response['quest_objectif'],
+                (int) $response['quest_objectif_level']
+            );
+
+            $questTitle = htmlspecialchars(
+                $questText['title'],
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+            /*
+             * Automatische Beschreibung ist reiner Text.
+             * Alte Beschreibungen können <br> enthalten.
+             */
+            if (strpos((string) $response['quest_title'], 'AUTO:') === 0) {
+
+                $questDescription = htmlspecialchars(
+                    $questText['description'],
+                    ENT_QUOTES,
+                    'UTF-8'
+                );
+
+            } else {
+
+                $questDescription =
+                    $questText['description'];
             }
-            $content_list .= "</ul>
+
+
+            $content_list .= "
                     </div>
-                    <div>+" . number_format($response['quest_objectif_level']) . " " . $LNG['tech'][$response['quest_objectif']] . "</div>";
-            if (is_null($response['user_quest_users_finish'])) {
-                $content_list .= "<div id='quest_button_" . $response['questsID'] . "'><button id='btn_quest_" . $response['questsID'] . "' onclick='javascript:questConfirm(" . $response['questsID'] . ")'>{$LNG['quest_20']}</button></div>";
-            } else {
-                $content_list .= "<div class='progresse_bar_border' id='quest_button_" . $response['questsID'] . "'></div>";
+
+                    <div class='title_quest'>
+                        <h2>" . $questTitle . "</h2>
+                    </div>
+
+                    <div class='quest_description'>
+                        " . $questDescription . "
+                    </div>
+
+                    <div class='reward'>
+
+                        <div class='quest_rewards'>
+                            <ul>
+            ";
+
+            /*
+             * Ressourcen-Belohnungen.
+             */
+            foreach ($list_reward as $key => $reward) {
+
+                if ((int) $reward <= 0) {
+                    continue;
+                }
+
+                $resourceName = isset($LNG['tech'][$key])
+                    ? $LNG['tech'][$key]
+                    : (string) $key;
+
+                $content_list .= "
+                    <li>
+                        <span class='quest_reward_amount'>
+                            " . number_format((int) $reward) . "
+                        </span>
+
+                        <span class='quest_reward_name'>
+                            " . $resourceName . "
+                        </span>
+                    </li>
+                ";
             }
-            $content_list .= "</div>
-            </div>";
+
+
+            /*
+             * Quest-Ziel.
+             */
+            $questObjective =
+                (int) $response['quest_objectif'];
+
+            $objectiveName =
+                isset($LNG['tech'][$questObjective])
+                    ? $LNG['tech'][$questObjective]
+                    : (string) $questObjective;
+
+
+            $content_list .= "
+                            </ul>
+                        </div>
+
+                        <div class='quest_objective'>
+
+                            <span class='quest_objective_value'>
+                                +" . number_format(
+                                    (int) $response['quest_objectif_level']
+                                ) . "
+                            </span>
+
+                            <span class='quest_objective_name'>
+                                " . $objectiveName . "
+                            </span>
+
+                        </div>
+            ";
+
+
+            /*
+             * Quest starten oder Fortschritt anzeigen.
+             */
+            if (is_null($response['user_quest_users_finish'])) {
+
+                $content_list .= "
+                    <div
+                        class='quest_action'
+                        id='quest_button_" . (int) $response['questsID'] . "'>
+
+                        <button
+                            type='button'
+                            id='btn_quest_" . (int) $response['questsID'] . "'
+                            onclick='questConfirm(" . (int) $response['questsID'] . ")'>
+
+                            " . $LNG['quest_20'] . "
+
+                        </button>
+
+                    </div>
+                ";
+
+            } else {
+
+                $content_list .= "
+                    <div
+                        class='progresse_bar_border'
+                        id='quest_button_" . (int) $response['questsID'] . "'>
+                    </div>
+                ";
+            }
+
+
+            $content_list .= "
+                    </div>
+                </div>
+            ";
         }
 
+
+        /*
+         * Keine Kategorien und keine Quests vorhanden.
+         */
         if (!$result_cat && !$result) {
-            $content_list .= "<div class='quest_list' style='text-align: center;'>
-            <h2>{$LNG['quest_42']}</h2>
-            </div>";
+
+            $content_list .= "
+                <div class='quest_list quest_empty'>
+                    <h2>" . $LNG['quest_42'] . "</h2>
+                </div>
+            ";
         }
 
+
+        /*
+         * Kategorie vorhanden, aber keine Quest darin.
+         */
         if ($result_cat && !$result) {
-            $content_list .= "<div class='quest_list' style='text-align: center;'>
-            <h2>{$LNG['quest_32']}</h2>
-            </div>";
+
+            $content_list .= "
+                <div class='quest_list quest_empty'>
+                    <h2>" . $LNG['quest_32'] . "</h2>
+                </div>
+            ";
         }
 
-        echo json_encode($content_list, JSON_PRETTY_PRINT);
+
+        echo json_encode(
+            $content_list,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
     }
 
-    /** Confimation de la l'acceptation de la quête PART 5 */
-    function fleetVol($fleetId): int
+
+    /**
+     * Zählt Schiffe in fliegenden Flotten.
+     */
+    public function fleetVol($fleetId): int
     {
         global $USER;
 
         $db = Database::get();
 
-        $result = $db->select("SELECT fleet_owner, fleet_array FROM %%FLEETS%% WHERE fleet_owner = :userID", [":userID" => $USER['id']]);
+        $result = $db->select(
+            "SELECT fleet_owner, fleet_array
+             FROM %%FLEETS%%
+             WHERE fleet_owner = :userID",
+            [
+                ':userID' => $USER['id'],
+            ]
+        );
 
-        $shipList        = [];
         $fleet_count = 0;
-        if ($result) {
-            foreach ($result as $fleet) {
-                $shipArray        = array_filter(explode(';', $fleet['fleet_array']));
-                foreach ($shipArray as $ship) {
-                    $shipDetail        = explode(',', $ship);
-                    $shipList[]    = [
-                        "id" => $shipDetail[0],
-                        "count" => $shipDetail[1]
-                    ];
-                }
-            }
 
-            foreach ($shipList as $fleetCount) {
-                if ($fleetCount["id"] == $fleetId) {
-                    $fleet_count += $fleetCount["count"];
+        if (!$result) {
+            return 0;
+        }
+
+        foreach ($result as $fleet) {
+
+            $shipArray = array_filter(
+                explode(';', $fleet['fleet_array'])
+            );
+
+            foreach ($shipArray as $ship) {
+
+                $shipDetail = explode(',', $ship);
+
+                if (count($shipDetail) < 2) {
+                    continue;
+                }
+
+                $shipId =
+                    (int) $shipDetail[0];
+
+                $shipCount =
+                    (int) $shipDetail[1];
+
+                if ($shipId === (int) $fleetId) {
+                    $fleet_count += $shipCount;
                 }
             }
         }
@@ -159,249 +595,818 @@ class ShowQuestsAjaxPage extends AbstractGamePage
         return $fleet_count;
     }
 
-    function runQuest()
+
+    /**
+     * Quest annehmen / starten.
+     */
+    public function runQuest()
     {
-        global $USER, $resource;
+        global $LNG, $USER, $resource;
 
         $db = Database::get();
 
-        extract($_POST);
-
-        $sql = "SELECT * FROM %%QUESTS_LISTS%% WHERE questsID = :idQuest ;";
-        $result = $db->selectSingle($sql, [":idQuest" => $quest_id]);
+        $quest_id = isset($_POST['quest_id'])
+            ? (int) $_POST['quest_id']
+            : 0;
 
         $response = [];
 
-        if ($result < 1) {
-            $response["error"] = "danger";
-            $response["message"] = "Cette quête n'existe plus.";
-        } else {
-            if ($result["quest_actif"] == 1) {
-                if ($result['quest_event'] == 1 && $result['quest_time_finish_event'] < TIMESTAMP) {
-                    $response["error"] = "warning";
-                    $response["message"] = "{$LNG['quest_34']}";
-                } else {
-                    $sql_controle = "SELECT * FROM %%QUESTS_USERS%% WHERE user_questsID = :questID AND userId = :id ;";
-                    $result_controle = $db->selectSingle($sql_controle, [":questID" => $quest_id, ":id" => $USER['id']]);
 
-                    if ($result_controle > 1) {
-                        $response["error"] = "danger";
-                        $response["message"] = "Vous avez déjà accepter cette quête.";
-                    } else {
-                        $table = "%%PLANETS%% WHERE id_owner = :where";
+        /*
+         * Quest laden.
+         */
+        $result = $db->selectSingle(
+            "SELECT *
+             FROM %%QUESTS_LISTS%%
+             WHERE questsID = :idQuest;",
+            [
+                ':idQuest' => $quest_id,
+            ]
+        );
 
-                        if (
-                            $result['quest_objectif'] > 100 && $result['quest_objectif'] < 200 ||
-                            $result['quest_objectif'] > 600 && $result['quest_objectif'] < 700
-                        ) {
-                            $table = "%%USERS%% WHERE id = :where ;";
-                        }
 
-                        $field = $resource[$result['quest_objectif']];
-                        $tab = [":where" => $USER["id"]];
+        /*
+         * Quest existiert nicht.
+         */
+        if (empty($result)) {
 
-                        $sql_result_quest = "SELECT SUM($field) as total FROM $table";
-                        $result_quest_user = $db->selectSingle($sql_result_quest, $tab);
+            $response['error'] =
+                'danger';
 
-                        if ($result['quest_objectif'] > 200 && $result['quest_objectif'] < 300) {
-                            $result_quest_user['total'] += self::fleetVol($result['quest_objectif']);
-                        }
+            $response['message'] =
+                $LNG['quest_error_not_exists'];
 
-                        $sql_user_quest = "INSERT INTO %%QUESTS_USERS%% SET 
-                            userId = :userID,
-                            user_questsID = :questID,
-                            user_quest_objectif = :objectifID,
-                            user_quest_objectif_level = :objectifLEVEL,
-                            user_quest_objectif_level_user = :objectifLevelUser,
-                            user_quest_users_accept = :created_at,
-                            user_quest_users_finish = :quest_finish
-                        ;";
-                        $db->insert($sql_user_quest, [
-                            ":userID" => $USER['id'],
-                            ":questID" => $result['questsID'],
-                            ":objectifID" => $result['quest_objectif'],
-                            ":objectifLEVEL" => $result['quest_objectif_level'],
-                            ":objectifLevelUser" => $result_quest_user['total'],
-                            ":quest_finish" => 1,
-                            ":created_at" => TIMESTAMP,
-                        ]);
-function runQuest()
-{
-    global $LNG, $USER;
-                        $response["error"] = "success";
-                        $response["message"] = "La quête " . $result['quest_title'] . " à bien commencer.";
-                        $response["questID"] = $result['questsID'];
-                        $response["badgeStyle"] = "warning";
-                        $response["badgeContent"] = $LNG['quest_completed'];
-                    }
-                }
-                }
-            } else {
-                $response["error"] = "warning";
-                $response["message"] = "La quête n'est pas active.";
-            }
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
         }
 
-        echo json_encode($response, JSON_PRETTY_PRINT);
+
+        /*
+         * Quest nicht aktiv.
+         */
+        if ((int) $result['quest_actif'] !== 1) {
+
+            $response['error'] =
+                'warning';
+
+            $response['message'] =
+                $LNG['quest_error_not_active'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        /*
+         * Event bereits beendet.
+         */
+        if (
+            (int) $result['quest_event'] === 1
+            && !empty($result['quest_time_finish_event'])
+            && (int) $result['quest_time_finish_event'] < TIMESTAMP
+        ) {
+
+            $response['error'] =
+                'warning';
+
+            $response['message'] =
+                $LNG['quest_34'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        /*
+         * Prüfen, ob Quest bereits angenommen wurde.
+         */
+        $result_control = $db->selectSingle(
+            "SELECT *
+             FROM %%QUESTS_USERS%%
+             WHERE user_questsID = :questID
+                AND userId = :userID;",
+            [
+                ':questID' => $quest_id,
+                ':userID'  => $USER['id'],
+            ]
+        );
+
+
+        if (!empty($result_control)) {
+
+            $response['error'] =
+                'danger';
+
+            $response['message'] =
+                $LNG['quest_error_already_accepted'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        /*
+         * Quest-Ziel prüfen.
+         */
+        $objectiveId =
+            (int) $result['quest_objectif'];
+
+        if (!isset($resource[$objectiveId])) {
+
+            $response['error'] =
+                'danger';
+
+            $response['message'] =
+                $LNG['quest_error_invalid_target'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        /*
+         * Standardmäßig Planetendaten.
+         */
+        $table =
+            "%%PLANETS%% WHERE id_owner = :where";
+
+
+        /*
+         * Forschung / Benutzerwerte befinden sich in USERS.
+         */
+        if (
+            ($objectiveId > 100 && $objectiveId < 200)
+            ||
+            ($objectiveId > 600 && $objectiveId < 700)
+        ) {
+
+            $table =
+                "%%USERS%% WHERE id = :where";
+        }
+
+
+        $field =
+            $resource[$objectiveId];
+
+
+        /*
+         * Aktuellen Stand beim Start speichern.
+         */
+        $result_quest_user = $db->selectSingle(
+            "SELECT SUM($field) AS total
+             FROM $table",
+            [
+                ':where' => $USER['id'],
+            ]
+        );
+
+
+        $currentTotal =
+            !empty($result_quest_user['total'])
+                ? (int) $result_quest_user['total']
+                : 0;
+
+
+        /*
+         * Schiffe in fliegenden Flotten mitzählen.
+         */
+        if ($objectiveId > 200 && $objectiveId < 300) {
+
+            $currentTotal +=
+                $this->fleetVol($objectiveId);
+        }
+
+
+        /*
+         * Quest für Benutzer starten.
+         */
+        $db->insert(
+            "INSERT INTO %%QUESTS_USERS%%
+             SET
+                userId = :userID,
+                user_questsID = :questID,
+                user_quest_objectif = :objectiveID,
+                user_quest_objectif_level = :objectiveLevel,
+                user_quest_objectif_level_user = :objectiveLevelUser,
+                user_quest_users_accept = :createdAt,
+                user_quest_users_finish = :questFinish;",
+            [
+                ':userID' =>
+                    $USER['id'],
+
+                ':questID' =>
+                    $result['questsID'],
+
+                ':objectiveID' =>
+                    $objectiveId,
+
+                ':objectiveLevel' =>
+                    $result['quest_objectif_level'],
+
+                ':objectiveLevelUser' =>
+                    $currentTotal,
+
+                ':createdAt' =>
+                    TIMESTAMP,
+
+                ':questFinish' =>
+                    1,
+            ]
+        );
+
+
+        /*
+         * Titel für Rückmeldung ebenfalls übersetzen.
+         */
+        $questText = $this->getQuestLanguageText(
+            (string) $result['quest_title'],
+            (string) $result['quest_description'],
+            $objectiveId,
+            (int) $result['quest_objectif_level']
+        );
+
+
+        /*
+         * Rückmeldung.
+         */
+        $response['error'] =
+            'success';
+
+        $response['message'] = sprintf(
+            $LNG['quest_started'],
+            $questText['title']
+        );
+
+        $response['questID'] =
+            (int) $result['questsID'];
+
+        $response['badgeStyle'] =
+            'warning';
+
+        $response['badgeContent'] =
+            $LNG['quest_40'];
+
+
+        echo json_encode(
+            $response,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
     }
 
-    function verifQuest()
+
+    /**
+     * Quest-Fortschritt prüfen.
+     */
+    public function verifQuest()
     {
         global $USER, $resource;
 
         $db = Database::get();
 
-        $sql = "SELECT * FROM %%QUESTS_USERS%% WHERE userId = :userId ;";
-        $result = $db->select($sql, [":userId" => $USER['id']]);
+        $result = $db->select(
+            "SELECT *
+             FROM %%QUESTS_USERS%%
+             WHERE userId = :userId;",
+            [
+                ':userId' => $USER['id'],
+            ]
+        );
 
         $responseQuest = [];
+
+
         foreach ($result as $verif) {
-            $table = "%%PLANETS%% WHERE id_owner = :where";
 
+            /*
+             * Bereits abgeschlossene Quests können
+             * weiterhin angezeigt werden.
+             */
+            $objectiveId =
+                (int) $verif['user_quest_objectif'];
+
+            if (!isset($resource[$objectiveId])) {
+                continue;
+            }
+
+
+            /*
+             * Standardmäßig Planetendaten.
+             */
+            $table =
+                "%%PLANETS%% WHERE id_owner = :where";
+
+
+            /*
+             * Forschung / Benutzerwerte.
+             */
             if (
-                $verif['user_quest_objectif'] > 100 && $verif['user_quest_objectif'] < 200 ||
-                $verif['user_quest_objectif'] > 600 && $verif['user_quest_objectif'] < 700
+                ($objectiveId > 100 && $objectiveId < 200)
+                ||
+                ($objectiveId > 600 && $objectiveId < 700)
             ) {
-                $table = "%%USERS%% WHERE id = :where ;";
+
+                $table =
+                    "%%USERS%% WHERE id = :where";
             }
 
-            $field = $resource[$verif['user_quest_objectif']];
-            $tab = [":where" => $USER["id"]];
 
-            $sql_verif_quest = "SELECT SUM($field) as total FROM $table";
-            $verif_quest_user = $db->selectSingle($sql_verif_quest, $tab);
+            $field =
+                $resource[$objectiveId];
 
-            $fleet_vol = 0;
-            if ($verif['user_quest_objectif'] > 200 && $verif['user_quest_objectif'] < 300) {
-                $fleet_vol = self::fleetVol($verif['user_quest_objectif']);
+
+            /*
+             * Aktuellen Stand laden.
+             */
+            $verif_quest_user = $db->selectSingle(
+                "SELECT SUM($field) AS total
+                 FROM $table",
+                [
+                    ':where' => $USER['id'],
+                ]
+            );
+
+
+            $currentTotal =
+                !empty($verif_quest_user['total'])
+                    ? (int) $verif_quest_user['total']
+                    : 0;
+
+
+            /*
+             * Schiffe in fliegenden Flotten mitzählen.
+             */
+            if ($objectiveId > 200 && $objectiveId < 300) {
+
+                $currentTotal +=
+                    $this->fleetVol($objectiveId);
             }
 
-            $total_user_objectif = $verif['user_quest_objectif_level_user'] + $verif['user_quest_objectif_level'];
-            $count_current = $total_user_objectif - $verif_quest_user["total"];
-            $countrest = ($verif["user_quest_objectif_level"] + $fleet_vol) - $count_current;
 
-            if ($verif_quest_user["total"] >= $total_user_objectif) {
-                $responseQuest[$verif['user_questsID']] = [
-                    "user_quest_finish" => true,
-                    "count_current_pourcent" => ($countrest / $verif['user_quest_objectif_level']) * 100,
-                    "user_quest_users_finish" => $verif['user_quest_users_finish'],
-                ];
+            $startValue =
+                (int) $verif['user_quest_objectif_level_user'];
+
+            $requiredIncrease =
+                (int) $verif['user_quest_objectif_level'];
+
+            $targetValue =
+                $startValue + $requiredIncrease;
+
+
+            /*
+             * Fortschritt berechnen.
+             */
+            $progressValue =
+                $currentTotal - $startValue;
+
+            if ($progressValue < 0) {
+                $progressValue = 0;
+            }
+
+
+            if ($requiredIncrease <= 0) {
+
+                $percent = 0;
+
             } else {
-                $responseQuest[$verif['user_questsID']] = [
-                    "user_quest_finish" => false,
-                    "count_current_pourcent" => round(($countrest / $verif['user_quest_objectif_level']) * 100, 2),
-                    "user_quest_users_finish" => $verif['user_quest_users_finish'],
-                ];
+
+                $percent = round(
+                    ($progressValue / $requiredIncrease) * 100,
+                    2
+                );
             }
+
+
+            if ($percent < 0) {
+                $percent = 0;
+            }
+
+            if ($percent > 100) {
+                $percent = 100;
+            }
+
+
+            $responseQuest[
+                $verif['user_questsID']
+            ] = [
+
+                'user_quest_finish' =>
+                    $currentTotal >= $targetValue,
+
+                'count_current_pourcent' =>
+                    $percent,
+
+                'user_quest_users_finish' =>
+                    (int) $verif['user_quest_users_finish'],
+            ];
         }
 
-        echo json_encode($responseQuest, JSON_PRETTY_PRINT);
+
+        echo json_encode(
+            $responseQuest,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
     }
 
-    function finishQuest()
+
+    /**
+     * Quest abschließen und Belohnung geben.
+     */
+    public function finishQuest()
     {
-        global  $USER, $resource;
+        global $LNG, $USER, $resource;
 
         $db = Database::get();
 
-        extract($_POST);
+        $quest_id = isset($_POST['quest_id'])
+            ? (int) $_POST['quest_id']
+            : 0;
 
         $response = [];
 
-        $sql = "SELECT * FROM %%QUESTS_USERS%% WHERE user_questsID = :questsID AND userId = :userId ;";
-        $result = $db->selectSingle($sql, [":questsID" => $quest_id, ":userId" => $USER['id']]);
 
-        if ($result['user_quest_users_finish'] == 2) {
-            $response["error"] = "danger";
-            $response["message"] = "Vous avez déjà terminer cette quête.";
-        } else {
-            $table = "%%PLANETS%% WHERE id_owner = :where";
+        /*
+         * Benutzer-Quest laden.
+         */
+        $result = $db->selectSingle(
+            "SELECT *
+             FROM %%QUESTS_USERS%%
+             WHERE user_questsID = :questsID
+                AND userId = :userId;",
+            [
+                ':questsID' => $quest_id,
+                ':userId'   => $USER['id'],
+            ]
+        );
 
-            if (
-                $result['user_quest_objectif'] > 100 && $result['user_quest_objectif'] < 200 ||
-                $result['user_quest_objectif'] > 600 && $result['user_quest_objectif'] < 700
-            ) {
-                $table = "%%USERS%% WHERE id = :where ;";
-            }
 
-            $field = $resource[$result['user_quest_objectif']];
-            $tab = [":where" => $USER["id"]];
+        /*
+         * Quest nicht gefunden.
+         */
+        if (empty($result)) {
 
-            $sql_result_quest = "SELECT SUM($field) as total FROM $table";
-            $result_quest_user = $db->selectSingle($sql_result_quest, $tab);
+            $response['error'] =
+                'danger';
 
-            $total_user_objectif = $result['user_quest_objectif_level_user'] + $result['user_quest_objectif_level'];
-            $count_current = $total_user_objectif - $result_quest_user["total"];
-            $countrest = $result["user_quest_objectif_level"] - $count_current;
+            $response['message'] =
+                $LNG['quest_error_not_found'];
 
-               if ($result_quest_user["total"] >= $total_user_objectif) {
-                self::rewardQuest($result["user_questsID"]);
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
 
-                $response["questID"] = $result["user_questsID"];
-                $response["badgeStyle"] = "success";
-                $response["badgeContent"] = "Terminé";
-                $response["error"] = "success";
-                $response["message"] = "Bravo c'est gagné, vous avez fini la quête.
-                Les récompense on étais ajouter à votre compte";
-            } else {
-                $response["error"] = "danger";
-                $response["message"] = "Pas de triche merci, tentative enregistrer.";
-            }
+            return;
         }
 
-        echo json_encode($response, JSON_PRETTY_PRINT);
+
+        /*
+         * Bereits abgeschlossen.
+         */
+        if (
+            (int) $result['user_quest_users_finish'] === 2
+        ) {
+
+            $response['error'] =
+                'danger';
+
+            $response['message'] =
+                $LNG['quest_error_already_finished'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        $objectiveId =
+            (int) $result['user_quest_objectif'];
+
+
+        /*
+         * Quest-Ziel prüfen.
+         */
+        if (!isset($resource[$objectiveId])) {
+
+            $response['error'] =
+                'danger';
+
+            $response['message'] =
+                $LNG['quest_error_invalid_target'];
+
+            echo json_encode(
+                $response,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            );
+
+            return;
+        }
+
+
+        /*
+         * Standardmäßig Planetendaten.
+         */
+        $table =
+            "%%PLANETS%% WHERE id_owner = :where";
+
+
+        /*
+         * Forschung / Benutzerwerte.
+         */
+        if (
+            ($objectiveId > 100 && $objectiveId < 200)
+            ||
+            ($objectiveId > 600 && $objectiveId < 700)
+        ) {
+
+            $table =
+                "%%USERS%% WHERE id = :where";
+        }
+
+
+        $field =
+            $resource[$objectiveId];
+
+
+        /*
+         * Aktuellen Stand prüfen.
+         */
+        $result_quest_user = $db->selectSingle(
+            "SELECT SUM($field) AS total
+             FROM $table",
+            [
+                ':where' => $USER['id'],
+            ]
+        );
+
+
+        $currentTotal =
+            !empty($result_quest_user['total'])
+                ? (int) $result_quest_user['total']
+                : 0;
+
+
+        /*
+         * Schiffe in fliegenden Flotten ebenfalls mitzählen.
+         */
+        if ($objectiveId > 200 && $objectiveId < 300) {
+
+            $currentTotal +=
+                $this->fleetVol($objectiveId);
+        }
+
+
+        /*
+         * Zielwert.
+         */
+        $targetValue =
+            (int) $result['user_quest_objectif_level_user']
+            + (int) $result['user_quest_objectif_level'];
+
+
+        /*
+         * Quest erfüllt.
+         */
+        if ($currentTotal >= $targetValue) {
+
+            $this->rewardQuest(
+                $result['user_questsID']
+            );
+
+            $response['questID'] =
+                (int) $result['user_questsID'];
+
+            $response['badgeStyle'] =
+                'success';
+
+            $response['badgeContent'] =
+                $LNG['quest_38'];
+
+            $response['error'] =
+                'success';
+
+            $response['message'] =
+                $LNG['quest_finish_success'];
+
+        } else {
+
+            $response['error'] =
+                'danger';
+
+            $response['message'] =
+                $LNG['quest_finish_invalid'];
+        }
+
+
+        echo json_encode(
+            $response,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
     }
 
-    function rewardQuest($questID)
+
+    /**
+     * Quest-Belohnung auszahlen.
+     */
+    public function rewardQuest($questID)
     {
         global $USER, $resource;
 
         $db = Database::get();
 
-        $sql = "SELECT quest_points_reward,
-        quest_metal_reward,
-        quest_crystal_reward,
-        quest_deuterium_reward,
-        quest_darkmatter_reward
-        FROM %%QUESTS_LISTS%% WHERE questsID = :questID ;";
-        $result = $db->selectSingle($sql, [":questID" => $questID]);
 
-        $field_planet = [];
-        $field_users = "";
-        if (!empty($result['quest_metal_reward'])) {
-            $response["metal"] = $result['quest_metal_reward'];
-            $field_planet[] = $resource[901] . "=" . $resource[901] . "+" . $result['quest_metal_reward'];
+        /*
+         * Quest-Belohnungen laden.
+         */
+        $result = $db->selectSingle(
+            "SELECT
+                quest_points_reward,
+                quest_metal_reward,
+                quest_crystal_reward,
+                quest_deuterium_reward,
+                quest_darkmatter_reward
+             FROM %%QUESTS_LISTS%%
+             WHERE questsID = :questID;",
+            [
+                ':questID' => $questID,
+            ]
+        );
+
+        $response = [];
+
+        if (empty($result)) {
+            return $response;
         }
+
+
+        /*
+         * Planet-Ressourcen sammeln.
+         */
+        $field_planet = [];
+
+
+        if (!empty($result['quest_metal_reward'])) {
+
+            $metalReward =
+                (int) $result['quest_metal_reward'];
+
+            $response['metal'] =
+                $metalReward;
+
+            $field_planet[] =
+                $resource[901]
+                . ' = '
+                . $resource[901]
+                . ' + '
+                . $metalReward;
+        }
+
 
         if (!empty($result['quest_crystal_reward'])) {
-            $response["crystal"] = $result['quest_crystal_reward'];
-            $field_planet[] = $resource[902] . "=" . $resource[902] . "+" . $result['quest_crystal_reward'];
+
+            $crystalReward =
+                (int) $result['quest_crystal_reward'];
+
+            $response['crystal'] =
+                $crystalReward;
+
+            $field_planet[] =
+                $resource[902]
+                . ' = '
+                . $resource[902]
+                . ' + '
+                . $crystalReward;
         }
+
 
         if (!empty($result['quest_deuterium_reward'])) {
-            $response["deuterium"] = $result['quest_deuterium_reward'];
-            $field_planet[] = $resource[903] . "=" . $resource[903] . "+" . $result['quest_deuterium_reward'];
+
+            $deuteriumReward =
+                (int) $result['quest_deuterium_reward'];
+
+            $response['deuterium'] =
+                $deuteriumReward;
+
+            $field_planet[] =
+                $resource[903]
+                . ' = '
+                . $resource[903]
+                . ' + '
+                . $deuteriumReward;
         }
+
+
+        /*
+         * Benutzerwerte vorbereiten.
+         */
+        $userUpdates = [];
+
 
         if (!empty($result['quest_darkmatter_reward'])) {
-            $field_users = $resource[921] . "=" . $resource[921] . "+" . $result['quest_darkmatter_reward'] . ",";
-            $response["darkmatter"] = $result['quest_darkmatter_reward'];
+
+            $darkmatterReward =
+                (int) $result['quest_darkmatter_reward'];
+
+            $response['darkmatter'] =
+                $darkmatterReward;
+
+            $userUpdates[] =
+                $resource[921]
+                . ' = '
+                . $resource[921]
+                . ' + '
+                . $darkmatterReward;
         }
 
-        $sql = "UPDATE %%USERS%% SET $field_users reputation_quests = reputation_quests + :reputation_quests WHERE id = :userID ;";
-        $db->update($sql, [":reputation_quests" => $result['quest_points_reward'], ":userID" => $USER['id']]);
 
+        $questPointsReward =
+            !empty($result['quest_points_reward'])
+                ? (int) $result['quest_points_reward']
+                : 0;
+
+
+        $userUpdates[] =
+            "reputation_quests =
+             reputation_quests + :reputation_quests";
+
+
+        /*
+         * Benutzer aktualisieren.
+         */
+        $db->update(
+            "UPDATE %%USERS%%
+             SET " . implode(', ', $userUpdates) . "
+             WHERE id = :userID;",
+            [
+                ':reputation_quests' =>
+                    $questPointsReward,
+
+                ':userID' =>
+                    $USER['id'],
+            ]
+        );
+
+
+        /*
+         * Ressourcen auf dem aktuellen Planeten gutschreiben.
+         */
         if (!empty($field_planet)) {
-            $set = implode(", ", $field_planet);
 
-            $sql = "UPDATE %%PLANETS%% SET $set WHERE id = :idPlanet ;";
-            $db->update($sql, [":idPlanet" => $USER['id_planet']]);
+            $db->update(
+                "UPDATE %%PLANETS%%
+                 SET " . implode(', ', $field_planet) . "
+                 WHERE id = :idPlanet;",
+                [
+                    ':idPlanet' =>
+                        $USER['id_planet'],
+                ]
+            );
         }
 
-        $sql = "UPDATE %%QUESTS_USERS%% SET user_quest_users_finish = :user_quest_users_finish WHERE user_questsID = :questsID AND userId = :userId ;";
-        $db->update($sql, [":user_quest_users_finish" => 2, ":questsID" => $questID, ":userId" => $USER['id']]);
+
+        /*
+         * Quest als abgeschlossen markieren.
+         */
+        $db->update(
+            "UPDATE %%QUESTS_USERS%%
+             SET user_quest_users_finish = :finish
+             WHERE user_questsID = :questsID
+                AND userId = :userId;",
+            [
+                ':finish' =>
+                    2,
+
+                ':questsID' =>
+                    $questID,
+
+                ':userId' =>
+                    $USER['id'],
+            ]
+        );
+
 
         return $response;
     }
 }
-

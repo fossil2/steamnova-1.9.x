@@ -77,6 +77,115 @@ $LNG['cronjob_asteroid_msg_from'] = "Sistema de Eventos";
 $LNG['cronjob_asteroid_msg_to'] = "Mensaje de Evento";
 $LNG['cronjob_asteroid_msg_user_event_close'] = "El evento de asteroides ha terminado, todos los asteroides han sido destruidos.";
 
+//Quest
+$LNG['quest_categorie_1'] = "Construcción";
+$LNG['quest_categorie_2'] = "Investigación";
+$LNG['quest_categorie_3'] = "Flota";
+$LNG['quest_categorie_4'] = "Defensa";
+$LNG['quest_categorie_5'] = "Oficiales";
+
+$LNG['quest_01'] = "Crear categoría";
+$LNG['quest_02'] = "Crear misión";
+$LNG['quest_03'] = "Misión activa";
+$LNG['quest_04'] = "Seleccionar categoría*";
+$LNG['quest_05'] = "Nombre de la misión*";
+$LNG['quest_06'] = "Descripción de la misión";
+$LNG['quest_07'] = "Objetivo";
+$LNG['quest_08'] = "Nivel objetivo";
+$LNG['quest_09'] = "Puntos de recompensa";
+$LNG['quest_10'] = "Recompensa";
+$LNG['quest_11'] = "Añadir";
+$LNG['quest_12'] = "Crear categoría";
+$LNG['quest_13'] = "Misión de evento";
+$LNG['quest_14'] = "Fin del evento";
+$LNG['quest_15'] = "Crear misión";
+$LNG['quest_16'] = "Fin del evento";
+$LNG['quest_17'] = "Categorías";
+$LNG['quest_18'] = "Misiones";
+$LNG['quest_19'] = "ID de misión";
+
+$LNG['quest_20'] = "Iniciar misión";
+$LNG['quest_21'] = "Misiones del juego";
+$LNG['quest_22'] = "Recompensas";
+$LNG['quest_23'] = "Categoría";
+$LNG['quest_24'] = "Descripción";
+$LNG['quest_25'] = "Objetivo";
+$LNG['quest_26'] = "Misión activa";
+$LNG['quest_27'] = "Crear";
+$LNG['quest_28'] = "Misión especial";
+$LNG['quest_29'] = "Misión especial caducada";
+$LNG['quest_30'] = "Acción";
+$LNG['quest_31'] = "Objetivo";
+
+$LNG['quest_32'] = "No hay misiones disponibles en esta categoría.";
+$LNG['quest_33'] = "No iniciada";
+$LNG['quest_34'] = "Este evento ya ha finalizado.";
+$LNG['quest_35'] = "La categoría seleccionada no existe.";
+$LNG['quest_36'] = "Seleccionar categoría";
+$LNG['quest_37'] = "Este número de categoría ya existe.";
+$LNG['quest_38'] = "Completada";
+$LNG['quest_39'] = "Fin del evento:";
+$LNG['quest_40'] = "En progreso";
+$LNG['quest_41'] = "Finalizada";
+$LNG['quest_42'] = "Actualmente no hay contenido de misiones disponible.";
+$LNG['quest_loading'] = "Cargando misiones ...";
+
+
+// =========================================================
+// TEXTOS ADICIONALES DE MISIONES
+// =========================================================
+
+$LNG['quest_event'] = "Evento";
+$LNG['quest_event_finished'] = "Evento finalizado";
+
+$LNG['quest_error_not_exists'] =
+    "Esta misión ya no existe.";
+
+$LNG['quest_error_not_active'] =
+    "Esta misión no está activa.";
+
+$LNG['quest_error_already_accepted'] =
+    "Ya has aceptado esta misión.";
+
+$LNG['quest_error_invalid_target'] =
+    "Objetivo de misión no válido.";
+
+$LNG['quest_error_not_found'] =
+    "No se ha encontrado la misión.";
+
+$LNG['quest_error_already_finished'] =
+    "Ya has completado esta misión.";
+
+$LNG['quest_started'] =
+    "La misión «%s» ha comenzado.";
+
+$LNG['quest_finish_success'] =
+    "Misión completada. Las recompensas se han añadido a tu cuenta.";
+
+$LNG['quest_finish_invalid'] =
+    "Todavía no se cumplen los requisitos para completar esta misión.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
+$LNG['adm_quest_info_title'] = "Información de funcionamiento";
+
+$LNG['adm_quest_info_content'] = "
+<p>Para utilizar este mod de forma óptima, recomendamos lo siguiente:</p>
+
+<ul style='margin-top: 20px;'>
+    <li style='padding-bottom: 10px;'>1 - Crea todas las categorías necesarias</li>
+    <li style='padding-bottom: 10px;'>2 - Actualiza la página para que las categorías aparezcan en la lista de selección de misiones</li>
+    <li style='padding-bottom: 10px;'>3 - Crea tus diferentes misiones</li>
+</ul>
+
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Atención: las categorías que no sean compatibles con el sistema de misiones pueden no ser completables por los jugadores.
+</p>
+";
+
 // Misión de Guardado
 $LNG['type_mission_19'] = 'Vuelo de Rescate';
 $LNG['modul_51'] = 'Misión - Guardar';

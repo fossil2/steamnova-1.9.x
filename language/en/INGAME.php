@@ -239,6 +239,23 @@ $LNG['ov_noreflink']						= 'You have not recruited any players yet';
 $LNG['ov_players']							= 'Players';
 $LNG['ov_moving_fleets']					= 'Moving fleets';
 
+// Quest tasks generated automatically
+$LNG['quest_task_build']    = 'Build: %s';
+$LNG['quest_task_research'] = 'Research: %s';
+$LNG['quest_task_fleet']    = 'Build fleet: %s';
+$LNG['quest_task_defense']  = 'Build defense: %s';
+$LNG['quest_task_officer']  = 'Upgrade officer: %s';
+
+$LNG['quest_desc_build']    = 'Upgrade %s by %d level(s).';
+$LNG['quest_desc_research'] = 'Research %s by %d level(s).';
+$LNG['quest_desc_fleet']    = 'Build %d unit(s) of %s.';
+$LNG['quest_desc_defense']  = 'Build %d unit(s) of %s.';
+$LNG['quest_desc_officer']  = 'Upgrade %s by %d level(s).';
+
+$LNG['quest_select_task']   = 'Select task';
+$LNG['quest_task_type']     = 'Task type';
+$LNG['quest_target']        = 'Target';
+
 //overview actions
 
 $LNG['ov_ac_error_1'] = "Name cannot be empty !";
@@ -1323,7 +1340,15 @@ $LNG['find_deb_title'] = "Find debris fields";
 $LNG['ex_ex']                               = 'Anomaly';
 $LNG['ex_em']                               = 'Extra mission in U700';
 //----------------------------------------------------------------------------//
-
+$LNG['kb_fleets_stood_against']   = 'The following fleets faced each other';
+$LNG['kb_round']                  = 'Battle round';
+$LNG['kb_attacker_before_round']  = 'Attacker before the round';
+$LNG['kb_defender_before_round']  = 'Defender before the round';
+$LNG['kb_attacker_after_round']   = 'Attacker after the round';
+$LNG['kb_defender_after_round']   = 'Defender after the round';
+$LNG['kb_repaired_defense']       = 'Repaired defense';
+$LNG['kb_moon_chance']            = 'Moon chance';
+$LNG['sys_moonbuilt']             = 'The huge amounts of debris formed a moon.';
 
 
 
@@ -1434,3 +1459,14 @@ $LNG['tut_m9_quest5']                       = 'free';
 $LNG['tut_m9_gain']                         = '<font color="Reward">Belohnung: 5000 Dark matter</font>';
 $LNG['tut_m9_ready']                        = 'Congratulations you have completed mission 9 of the tutorial!';
 $LNG['tut_compleat']                        = 'You have successfully completed all missions!';
+
+$LNG['kb_fleets_stood_against']             = 'The following fleets faced each other';
+$LNG['kb_round']                            = 'Battle round';
+$LNG['kb_attacker_before_round']            = 'Attacker before the round';
+$LNG['kb_defender_before_round']            = 'Defender before the round';
+$LNG['kb_attacker_after_round']             = 'Attacker after the round';
+$LNG['kb_defender_after_round']             = 'Defender after the round';
+$LNG['kb_repaired_defense']                 = 'Repaired defense';
+$LNG['kb_moon_chance']                      = 'Chance of moon creation';
+$LNG['kb_moon_created']                     = 'The large amount of debris formed a moon!';
+

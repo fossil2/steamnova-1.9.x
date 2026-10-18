@@ -23,6 +23,23 @@ $LNG['fs_percantage'] = "%";
 $LNG['fs_time_hours'] = "Godzina";
 $LNG['fs_time_seconds'] = "Sekunda";
 $LNG['fs_time_minutes'] = "Minuta";
+
+// Automatycznie generowane zadania misji
+$LNG['quest_task_build']    = 'Buduj: %s';
+$LNG['quest_task_research'] = 'Badaj: %s';
+$LNG['quest_task_fleet']    = 'Buduj flotę: %s';
+$LNG['quest_task_defense']  = 'Buduj obronę: %s';
+$LNG['quest_task_officer']  = 'Ulepsz oficera: %s';
+
+$LNG['quest_desc_build']    = 'Rozbuduj %s o %d poziom(y).';
+$LNG['quest_desc_research'] = 'Zbadaj %s o %d poziom(y).';
+$LNG['quest_desc_fleet']    = 'Zbuduj %d szt. %s.';
+$LNG['quest_desc_defense']  = 'Zbuduj %d szt. %s.';
+$LNG['quest_desc_officer']  = 'Ulepsz %s o %d poziom(y).';
+
+$LNG['quest_select_task']   = 'Wybierz zadanie';
+$LNG['quest_task_type']     = 'Typ zadania';
+$LNG['quest_target']        = 'Cel';
  
 //Przesuwanie modułu
 $LNG['cm_error_1'] = "Nie można łączyć podczas trybu urlopu!";
@@ -30,9 +47,6 @@ $LNG['cm_error_2'] = "Nie można łączyć surowców podczas ataku!";
 $LNG['cm_error_3'] = "Limit czasu %s min!";
 $LNG['cm_collect_mines_submit'] = "Zabezpiecz surowce!";
 $LNG['cm_error_no_dm'] = "Za mało Ciemnej Materii!";
-
-
-
 
 
 //MODULE_AUTOEXPEDITION
@@ -1387,8 +1401,63 @@ $LNG['tut_m9_ready']                        = 'Gratulacje! Ukończyłeś misję 
 
 $LNG['tut_compleat']                        = 'Ukończyłeś wszystkie misje w samouczku!';
 
+$LNG['kb_fleets_stood_against']   = 'Następujące floty stanęły naprzeciw siebie';
+$LNG['kb_round']                  = 'Runda walki';
+$LNG['kb_attacker_before_round']  = 'Atakujący przed rundą';
+$LNG['kb_defender_before_round']  = 'Obrońca przed rundą';
+$LNG['kb_attacker_after_round']   = 'Atakujący po rundzie';
+$LNG['kb_defender_after_round']   = 'Obrońca po rundzie';
+$LNG['kb_repaired_defense']       = 'Naprawiona obrona';
+$LNG['kb_moon_chance']            = 'Szansa na powstanie księżyca';
+$LNG['kb_moon_created']           = 'Ogromna ilość szczątków utworzyła księżyc!';
 
-
+// -----------------------------------------------------------------------------
+// Added from German INGAME.php - missing Polish keys
+$LNG['si_produktion_speed'] = 'Prędkość produkcji';
+$LNG['type_mission_16'] = 'Handel';
+$LNG['type_mission_17'] = 'Transfer';
+$LNG['ov_online'] = 'Online';
+$LNG['ov_ac_error_4'] = 'Błędne hasło!';
+$LNG['ov_ac_error_5'] = 'Błędna nazwa!';
+$LNG['ov_ac_password'] = 'Hasło!';
+$LNG['fl_transfer_alert_message'] = 'Uwaga! Twoja flota zostanie wysłana do innego gracza!';
+$LNG['fl_exchange'] = 'Handel';
+$LNG['fl_visibility'] = 'Widoczność';
+$LNG['fl_visibility_all'] = 'Wszyscy';
+$LNG['fl_visibility_alliance'] = 'Tylko członkowie sojuszu i znajomi';
+$LNG['fl_visibility_no_enemies'] = 'Wszyscy oprócz wrogów';
+$LNG['fl_stronger_techs'] = 'Twoje technologie ataku, obrony i osłon są za niskie.';
+$LNG['bd_Explore'] = 'Badaj';
+$LNG['al_make_ally_insufficient_points'] = 'Nie masz wystarczająco punktów, aby założyć sojusz.<br>Potrzebujesz co najmniej %s punktów, brakuje ci %s punktów.';
+$LNG['al_circular_message'] = 'Wiadomość okólna';
+$LNG['al_invalid_rank_name'] = 'W nazwie rangi dozwolone są tylko cyfry, litery, spacje, _, -, .';
+$LNG['sys_back'] = 'Wstecz';
+$LNG['sys_forward'] = 'Dalej';
+$LNG['market_p_total'] = 'Łącznie';
+$LNG['market_p_cost_type'] = 'Rodzaj kosztu';
+$LNG['market_p_cost_amount'] = 'Ilość';
+$LNG['market_p_end'] = 'Koniec';
+$LNG['market_p_from_duration'] = 'Lot od';
+$LNG['market_p_to_duration'] = 'Lot do';
+$LNG['market_p_submit'] = 'Przyjmij handel!';
+$LNG['market_p_buy'] = 'Kup';
+$LNG['market_ship_as_first'] = 'Wybierz typ statku do handlu';
+$LNG['market_confirm_are_you_sure'] = 'Czy na pewno?';
+$LNG['market_info_header'] = 'Rynek';
+$LNG['market_buyable_only_trade_partners'] = 'Tylko partnerzy';
+$LNG['market_buyable_no_enemies'] = 'Bez wrogów';
+$LNG['market_info_description'] = 'Lewa strona - oferta rynku | Prawa strona - kwota zakupu<br><br>&bull; Zaakceptowanych ofert rynku nie można anulować. &bull;<br>&bull; Gracze mogą handlować po dowolnym kursie (stosunku). &bull;';
+$LNG['market_p_msg_not_found'] = 'Oferta nie została znaleziona.';
+$LNG['market_p_msg_more_ships_is_needed'] = 'Potrzeba więcej statków.';
+$LNG['market_p_msg_resources_error'] = 'Za mało surowców.';
+$LNG['market_p_msg_sent'] = 'Wysyłam %s małych transporterów, %s dużych transporterów';
+$LNG['market_p_ratio'] = 'Kurs wymiany';
+$LNG['market_msg_trade_topic'] = 'Status handlu';
+$LNG['market_msg_trade_from'] = ' U700 Rynek';
+$LNG['market_msg_trade_bought'] = 'Twoja flota leci do %s z %s %s, %s %s, %s %s i kosztuje to %s %s';
+$LNG['market_msg_trade_sold'] = 'Twoja flota leci do %s z %s %s, %s %s, %s %s.';
+$LNG['lm_marketplace'] = 'Rynek';
+// -----------------------------------------------------------------------------
 
 // Translated into Polish by Sirgomo . All rights reversed (C) 2012
 // Edited by TheRavikin. All rights resteemed (C) 2018

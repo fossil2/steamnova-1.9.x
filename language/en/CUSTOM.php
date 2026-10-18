@@ -112,67 +112,113 @@ $LNG['Resource_Pack6']     = "Have these packages ready";
 $LNG['Resource_Pack7']     = "You can only buy resources every 24 hours";
 $LNG['Resource_Pack8']     = "Buy Resources";
 
+//Quest
 
-
-// Mods Quests EN
 $LNG['quest_categorie_1'] = "Construction";
 $LNG['quest_categorie_2'] = "Research";
 $LNG['quest_categorie_3'] = "Fleet";
 $LNG['quest_categorie_4'] = "Defense";
 $LNG['quest_categorie_5'] = "Officers";
-$LNG['quest_01']          = "Create a Category";
-$LNG['quest_02']          = "Create a Quest";
-$LNG['quest_03']          = "Active Task";
-$LNG['quest_04']          = "Select a Category*";
-$LNG['quest_05']          = "Quest Name*";
-$LNG['quest_06']          = "Quest Description";
-$LNG['quest_07']          = "Objective";
-$LNG['quest_08']          = "Target Level";
-$LNG['quest_09']          = "Reward Points";
-$LNG['quest_10']          = "Reward for";
-$LNG['quest_11']          = "Add";
-$LNG['quest_12']          = "Create Category";
-$LNG['quest_13']          = "Event Mission";
-$LNG['quest_14']          = "Event End";
-$LNG['quest_15']          = "Create the Quest";
-$LNG['quest_16']          = "Event End";
-$LNG['quest_17']          = "Category List";
-$LNG['quest_18']          = "Quest List";
-$LNG['quest_19']          = "Quest ID";
-$LNG['quest_20']          = "Rewards";
-$LNG['quest_21']          = "Game Missions";
-$LNG['quest_22']          = "Rewards";
-$LNG['quest_23']          = "Category";
-$LNG['quest_24']          = "Description";
-$LNG['quest_25']          = "Objective";
-$LNG['quest_26']          = "Quest Active";
-$LNG['quest_27']          = "Create";
-$LNG['quest_28']          = "Special Mission";
-$LNG['quest_29']          = "Special Mission Expired";
-$LNG['quest_30']          = "Action";
-$LNG['quest_31']          = "Objective";
-$LNG['quest_32']          = "No quests available for this category.";
-$LNG['quest_33']          = "Not Started";
-$LNG['quest_34']          = "Quest Completed";
-$LNG['quest_35']          = "The category you selected does not exist";
-$LNG['quest_36']          = "Select Category";
-$LNG['quest_37']          = "This category number already exists, please navigate to the list";
-$LNG['quest_38']          = "Completed";
-$LNG['quest_39']          = "Event End";
-$LNG['quest_40']          = "In Progress";
-$LNG['quest_41']          = "Finished";
-$LNG['quest_42']          = "Sorry, but no content is available at the moment.";
 
-// Mods Quests EN ADMIN
-$LNG['adm_quest_info_title'] = "Operational Information";
+$LNG['quest_01'] = "Create category";
+$LNG['quest_02'] = "Create quest";
+$LNG['quest_03'] = "Active quest";
+$LNG['quest_04'] = "Select category*";
+$LNG['quest_05'] = "Quest name*";
+$LNG['quest_06'] = "Quest description";
+$LNG['quest_07'] = "Target";
+$LNG['quest_08'] = "Target level";
+$LNG['quest_09'] = "Reward points";
+$LNG['quest_10'] = "Reward";
+$LNG['quest_11'] = "Add";
+$LNG['quest_12'] = "Create category";
+$LNG['quest_13'] = "Event mission";
+$LNG['quest_14'] = "Event end";
+$LNG['quest_15'] = "Create quest";
+$LNG['quest_16'] = "Event end";
+$LNG['quest_17'] = "Categories";
+$LNG['quest_18'] = "Quests";
+$LNG['quest_19'] = "Quest ID";
+
+$LNG['quest_20'] = "Start quest";
+$LNG['quest_21'] = "Game missions";
+$LNG['quest_22'] = "Rewards";
+$LNG['quest_23'] = "Category";
+$LNG['quest_24'] = "Description";
+$LNG['quest_25'] = "Target";
+$LNG['quest_26'] = "Quest active";
+$LNG['quest_27'] = "Create";
+$LNG['quest_28'] = "Special mission";
+$LNG['quest_29'] = "Special mission expired";
+$LNG['quest_30'] = "Action";
+$LNG['quest_31'] = "Target";
+
+$LNG['quest_32'] = "No quests are available in this category.";
+$LNG['quest_33'] = "Not started";
+$LNG['quest_34'] = "This event has already ended.";
+$LNG['quest_35'] = "The selected category does not exist.";
+$LNG['quest_36'] = "Select category";
+$LNG['quest_37'] = "This category number already exists.";
+$LNG['quest_38'] = "Completed";
+$LNG['quest_39'] = "Event end:";
+$LNG['quest_40'] = "In progress";
+$LNG['quest_41'] = "Finished";
+$LNG['quest_42'] = "No quest content is currently available.";
+$LNG['quest_loading'] = "Loading quests ...";
+
+
+// =========================================================
+// ADDITIONAL QUEST TEXTS
+// =========================================================
+
+$LNG['quest_event'] = "Event";
+$LNG['quest_event_finished'] = "Event finished";
+
+$LNG['quest_error_not_exists'] =
+    "This quest no longer exists.";
+
+$LNG['quest_error_not_active'] =
+    "This quest is not active.";
+
+$LNG['quest_error_already_accepted'] =
+    "You have already accepted this quest.";
+
+$LNG['quest_error_invalid_target'] =
+    "Invalid quest target.";
+
+$LNG['quest_error_not_found'] =
+    "Quest could not be found.";
+
+$LNG['quest_error_already_finished'] =
+    "You have already completed this quest.";
+
+$LNG['quest_started'] =
+    "The quest \"%s\" has been started.";
+
+$LNG['quest_finish_success'] =
+    "Quest completed. The rewards have been credited to your account.";
+
+$LNG['quest_finish_invalid'] =
+    "The requirements to complete this quest have not yet been met.";
+
+
+// =========================================================
+// MOD QUESTS - ADMIN
+// =========================================================
+
+$LNG['adm_quest_info_title'] = "Operating information";
+
 $LNG['adm_quest_info_content'] = "
 <p>To use this mod optimally, we recommend the following:</p>
+
 <ul style='margin-top: 20px;'>
     <li style='padding-bottom: 10px;'>1 - Create all required categories</li>
-    <li style='padding-bottom: 10px;'>2 - Refresh the page to include the categories in the quest (selection list)</li>
-    <li style='padding-bottom: 10px;'>3 - Create your various quests</li>
+    <li style='padding-bottom: 10px;'>2 - Refresh the page so the categories appear in the quest selection list</li>
+    <li style='padding-bottom: 10px;'>3 - Create your different quests</li>
 </ul>
-<p style='color: red; font-weight: bold; size: 18; margin-top: 10px;'>Warning: Even if you add categories that are not included in the source code, they cannot be completed by players.</p>
-";
 
+<p style='color: red; font-weight: bold; font-size: 18px; margin-top: 10px;'>
+Warning: Categories that are not supported by the quest system may not be completable by players.
+</p>
+";
 

@@ -68,7 +68,8 @@ $LNG['loginPassword']				= 'Password';
 $LNG['loginButton']					= 'Login';
 $LNG['loginInfo']					= 'With the login I accept the %s.';
 $LNG['loginWelcome']				= 'Welcome to %s';
-$LNG['loginServerDesc'] = '%s is a free online space strategy game for your browser. Build and develop your planets, research new technologies, construct defenses and command powerful fleets. Gather and manage resources, establish new colonies and compete against other players in strategic battles. All you need is a modern web browser – no download or installation required.';
+$LNG['loginServerDesc']             = '%s is a free online space strategy game for your browser. Build and develop your planets, research new technologies, construct defenses and command powerful fleets. Gather and manage resources, establish new colonies and compete against other players in strategic battles. All you need is a modern web browser – no download or installation required.';
+
 // Register
 $LNG['registerFacebookAccount']		= 'Facebook Account';
 $LNG['registerUsername']			= 'Username';

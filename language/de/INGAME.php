@@ -233,6 +233,26 @@ $LNG['ov_players']						= 'Spieler';
 $LNG['ov_moving_fleets']					= 'Flotten in Bewegung';
 
 
+//Quest
+
+// Quest-Aufgaben automatisch erzeugen
+$LNG['quest_task_build']    = 'Bauen: %s';
+$LNG['quest_task_research'] = 'Forschen: %s';
+$LNG['quest_task_fleet']    = 'Flotte bauen: %s';
+$LNG['quest_task_defense']  = 'Verteidigung bauen: %s';
+$LNG['quest_task_officer']  = 'Offizier ausbauen: %s';
+
+$LNG['quest_desc_build']    = 'Baue %s um %d Stufe(n) aus.';
+$LNG['quest_desc_research'] = 'Erforsche %s um %d Stufe(n).';
+$LNG['quest_desc_fleet']    = 'Baue %d Stück %s.';
+$LNG['quest_desc_defense']  = 'Baue %d Stück %s.';
+$LNG['quest_desc_officer']  = 'Baue %s um %d Stufe(n) aus.';
+
+$LNG['quest_select_task']   = 'Aufgabe auswählen';
+$LNG['quest_task_type']     = 'Aufgabentyp';
+$LNG['quest_target']        = 'Ziel';
+
+
 //Übersichtsaktionen
 
 $LNG['ov_ac_error_1'] = "Name darf nicht leer sein!";
@@ -1411,5 +1431,15 @@ $LNG['tut_m9_quest5']                       = 'frei';
 $LNG['tut_m9_gain']                         = '<font color="orange">Belohnung: 5000 Dunkle Materie</font>';
 $LNG['tut_m9_ready']                        = 'Glückwunsch du hast Mission 9 des Tutorials abgeschlossen!';
 $LNG['tut_compleat']                        = 'Du hast alle Mission erfolgreich abgeschlossen!';
+
+$LNG['kb_fleets_stood_against']   = 'Folgende Flotten standen sich gegenüber';
+$LNG['kb_round']                  = 'Kampfrunde';
+$LNG['kb_attacker_before_round']  = 'Angreifer vor der Runde';
+$LNG['kb_defender_before_round']  = 'Verteidiger vor der Runde';
+$LNG['kb_attacker_after_round']   = 'Angreifer nach der Runde';
+$LNG['kb_defender_after_round']   = 'Verteidiger nach der Runde';
+$LNG['kb_repaired_defense']       = 'Reparierte Verteidigung';
+$LNG['kb_moon_chance']            = 'Mondchance';
+$LNG['kb_moon_created']           = 'Die großen Mengen an Trümmern formten einen Mond!';
 
 // Translated into German by Jan . All rights reversed (C) 2011

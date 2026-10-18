@@ -78,6 +78,9 @@ $LNG['cronjob_asteroid_msg_from'] = "Система событий";
 $LNG['cronjob_asteroid_msg_to'] = "Сообщение о событии";
 $LNG['cronjob_asteroid_msg_user_event_close'] = "Событие 'Астероиды' завершено, все астероиды уничтожены.";
 
+//Quest
+
+
 // Сохранить миссию
 $LNG['type_mission_19']	= 'Сохранительный полет';
 $LNG['modul_51'] = 'Миссия - Сохранить';

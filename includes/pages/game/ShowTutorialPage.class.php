@@ -119,41 +119,43 @@ class ShowTutorialPage extends AbstractGamePage
     ],
 ],
 
-  8 => [
+ 8 => [
     'flag'=>'tut_m8',
     'reward'=>['metal'=>0,'crystal'=>500,'deuterium'=>1000,'darkmatter'=>175],
     'tpl'=>'mission_8.tpl',
     'lng_done'=>'tut_m8_ready',
     'redirect'=>'game.php?page=tutorial&mode=m9',
     'steps'=>[
-        ['type'=>'planet','field'=>'colonizer','op'=>'>=','value'=>1,'step'=>1],
+       ['type'=>'planet','field'=>'colonizer','op'=>'>=','value'=>1,'step'=>1],
 
         [
             'type'=>'sql',
             'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
             'op'=>'>=','value'=>2,'step'=>2
         ],
-
         ['type'=>'planet','field'=>'big_ship_cargo','op'=>'>=','value'=>5,'step'=>3],
     ],
 ],
 
-
-    9 => [
+9 => [
     'flag'=>'tut_m9',
     'reward'=>['metal'=>5000,'crystal'=>0,'deuterium'=>0,'darkmatter'=>250],
     'tpl'=>'mission_9.tpl',
     'lng_done'=>'tut_compleat',
     'redirect'=>'game.php?page=achievements',
     'steps'=>[
-        ['type'=>'planet','field'=>'battle_ship','op'=>'>=','value'=>50,'step'=>1],
-        ['type'=>'user','field'=>'energy_tech','op'=>'>=','value'=>3,'step'=>2],
-        ['type'=>'energy','op'=>'>=','value'=>2000,'step'=>3],
+        ['type'=>'planet','field'=>'recycler','op'=>'>=','value'=>25,'step'=>1],
+
         [
             'type'=>'sql',
-            'sql'=>"SELECT COUNT(*) cnt FROM %%PLANETS%% WHERE id_owner = :id",
-            'op'=>'>=','value'=>2,'step'=>4
+            'sql'=>"SELECT COUNT(*) cnt
+                    FROM %%MESSAGES%%
+                    WHERE message_owner = :id
+                      AND message_type = 5",
+            'op'=>'>=','value'=>1,'step'=>2
         ],
+
+        ['type'=>'planet','field'=>'battle_ship','op'=>'>=','value'=>100,'step'=>3],
     ],
 ],
    ];   
@@ -209,7 +211,7 @@ public function show()
     private function runMission(int $id)
     {
         global $USER, $PLANET, $LNG;
-
+        
         $this->tplObj->caching = false;
 
         if (!isset($this->missions[$id])) {

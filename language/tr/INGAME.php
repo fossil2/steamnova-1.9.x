@@ -28,6 +28,23 @@ $LNG['fs_time_hours'] = "Saat";
 $LNG['fs_time_seconds'] = "Ikinci";
 $LNG['fs_time_minutes'] = "Dakika";
 
+// Otomatik oluşturulan görevler
+$LNG['quest_task_build']    = 'İnşa et: %s';
+$LNG['quest_task_research'] = 'Araştır: %s';
+$LNG['quest_task_fleet']    = 'Filo inşa et: %s';
+$LNG['quest_task_defense']  = 'Savunma inşa et: %s';
+$LNG['quest_task_officer']  = 'Subayı geliştir: %s';
+
+$LNG['quest_desc_build']    = '%s yapısını %d seviye geliştir.';
+$LNG['quest_desc_research'] = '%s araştırmasını %d seviye geliştir.';
+$LNG['quest_desc_fleet']    = '%d adet %s inşa et.';
+$LNG['quest_desc_defense']  = '%d adet %s inşa et.';
+$LNG['quest_desc_officer']  = '%s subayını %d seviye geliştir.';
+
+$LNG['quest_select_task']   = 'Görev seç';
+$LNG['quest_task_type']     = 'Görev türü';
+$LNG['quest_target']        = 'Hedef';
+
 //auto expo
 $LNG['ae_autoexp'] = "Otomatik Keşif";
 $LNG['ae_galaxy'] = "Galaksi";
@@ -1388,5 +1405,15 @@ $LNG['tut_m9_gain']                         = '<font color="orange">Ödül: 5000
 $LNG['tut_m9_ready']                        = 'Tebrikler, öğreticinin 9. görevini tamamladın!<br>Zaten 5000 Karanlık Madde kazandın!';
 
 $LNG['tut_compleat']                        = 'Tüm görevleri başarıyla tamamladın!';
+
+$LNG['kb_fleets_stood_against']   = 'Aşağıdaki filolar karşı karşıya geldi';
+$LNG['kb_round']                  = 'Savaş turu';
+$LNG['kb_attacker_before_round']  = 'Turdan önce saldıran';
+$LNG['kb_defender_before_round']  = 'Turdan önce savunan';
+$LNG['kb_attacker_after_round']   = 'Turdan sonra saldıran';
+$LNG['kb_defender_after_round']   = 'Turdan sonra savunan';
+$LNG['kb_repaired_defense']       = 'Onarılan savunma';
+$LNG['kb_moon_chance']            = 'Ay oluşma ihtimali';
+$LNG['kb_moon_created']           = 'Büyük miktarda enkaz bir ay oluşturdu!';
 
 //----------------------------------------------------------------------------//

@@ -37,6 +37,18 @@ class ShowMessageListPage extends AbstractAdminPage
 		$dateEnd	= HTTP::_GP('dateEnd', array());
 
 		$db = Database::get();
+		
+				// Alle Nachrichten im aktuellen Universum löschen
+		if (HTTP::_GP('deleteAllMessages', 0) == 1)
+		{
+			$universe = (int) Universe::getEmulated();
+
+			$db->delete("DELETE FROM %%MESSAGES%% WHERE message_universe = :universe;", array(
+				':universe' => $universe
+			));
+
+			HTTP::redirectTo('admin.php?page=messageList');
+		}
 
 		$perSide	= 50;
 
