@@ -324,7 +324,112 @@ class BotResearchAI
             'b_tech'   => (int)($USER['b_tech'] ?? 0),
         ]);
 
-        // Kandidaten nach Priorität durchgehen
+        /* =========================
+         * ASTRO-BOOTSTRAP
+         * =========================
+         *
+         * Solange Astrophysik unter Level 2 liegt, werden zuerst nur
+         * die zwingend benötigten Mindeststufen aufgebaut.
+         *
+         * Ziel:
+         *   Energy 1
+         *   Computer 1
+         *   Combustion 2
+         *   Spy 3
+         *   Impulse 3
+         *   Astrophysics 2
+         *
+         * Dadurch forscht ein neuer Bot nicht erst Laser/Impulse/Spy
+         * bis zum normalen Max-Level, bevor Expo/Kolonisation möglich ist.
+         */
+        $astroCol = $resource[124] ?? null;
+        $astroLevel = $astroCol !== null
+            ? (int)($USER[$astroCol] ?? 0)
+            : 0;
+
+        if ($astroLevel < 2) {
+            $bootstrapTargets = [
+                113 => 1, // Energy Tech
+                108 => 1, // Computer Tech
+                115 => 2, // Combustion
+                106 => 3, // Spy Tech
+                117 => 3, // Impulse Drive
+                124 => 2, // Astrophysics
+            ];
+
+            self::log([
+                'action'      => 'ASTRO_BOOTSTRAP',
+                'uid'         => $userId,
+                'astro_level' => $astroLevel,
+            ]);
+
+            foreach ($bootstrapTargets as $elementId => $targetLevel) {
+                if (!isset(self::$RESEARCH_CONFIG[$elementId])) {
+                    continue;
+                }
+
+                $colName = $resource[$elementId] ?? null;
+                if ($colName === null) {
+                    continue;
+                }
+
+                $currentLevel = (int)($USER[$colName] ?? 0);
+
+                if ($currentLevel >= $targetLevel) {
+                    continue;
+                }
+
+                $config = self::$RESEARCH_CONFIG[$elementId];
+
+                if (!self::canResearch(
+                    $USER,
+                    $PLANET,
+                    $elementId,
+                    $config,
+                    $labLevel
+                )) {
+                    self::log([
+                        'action'  => 'ASTRO_BOOTSTRAP_WAIT',
+                        'uid'     => $userId,
+                        'tech'    => $config['label'],
+                        'current' => $currentLevel,
+                        'target'  => $targetLevel,
+                    ]);
+
+                    return;
+                }
+
+                if (self::startResearch(
+                    $USER,
+                    $PLANET,
+                    $elementId,
+                    $config
+                )) {
+                    self::log([
+                        'action'  => 'ASTRO_BOOTSTRAP_START',
+                        'uid'     => $userId,
+                        'tech'    => $config['label'],
+                        'from'    => $currentLevel,
+                        'to'      => $currentLevel + 1,
+                        'target'  => $targetLevel,
+                    ]);
+
+                    return;
+                }
+
+                self::log([
+                    'action'  => 'ASTRO_BOOTSTRAP_WAIT',
+                    'uid'     => $userId,
+                    'tech'    => $config['label'],
+                    'current' => $currentLevel,
+                    'target'  => $targetLevel,
+                ]);
+
+                return;
+            }
+        }
+
+        // Normale Forschung nach Priorität
         foreach (self::$PRIORITY as $elementId) {
             if (!isset(self::$RESEARCH_CONFIG[$elementId])) {
                 continue;

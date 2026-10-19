@@ -161,7 +161,7 @@ class BotColonyBuildAI
 
     private static function tryBuild(array $p, string $phase): bool
     {
-        $buildOrder = self::getBuildOrder($phase);
+        $buildOrder = self::getBuildOrder($p, $phase);
 
         foreach ($buildOrder as $elementId) {
             $status = self::getBuildStatus($p, $elementId, $phase);
@@ -193,49 +193,75 @@ class BotColonyBuildAI
         return false;
     }
 
-    private static function getBuildOrder(string $phase): array
+    private static function getBuildOrder(array $p, string $phase): array
     {
-        return match ($phase) {
-            'bootstrap' => [
-                self::ID_SOLAR_PLANT,
-                self::ID_METAL_MINE,
-                self::ID_CRYSTAL_MINE,
-                self::ID_DEUTERIUM_SYNTH,
-                self::ID_ROBOT_FACTORY,
-                self::ID_METAL_STORE,
-                self::ID_CRYSTAL_STORE,
-                self::ID_DEUTERIUM_STORE,
-                self::ID_HANGAR,
-            ],
+        $metal   = (int)($p['metal_mine'] ?? 0);
+        $crystal = (int)($p['crystal_mine'] ?? 0);
+        $deut    = (int)($p['deuterium_sintetizer'] ?? 0);
 
-            'growth' => [
-                self::ID_SOLAR_PLANT,
-                self::ID_METAL_MINE,
-                self::ID_CRYSTAL_MINE,
-                self::ID_DEUTERIUM_SYNTH,
-                self::ID_FUSION_PLANT,
-                self::ID_ROBOT_FACTORY,
-                self::ID_METAL_STORE,
-                self::ID_CRYSTAL_STORE,
-                self::ID_DEUTERIUM_STORE,
-                self::ID_HANGAR,
-                self::ID_SILO,
-            ],
-
-            default => [
-                self::ID_SOLAR_PLANT,
-                self::ID_METAL_MINE,
-                self::ID_CRYSTAL_MINE,
-                self::ID_DEUTERIUM_SYNTH,
-                self::ID_FUSION_PLANT,
-                self::ID_METAL_STORE,
-                self::ID_CRYSTAL_STORE,
-                self::ID_DEUTERIUM_STORE,
-                self::ID_ROBOT_FACTORY,
-                self::ID_HANGAR,
-                self::ID_SILO,
-            ],
+        [$metalTarget, $crystalTarget, $deutTarget] = match ($phase) {
+            'bootstrap' => [12, 9, 6],
+            'growth'    => [20, 16, 12],
+            default     => [28, 24, 18],
         };
+
+        $mineOrder = [
+            [
+                'id'       => self::ID_METAL_MINE,
+                'progress' => $metal / max(1, $metalTarget),
+                'priority' => 1,
+            ],
+            [
+                'id'       => self::ID_CRYSTAL_MINE,
+                'progress' => $crystal / max(1, $crystalTarget),
+                'priority' => 2,
+            ],
+            [
+                'id'       => self::ID_DEUTERIUM_SYNTH,
+                'progress' => $deut / max(1, $deutTarget),
+                'priority' => 3,
+            ],
+        ];
+
+        usort(
+            $mineOrder,
+            static function (array $a, array $b): int {
+                if ($a['progress'] == $b['progress']) {
+                    return $a['priority'] <=> $b['priority'];
+                }
+
+                return $a['progress'] <=> $b['progress'];
+            }
+        );
+
+        $orderedMines = array_column($mineOrder, 'id');
+
+        /*
+         * Sinnvolle Reihenfolge für Kolonien:
+         * Energie -> Speicher -> Roboter -> Minen -> Rest.
+         * Speicher und Roboter werden nur gebaut, wenn ihre
+         * dynamischen Regeln es wirklich verlangen.
+         */
+        $order = [
+            self::ID_SOLAR_PLANT,
+            self::ID_METAL_STORE,
+            self::ID_CRYSTAL_STORE,
+            self::ID_DEUTERIUM_STORE,
+            self::ID_ROBOT_FACTORY,
+            ...$orderedMines,
+        ];
+
+        if ($phase !== 'bootstrap') {
+            $order[] = self::ID_FUSION_PLANT;
+        }
+
+        $order[] = self::ID_HANGAR;
+
+        if ($phase !== 'bootstrap') {
+            $order[] = self::ID_SILO;
+        }
+
+        return $order;
     }
 
     private static function getBuildStatus(array $p, int $id, string $phase): array
@@ -247,6 +273,7 @@ class BotColonyBuildAI
         $fusion      = (int)($p['fusion_plant'] ?? 0);
         $robot       = (int)($p['robot_factory'] ?? 0);
         $hangar      = (int)($p['hangar'] ?? 0);
+        $robotTarget = self::getRobotTarget($p);
 
         $nextMineLevel = max($metalMine, $crystalMine, $deutSynth) + 1;
         $needsEnergy   = self::needsMoreEnergy($p, $nextMineLevel);
@@ -269,7 +296,7 @@ class BotColonyBuildAI
         $allowed = match ($phase) {
             'bootstrap' => match ($id) {
                 self::ID_SOLAR_PLANT =>
-                    $solar === 0 || $needsEnergy || $solar < 8,
+                    $solar === 0 || $needsEnergy,
 
                 self::ID_FUSION_PLANT =>
                     false,
@@ -284,19 +311,16 @@ class BotColonyBuildAI
                     $deutSynth < 6,
 
                 self::ID_METAL_STORE =>
-                    (int)($p['metal_store'] ?? 0) < 2
-                    || self::isStorageNeeded($p, 'metal'),
+                    self::isStorageNeededSmart($p, 'metal', $phase),
 
                 self::ID_CRYSTAL_STORE =>
-                    (int)($p['crystal_store'] ?? 0) < 2
-                    || self::isStorageNeeded($p, 'crystal'),
+                    self::isStorageNeededSmart($p, 'crystal', $phase),
 
                 self::ID_DEUTERIUM_STORE =>
-                    (int)($p['deuterium_store'] ?? 0) < 1
-                    || self::isStorageNeeded($p, 'deuterium'),
+                    self::isStorageNeededSmart($p, 'deuterium', $phase),
 
                 self::ID_ROBOT_FACTORY =>
-                    $robot < 3,
+                    $robot < $robotTarget,
 
                 self::ID_HANGAR =>
                     $robot >= 2 && $hangar < 2,
@@ -328,28 +352,16 @@ class BotColonyBuildAI
                     || $deutSynth < ($fusion + 2),
 
                 self::ID_METAL_STORE =>
-                    (int)($p['metal_store'] ?? 0) < 4
-                    || (
-                        (int)($p['metal_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                        && self::isStorageNeeded($p, 'metal')
-                    ),
+                    self::isStorageNeededSmart($p, 'metal', $phase),
 
                 self::ID_CRYSTAL_STORE =>
-                    (int)($p['crystal_store'] ?? 0) < 3
-                    || (
-                        (int)($p['crystal_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                        && self::isStorageNeeded($p, 'crystal')
-                    ),
+                    self::isStorageNeededSmart($p, 'crystal', $phase),
 
                 self::ID_DEUTERIUM_STORE =>
-                    (int)($p['deuterium_store'] ?? 0) < 2
-                    || (
-                        (int)($p['deuterium_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                        && self::isStorageNeeded($p, 'deuterium')
-                    ),
+                    self::isStorageNeededSmart($p, 'deuterium', $phase),
 
                 self::ID_ROBOT_FACTORY =>
-                    $robot < 6,
+                    $robot < $robotTarget,
 
                 self::ID_HANGAR =>
                     $robot >= 2 && $hangar < 4,
@@ -381,19 +393,16 @@ class BotColonyBuildAI
                     || $deutSynth < ($fusion + 2),
 
                 self::ID_METAL_STORE =>
-                    (int)($p['metal_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                    && self::isStorageNeeded($p, 'metal'),
+                    self::isStorageNeededSmart($p, 'metal', $phase),
 
                 self::ID_CRYSTAL_STORE =>
-                    (int)($p['crystal_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                    && self::isStorageNeeded($p, 'crystal'),
+                    self::isStorageNeededSmart($p, 'crystal', $phase),
 
                 self::ID_DEUTERIUM_STORE =>
-                    (int)($p['deuterium_store'] ?? 0) < self::MAX_STORAGE_LEVEL
-                    && self::isStorageNeeded($p, 'deuterium'),
+                    self::isStorageNeededSmart($p, 'deuterium', $phase),
 
                 self::ID_ROBOT_FACTORY =>
-                    $robot < 8,
+                    $robot < $robotTarget,
 
                 self::ID_HANGAR =>
                     $robot >= 2 && $hangar < 12,
@@ -554,18 +563,129 @@ class BotColonyBuildAI
         return ($solarOutput + $fusionOutput) < $required;
     }
 
-    private static function isStorageNeeded(array $p, string $res): bool
+    private static function getRobotTarget(array $p): int
     {
-        $storage = match ($res) {
-            'metal'     => (int)($p['metal_store'] ?? 0),
-            'crystal'   => (int)($p['crystal_store'] ?? 0),
-            'deuterium' => (int)($p['deuterium_store'] ?? 0),
-            default     => 0,
+        $metal   = (int)($p['metal_mine'] ?? 0);
+        $crystal = (int)($p['crystal_mine'] ?? 0);
+        $deut    = (int)($p['deuterium_sintetizer'] ?? 0);
+
+        if ($metal >= 28 && $crystal >= 24 && $deut >= 18) {
+            return 8;
+        }
+
+        if ($metal >= 24 && $crystal >= 20 && $deut >= 15) {
+            return 7;
+        }
+
+        if ($metal >= 20 && $crystal >= 16 && $deut >= 12) {
+            return 6;
+        }
+
+        if ($metal >= 17 && $crystal >= 14 && $deut >= 10) {
+            return 5;
+        }
+
+        if ($metal >= 14 && $crystal >= 11 && $deut >= 8) {
+            return 4;
+        }
+
+        if ($metal >= 12 && $crystal >= 9 && $deut >= 6) {
+            return 3;
+        }
+
+        if ($metal >= 8 && $crystal >= 6 && $deut >= 4) {
+            return 2;
+        }
+
+        if ($metal >= 4 && $crystal >= 3 && $deut >= 2) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    private static function isStorageNeededSmart(
+        array $p,
+        string $res,
+        string $phase
+    ): bool {
+        $storageField = match ($res) {
+            'metal'     => 'metal_store',
+            'crystal'   => 'crystal_store',
+            'deuterium' => 'deuterium_store',
+            default     => null,
         };
 
-        $capacity = pow(1.5, $storage) * 5000;
+        if ($storageField === null) {
+            return false;
+        }
 
-        return (float)($p[$res] ?? 0) > ($capacity * 0.95);
+        $storageLevel = (int)($p[$storageField] ?? 0);
+
+        if ($storageLevel >= self::MAX_STORAGE_LEVEL) {
+            return false;
+        }
+
+        $capacity = pow(1.5, $storageLevel) * 5000;
+        $current  = (float)($p[$res] ?? 0);
+
+        /*
+         * Wie beim Hauptplaneten schon etwas vor dem Limit reagieren.
+         */
+        if ($current >= ($capacity * 0.80)) {
+            return true;
+        }
+
+        /*
+         * Vorausschauend prüfen, ob die aktuelle Kapazität
+         * für kommende Wirtschaftsgebäude überhaupt ausreicht.
+         */
+        $resourceKey = $res;
+
+        $candidateIds = [
+            self::ID_METAL_MINE,
+            self::ID_CRYSTAL_MINE,
+            self::ID_DEUTERIUM_SYNTH,
+            self::ID_SOLAR_PLANT,
+        ];
+
+        $robotTarget = self::getRobotTarget($p);
+
+        if ((int)($p['robot_factory'] ?? 0) < $robotTarget) {
+            $candidateIds[] = self::ID_ROBOT_FACTORY;
+        }
+
+        if ((int)($p['robot_factory'] ?? 0) >= 2) {
+            $candidateIds[] = self::ID_HANGAR;
+        }
+
+        $required = 0;
+
+        foreach ($candidateIds as $elementId) {
+            $field = match ($elementId) {
+                self::ID_METAL_MINE      => 'metal_mine',
+                self::ID_CRYSTAL_MINE    => 'crystal_mine',
+                self::ID_DEUTERIUM_SYNTH => 'deuterium_sintetizer',
+                self::ID_SOLAR_PLANT     => 'solar_plant',
+                self::ID_ROBOT_FACTORY   => 'robot_factory',
+                self::ID_HANGAR          => 'hangar',
+                default                  => null,
+            };
+
+            if ($field === null) {
+                continue;
+            }
+
+            $nextLevel = (int)($p[$field] ?? 0) + 1;
+            $cost      = self::getBuildCost($elementId, $nextLevel);
+
+            $required = max(
+                $required,
+                (int)($cost[$resourceKey] ?? 0)
+            );
+        }
+
+        return $required > ($capacity * 0.85);
     }
 
     private static function startBuild(array $planet, int $elementId): bool

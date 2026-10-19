@@ -34,6 +34,10 @@ class BotColonizeAI
     private const COOLDOWN_MIN       = 6 * 3600;
     private const COOLDOWN_MAX       = 18 * 3600;
 
+    // Kurzer Retry, wenn noch etwas fehlt oder gewartet werden muss.
+    private const RETRY_MIN          = 5 * 60;
+    private const RETRY_MAX          = 15 * 60;
+
     /**
      * Deine gewünschte Regel:
      * 2 Astrotechnik-Stufen = 1 Kolonie
@@ -117,7 +121,7 @@ class BotColonizeAI
                 'hangar'  => (int)($PLANET['hangar'] ?? 0),
                 'impulse' => (int)($USER['impulse_motor_tech'] ?? 0),
             ]);
-            self::setCooldown($botId);
+            self::setRetryCooldown($botId);
             return;
         }
 
@@ -129,11 +133,25 @@ class BotColonizeAI
         /* 🚀 Kolonieschiff vorhanden? */
         if ((int)($PLANET['colonizer'] ?? 0) < 1) {
             if (!empty($PLANET['b_hangar']) && (int)$PLANET['b_hangar'] > TIMESTAMP) {
+                self::log([
+                    'action'    => 'COLONIZE_WAIT_HANGAR',
+                    'botId'     => $botId,
+                    'planetId'  => (int)$PLANET['id'],
+                    'hangarEnd' => (int)$PLANET['b_hangar'],
+                ]);
+                self::setRetryCooldown($botId);
                 return;
             }
 
             self::queueColonizer((int)$PLANET['id']);
-            self::setCooldown($botId);
+
+            self::log([
+                'action'   => 'COLONIZE_QUEUE_COLONIZER',
+                'botId'    => $botId,
+                'planetId' => (int)$PLANET['id'],
+            ]);
+
+            self::setRetryCooldown($botId);
             return;
         }
 
@@ -144,7 +162,7 @@ class BotColonizeAI
                 'action' => 'COLONIZE_NO_TARGET',
                 'botId'  => $botId,
             ]);
-            self::setCooldown($botId);
+            self::setRetryCooldown($botId);
             return;
         }
 
@@ -319,6 +337,18 @@ class BotColonizeAI
             'UPDATE %%USERS%% SET bot_next_colonize = :t WHERE id = :id;',
             [
                 ':t'  => TIMESTAMP + mt_rand(self::COOLDOWN_MIN, self::COOLDOWN_MAX),
+                ':id' => $botId,
+            ]
+        );
+    }
+
+
+    private static function setRetryCooldown(int $botId): void
+    {
+        Database::get()->update(
+            'UPDATE %%USERS%% SET bot_next_colonize = :t WHERE id = :id;',
+            [
+                ':t'  => TIMESTAMP + mt_rand(self::RETRY_MIN, self::RETRY_MAX),
                 ':id' => $botId,
             ]
         );

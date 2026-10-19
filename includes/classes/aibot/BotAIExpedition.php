@@ -163,41 +163,56 @@ class BotAIExpedition extends BotAICommon
             'duration'   => $fleetDuration,
         ]);
 
-        FleetFunctions::sendFleet(
-            $fleetArray,
-            15,
-            $USER['id'],
-            $PLANET['id'],
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            $PLANET['planet'],
-            1,
-            0,
-            0,
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            static::EXPEDITION_PLANET,
-            1,
-            [901 => 0, 902 => 0, 903 => 0],
-            $fleetStartTime,
-            $fleetStayTime,
-            $fleetEndTime
-        );
+       $fleetId = FleetFunctions::sendFleet(
+       $fleetArray,
+       15,
+       $USER['id'],
+       $PLANET['id'],
+       $PLANET['galaxy'],
+       $PLANET['system'],
+       $PLANET['planet'],
+       1,
+       0,
+       0,
+       $PLANET['galaxy'],
+       $PLANET['system'],
+       static::EXPEDITION_PLANET,
+       1,
+       [901 => 0, 902 => 0, 903 => 0],
+       $fleetStartTime,
+       $fleetStayTime,
+       $fleetEndTime
+      );
 
-        Database::get()->update(
-            'UPDATE %%USERS%% SET bot_next_expedition = :t WHERE id = :id;',
-            [
-                ':t'  => TIMESTAMP + mt_rand(3600, 10800),
-                ':id' => $USER['id'],
-            ]
-        );
 
-        static::log('EXPO sent', [
-            'userId'   => $USER['id'],
-            'planetId' => $PLANET['id'],
-        ]);
+if ($fleetId === false) {
+    static::log('EXPO send aborted, fleet changed', [
+        'userId'     => $USER['id'],
+        'planetId'   => $PLANET['id'],
+        'fleetArray' => $fleetArray,
+    ]);
 
-        return true;
+    return false;
+}
+
+
+Database::get()->update(
+    'UPDATE %%USERS%%
+     SET bot_next_expedition = :t
+     WHERE id = :id;',
+    [
+        ':t'  => TIMESTAMP + mt_rand(3600, 10800),
+        ':id' => $USER['id'],
+    ]
+);
+
+static::log('EXPO sent', [
+    'userId'   => $USER['id'],
+    'planetId' => $PLANET['id'],
+    'fleetId'  => $fleetId,
+]);
+
+return true;
     }
 
     protected static function getExpeditionShipSet(array $PLANET): array

@@ -501,61 +501,79 @@ class BotAIResourceTransfer
             return false;
         }
 
-        /*
-         * Transportmission an eigenen Planeten.
-         */
-        FleetFunctions::sendFleet(
-            $fleet,
-            self::MISSION_TRANSPORT,
+    $fleetId = FleetFunctions::sendFleet(
+    $fleet,
+    self::MISSION_TRANSPORT,
 
-            (int)$USER['id'],
-            (int)$source['id'],
-            (int)$source['galaxy'],
-            (int)$source['system'],
-            (int)$source['planet'],
-            1,
+    (int)$USER['id'],
+    (int)$source['id'],
+    (int)$source['galaxy'],
+    (int)$source['system'],
+    (int)$source['planet'],
+    1,
 
-            (int)$USER['id'],
-            (int)$target['id'],
-            (int)$target['galaxy'],
-            (int)$target['system'],
-            (int)$target['planet'],
-            1,
+    (int)$USER['id'],
+    (int)$target['id'],
+    (int)$target['galaxy'],
+    (int)$target['system'],
+    (int)$target['planet'],
+    1,
 
-            [
-                901 => $sendMetal,
-                902 => $sendCrystal,
-                903 => $sendDeuterium,
-            ],
+    [
+        901 => $sendMetal,
+        902 => $sendCrystal,
+        903 => $sendDeuterium,
+    ],
 
-            $arrival,
-            $arrival,
-            $return,
+    $arrival,
+    $arrival,
+    $return,
 
-            0,
-            0,
-            0,
-            $consumption
-        );
+    0,
+    0,
+    0,
+    $consumption
+);
 
-        /*
-         * Slot-Zustand nach dem Start nur fürs Log.
-         */
-        $slotStateAfter =
-            self::getFleetSlotState($USER);
+/*
+ * sendFleet() kann false liefern,
+ * wenn eine andere Bot-Aktion die Transporter
+ * oder das benötigte Deuterium bereits verwendet hat.
+ */
+if ($fleetId === false) {
+    self::log([
+        'action'      => 'TRANSFER_ABORT_FLEET_CHANGED',
+        'userId'      => $USER['id'],
+        'sourceId'    => $source['id'],
+        'targetId'    => $target['id'],
+        'bigCargo'    => $fleet[self::SHIP_BIG_CARGO] ?? 0,
+        'smallCargo'  => $fleet[self::SHIP_SMALL_CARGO] ?? 0,
+        'metal'       => $sendMetal,
+        'crystal'     => $sendCrystal,
+        'deuterium'   => $sendDeuterium,
+        'consumption' => $consumption,
+    ]);
+
+    return false;
+}
+
+/*
+ * Slot-Zustand nach erfolgreichem Start nur fürs Log.
+ */
+$slotStateAfter =
+    self::getFleetSlotState($USER);
 
         self::log([
             'action'          => 'TRANSFER_SENT',
+            'fleetId'         => $fleetId,
             'userId'          => $USER['id'],
             'sourceId'        => $source['id'],
             'targetId'        => $target['id'],
             'metal'           => $sendMetal,
             'crystal'         => $sendCrystal,
             'deuterium'       => $sendDeuterium,
-            'bigCargo'        =>
-                $fleet[self::SHIP_BIG_CARGO] ?? 0,
-            'smallCargo'      =>
-                $fleet[self::SHIP_SMALL_CARGO] ?? 0,
+            'bigCargo'        => $fleet[self::SHIP_BIG_CARGO] ?? 0,
+            'smallCargo'      => $fleet[self::SHIP_SMALL_CARGO] ?? 0,
             'capacity'        => (int)$capacity,
             'consumption'     => $consumption,
             'arrival'         => $arrival,

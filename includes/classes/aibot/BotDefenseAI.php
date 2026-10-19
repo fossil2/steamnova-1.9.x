@@ -3,190 +3,167 @@ declare(strict_types=1);
 
 class BotDefenseAI
 {
-    /** DEFENSE IDs */
-    private const ID_ROCKET_LAUNCHER = 401;
-    private const ID_LIGHT_LASER     = 402;
-    private const ID_HEAVY_LASER     = 403;
-
-    /** MINDESTLEVEL */
-    private const MIN_SHIPYARD_LEVEL = 2;
+    private const INTERCEPTOR = 502;
+    private const INTERCEPTOR_TARGET = 10;
+    private const RESOURCE_SHARE = 0.10;
+    private const MAX_DEFENSE_BATCH = 3;
+    private const MAX_MISSILE_BATCH = 2;
 
     public static function run(int $userId): void
     {
+        global $resource, $reslist;
         $db = Database::get();
-
-        /* USER */
-        $USER = $db->selectSingle(
+        $user = $db->selectSingle(
             'SELECT * FROM %%USERS%% WHERE id = :uid AND is_bot = 1;',
             [':uid' => $userId]
         );
-
-        if (!$USER) {
+        if (!$user || !empty($user['urlaubs_modus'])) {
             return;
         }
-
-        /* USER POINTS (WICHTIG – FIX) */
-        $scoreRow = $db->selectSingle(
-            'SELECT total_points
-             FROM %%USER_POINTS%%
-             WHERE id_owner = :uid
-               AND universe = :uni;',
-            [
-                ':uid' => $USER['id'],
-                ':uni' => (int)($USER['universe'] ?? 1),
-            ]
-        );
-
-        $USER['total_points'] = (int)($scoreRow['total_points'] ?? 0);
-
-        /* HAUPTPLANET */
-        $PLANET = $db->selectSingle(
-            'SELECT *
-             FROM %%PLANETS%%
-             WHERE id_owner = :uid
-               AND planet_type = 1
-             LIMIT 1;',
+        // Gleiche Hauptplanet-Auswahl wie BotBuildAI und BotColonyBuildAI.
+        $planet = $db->selectSingle(
+            'SELECT * FROM %%PLANETS%% WHERE id_owner = :uid
+             AND planet_type = 1 ORDER BY id ASC LIMIT 1;',
             [':uid' => $userId]
         );
-
-        if (!$PLANET) {
+        if (!$planet || (int)($planet['hangar'] ?? 0) < 2) {
             return;
         }
-
-        /* QUEUE AKTIV */
-        if ((int)$PLANET['b_building'] > time()) {
-            return;
+        // Bestehende Flotten-/Verteidigungsauftraege niemals ersetzen.
+        $oldQueue = (string)($planet['b_hangar_id'] ?? '');
+        if ($oldQueue !== '') {
+            $queue = @unserialize($oldQueue, ['allowed_classes' => false]);
+            if (!is_array($queue) || $queue !== []) {
+                return;
+            }
         }
-
-        /* WERFT */
-        if ((int)$PLANET['hangar'] < self::MIN_SHIPYARD_LEVEL) {
-            return;
+        // Werft/Naniten im Bau: Werftauftraege bis zum Abschluss aussetzen.
+        $buildingQueue = (string)($planet['b_building_id'] ?? '');
+        if ($buildingQueue !== '') {
+            $buildings = @unserialize($buildingQueue, ['allowed_classes' => false]);
+            if (!is_array($buildings)) {
+                return;
+            }
+            foreach ($buildings as $entry) {
+                if (!is_array($entry) || !isset($entry[0])) {
+                    return;
+                }
+                if (in_array((int)$entry[0], [21, 15], true)) {
+                    return;
+                }
+            }
         }
-
-        /* BAUPRIORITÄT */
-        $buildOrder = [
-            self::ID_ROCKET_LAUNCHER,
-            self::ID_LIGHT_LASER,
-            self::ID_HEAVY_LASER,
-        ];
-
-        foreach ($buildOrder as $defId) {
-            if (!self::shouldBuild($USER, $PLANET, $defId)) {
+        $score = $db->selectSingle(
+            'SELECT total_points FROM %%USER_POINTS%%
+             WHERE id_owner = :uid AND universe = :uni;',
+            [':uid' => $userId, ':uni' => (int)($user['universe'] ?? 1)]
+        );
+        $targets = self::getTargets($planet, (int)($score['total_points'] ?? 0));
+        foreach ($targets as $id => $target) {
+            $allowedIds = array_merge($reslist['defense'] ?? [], $reslist['missile'] ?? []);
+            if (!isset($resource[$id]) || !in_array($id, $allowedIds)
+                || !self::isAccessible($user, $planet, $id)) {
                 continue;
             }
-
-            if (self::buildDefense($PLANET, $defId)) {
-                return; // exakt EIN Bau
+            $missing = $target - (int)($planet[$resource[$id]] ?? 0);
+            if ($missing <= 0) {
+                continue;
+            }
+            $amount = min($missing, $id === self::INTERCEPTOR
+                ? self::MAX_MISSILE_BATCH : self::MAX_DEFENSE_BATCH);
+            $amount = min($amount, max(0, (int)Config::get()->max_fleet_per_build));
+            if ($id === self::INTERCEPTOR) {
+                if (!isset($resource[44], $resource[502], $resource[503])
+                    || (int)($planet[$resource[44]] ?? 0) < 2) {
+                    continue;
+                }
+                $missiles = [
+                    502 => (int)($planet[$resource[502]] ?? 0),
+                    503 => (int)($planet[$resource[503]] ?? 0),
+                ];
+                $space = BuildFunctions::getMaxConstructibleRockets($user, $planet, $missiles);
+                $amount = min($amount, max(0, (int)($space[502] ?? 0)));
+            }
+            // Mengenweise pruefen; Preisfunktion erhaelt die NEUE Menge.
+            for (; $amount > 0; --$amount) {
+                $cost = BuildFunctions::getElementPrice($user, $planet, $id, false, $amount);
+                if (!self::withinBudget($planet, $cost)) {
+                    continue;
+                }
+                $m = (float)($cost[901] ?? 0);
+                $c = (float)($cost[902] ?? 0);
+                $d = (float)($cost[903] ?? 0);
+                // Ressourcen und Queue gemeinsam schreiben. Vergleichsschutz
+                // verhindert das Ueberschreiben zwischenzeitlicher Auftraege.
+                $db->update(
+                    'UPDATE %%PLANETS%% SET metal = metal - :m,
+                     crystal = crystal - :c, deuterium = deuterium - :d,
+                     b_hangar_id = :queue, b_hangar = 0
+                     WHERE id = :pid AND id_owner = :uid
+                       AND b_hangar_id = :oldQueue
+                       AND b_building_id = :oldBuildings
+                       AND metal >= :minM AND crystal >= :minC
+                       AND deuterium >= :minD;',
+                    [':m' => $m, ':c' => $c, ':d' => $d,
+                     ':queue' => serialize([[$id, $amount]]),
+                     ':pid' => (int)$planet['id'], ':uid' => $userId,
+                     ':oldQueue' => $oldQueue, ':oldBuildings' => $buildingQueue,
+                     ':minM' => $m / self::RESOURCE_SHARE,
+                     ':minC' => $c / self::RESOURCE_SHARE,
+                     ':minD' => $d / self::RESOURCE_SHARE]
+                );
+                return; // Hoechstens ein Auftrag pro Durchlauf.
             }
         }
     }
 
-    /* =========================
-     * ENTSCHEIDUNGSLOGIK
-     * ========================= */
-    private static function shouldBuild(array $USER, array $PLANET, int $id): bool
+    private static function getTargets(array $planet, int $points): array
     {
-        global $resource;
-
-        $field = $resource[$id] ?? null;
-        if ($field === null) {
-            return false;
+        $metal = (int)($planet['metal_mine'] ?? 0);
+        $crystal = (int)($planet['crystal_mine'] ?? 0);
+        // Raketen zuerst; harte Obergrenzen auch fuer sehr grosse Bots.
+        if ($metal >= 24 && $crystal >= 20 && $points >= 15000) {
+            return [502 => 10, 401 => 60, 402 => 40, 403 => 10, 404 => 4];
         }
-
-        $count = (int)($PLANET[$field] ?? 0);
-
-        // Dynamisches Limit Heavy Laser
-        $maxHeavyLaser = 3;
-        if ($USER['total_points'] >= 8000) {
-            $maxHeavyLaser = 6;
+        if ($metal >= 18 && $crystal >= 14 && $points >= 8000) {
+            return [502 => 10, 401 => 40, 402 => 25, 403 => 6, 404 => 2];
         }
-        if ($USER['total_points'] >= 15000) {
-            $maxHeavyLaser = 10;
-        }
-
-        return match ($id) {
-
-            // 🚀 Raketenwerfer
-            self::ID_ROCKET_LAUNCHER =>
-                $count < 20,
-
-            // 🔫 Leichter Laser
-            self::ID_LIGHT_LASER =>
-                ($USER['laser_tech'] ?? 0) >= 1
-                && $count < 10,
-
-            // 🔥 Schwerer Laser (JETZT FUNKTIONIERT)
-            self::ID_HEAVY_LASER =>
-                $USER['total_points'] >= 4000
-                && ($USER['energy_tech'] ?? 0) >= 3
-                && ($USER['laser_tech'] ?? 0) >= 6
-                && ($PLANET['hangar'] ?? 0) >= 4
-                && $count < $maxHeavyLaser,
-
-            default => false,
-        };
+        return [502 => 10, 401 => 20, 402 => 10, 403 => $points >= 4000 ? 3 : 0];
     }
 
-    /* =========================
-     * BAU STARTEN
-     * ========================= */
-    private static function buildDefense(array $planet, int $elementId): bool
+    private static function isAccessible(array $user, array $planet, int $id): bool
+    {
+        global $requeriments, $resource;
+        // Die Standardfunktion prueft fehlende Felder nicht: explizit absichern.
+        foreach ($requeriments[$id] ?? [] as $requiredId => $level) {
+            $field = $resource[$requiredId] ?? null;
+            if ($field === null || (float)($user[$field] ?? $planet[$field] ?? 0) < $level) {
+                return false;
+            }
+        }
+        return BuildFunctions::isTechnologieAccessible($user, $planet, $id);
+    }
+
+    private static function withinBudget(array $planet, array $cost): bool
     {
         global $resource;
-
-        if (!isset($resource[$elementId])) {
+        if (!$cost || array_sum($cost) <= 0) {
             return false;
         }
-
-        $field   = $resource[$elementId];
-        $current = (int)($planet[$field] ?? 0);
-        $target  = $current + 1;
-
-        // Kosten berechnen
-        $cost = BuildFunctions::getElementPrice(
-            [],          // USER nicht nötig
-            $planet,
-            $elementId,
-            false,
-            $target
-        );
-
-        // Ressourcen prüfen
-        if (
-            ($planet['metal']     ?? 0) < ($cost[901] ?? 0) ||
-            ($planet['crystal']   ?? 0) < ($cost[902] ?? 0) ||
-            ($planet['deuterium'] ?? 0) < ($cost[903] ?? 0)
-        ) {
-            return false;
+        foreach ($cost as $id => $price) {
+            // Keine Premiumwaehrung oder unbekannten Ressourcen ausgeben.
+            if (!in_array((int)$id, [901, 902, 903], true)) {
+                if ($price != 0) {
+                    return false;
+                }
+                continue;
+            }
+            $field = $resource[$id] ?? null;
+            if ($field === null || !is_finite((float)$price) || $price < 0
+                || $price > max(0.0, (float)($planet[$field] ?? 0)) * self::RESOURCE_SHARE) {
+                return false;
+            }
         }
-
-        /* QUEUE */
-        $now = time();
-        $end = $now + 15; // kurze Bauzeit für Bots
-
-        $queue = serialize([
-            [$elementId, $target, [], (float)$end, 'build']
-        ]);
-
-        Database::get()->update(
-            'UPDATE %%PLANETS%%
-             SET
-                metal         = metal - :m,
-                crystal       = crystal - :c,
-                deuterium     = deuterium - :d,
-                b_building    = :end,
-                b_building_id = :queue
-             WHERE id = :pid;',
-            [
-                ':m'     => (int)($cost[901] ?? 0),
-                ':c'     => (int)($cost[902] ?? 0),
-                ':d'     => (int)($cost[903] ?? 0),
-                ':end'   => $end,
-                ':queue' => $queue,
-                ':pid'   => $planet['id'],
-            ]
-        );
-
         return true;
     }
 }
