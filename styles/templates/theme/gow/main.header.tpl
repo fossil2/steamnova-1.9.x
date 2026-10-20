@@ -1,37 +1,36 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="{$lang}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{$lang}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{$lang}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{$lang}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html lang="{$lang}" class="no-js"> <!--<![endif]-->
 <head>
-	<title>{block name="title"} - {$uni_name} - {$game_name}{/block}</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{block name="title"} - {$uni_name} - {$game_name}{/block}</title>
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 
-	<!-- Bootstrap 5 - No IE support -->
-	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-	<link href="./styles/resource/bootstrap_5.3.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
-	<script src="./styles/resource/bootstrap_5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"> -->
-	<link rel="stylesheet" href="./styles/resource/bootstrap_5.3.3/bootstrap-icons.css">
-	
 	{if !empty($goto)}
 	<meta http-equiv="refresh" content="{$gotoinsec};URL={$goto}">
 	{/if}
-	{assign var="REV" value="1.0.0.192" nocache}
+	
+	<!-- JavaScript Core -->
+	<script src="{"./scripts/base/jquery.js"|auto_version}"></script>
+	<script src="{"./scripts/base/jquery.ui.js"|auto_version}"></script>
+	<!-- <script src="{"./scripts/base/jquery.cookie.js"|auto_version}"></script> -->
+	<script src="{"./scripts/base/jquery.validationEngine.js"|auto_version}"></script>
+	<script src="{"./scripts/l18n/validationEngine/jquery.validationEngine-{$lang}.js"|auto_version}"></script>
 
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/boilerplate.css?v={$REV}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/jquery.css?v={$REV}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/validationEngine.jquery.css?v={$REV}">
-	<link rel="stylesheet" type="text/css" href="{$dpath}formate.css?v={$REV}">
-	<link rel="stylesheet" type="text/css" href="{$dpath}global.css?v={$REV}">
+	<!-- CSS Frameworks & Stylesheets -->
+	<link rel="stylesheet" href="{"./styles/resource/bootstrap_5.3.3/css/bootstrap.min.css"|auto_version}">
+	<link rel="stylesheet" href="{"./styles/resource/bootstrap_5.3.3/bootstrap-icons.css"|auto_version}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css">
-	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-	<script type="text/javascript">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+
+	<!-- Game Base Styles (Automatisch versioniert) -->
+	<link rel="stylesheet" type="text/css" href="{"./styles/resource/css/base/boilerplate.css"|auto_version}">
+	<link rel="stylesheet" type="text/css" href="{"./styles/resource/css/base/jquery.css"|auto_version}">
+	<link rel="stylesheet" type="text/css" href="{"./styles/resource/css/base/validationEngine.jquery.css"|auto_version}">
+	<link rel="stylesheet" type="text/css" href="{"{$dpath}formate.css"|auto_version}">
+	<link rel="stylesheet" type="text/css" href="{"{$dpath}global.css"|auto_version}">
+	<link rel="stylesheet" type="text/css" href="{"{$dpath}kb.css"|auto_version}">
+
+	<!-- Core JavaScript Variables -->
+	<script>
 	var ServerTimezoneOffset = {$Offset};
 	var serverTime 	= new Date({$date.0}, {$date.1 - 1}, {$date.2}, {$date.3}, {$date.4}, {$date.5});
 	var startTime	= serverTime.getTime();
@@ -43,8 +42,8 @@
 	var Lang		= "{$lang}";
 	var head_info	= "{$LNG.fcm_info}";
 	var auth		= {$authlevel|default:'0'};
-	var days 		= {$LNG.week_day|json|default:'[]'}
-	var months 		= {$LNG.months|json|default:'[]'} ;
+	var days 		= {$LNG.week_day|json|default:'[]'};
+	var months 		= {$LNG.months|json|default:'[]'};
 	var tdformat	= "{$LNG.js_tdformat}";
 	var queryString	= "{$queryString|escape:'javascript'}";
 	var isPlayerCardActive	= "{$isPlayerCardActive|json}";
@@ -53,80 +52,66 @@
 
 	setInterval(function() {
 		if(relativeTime < Math.floor(Date.now() / 1000)) {
-		serverTime.setSeconds(serverTime.getSeconds()+1);
-		relativeTime++;
+			serverTime.setSeconds(serverTime.getSeconds()+1);
+			relativeTime++;
 		}
 	}, 1);
 	</script>
 
-
-
-	<script type="text/javascript" src="./scripts/base/jquery.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.ui.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.cookie.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.validationEngine.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{$lang}.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/base/tooltip.js?v={$REV}"></script>
-	<script type="text/javascript" src="./scripts/game/base.js?v={$REV}"></script>
+	<!-- Plugins -->
+	<script src="{"./scripts/game/base.js"|auto_version}"></script>
+	
 	{foreach item=scriptname from=$scripts}
-	<script type="text/javascript" src="./scripts/game/{$scriptname}.js?v={$REV}"></script>
+	<script src="{"./scripts/game/{$scriptname}.js"|auto_version}"></script>
 	{/foreach}
+	
 	{if isModuleAvailable($smarty.const.MODULE_ATTACK_ALERT)}
-	<script type="text/javascript">
-	var attackListenTime = {$attackListenTime};
-	</script>
-	<script type="text/javascript" src="./scripts/game/attackAlert.js?v={$REV}"></script>
+	<script>var attackListenTime = {$attackListenTime};</script>
+	<script src="{"./scripts/game/attackAlert.js"|auto_version}"></script>
 	{/if}
-	<!-- fancybox 5.0 -->
+
+	<!-- Vendor Component Scripts -->
 	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+	<script src="{"./styles/resource/bootstrap_5.3.3/js/bootstrap.bundle.min.js"|auto_version}"></script>
+	<script src="{"./scripts/game/overview.js"|auto_version}"></script>
 
-	
-	
-<script>
-		var myDefaultWhiteList = bootstrap.Tooltip.Default.allowList
-		myDefaultWhiteList.table = ['class','style'];
-		myDefaultWhiteList.tbody = [];
-		myDefaultWhiteList.thead = [];
-		myDefaultWhiteList.th = ['colspan'];
-		myDefaultWhiteList.tr = [];
-		myDefaultWhiteList.td = ['colspan','style'];
-		myDefaultWhiteList.span = ['class','onclick'];
-		myDefaultWhiteList.img = ['src','alt','width','height'];
-		myDefaultWhiteList.form = ['class','action','method'];
-		myDefaultWhiteList.input = ['type','name','value'];
-		myDefaultWhiteList.button = ['type','class','onclick','style'];
-		myDefaultWhiteList.font = ['color'];
-		myDefaultWhiteList.a = ['href','class','onclick'];
-		myDefaultWhiteList.br = [];
+	<!-- Bootstrap Component Initialization -->
+	<script>
+	$(() => {
+		// Holt die originale Whitelist von Bootstrap 5 (heißt jetzt allowList)
+		const myDefaultAllowList = bootstrap.Tooltip.Default.allowList;
+		
+		// Whitelist-Erweiterungen für das Spiel
+		myDefaultAllowList.table = ['class','style'];
+		myDefaultAllowList.tbody = [];
+		myDefaultAllowList.thead = [];
+		myDefaultAllowList.th = ['colspan'];
+		myDefaultAllowList.tr = [];
+		myDefaultAllowList.td = ['colspan','style'];
+		myDefaultAllowList.span = ['class','onclick'];
+		myDefaultAllowList.img = ['src','alt','width','height'];
+		myDefaultAllowList.form = ['class','action','method'];
+		myDefaultAllowList.input = ['type','name','value'];
+		myDefaultAllowList.button = ['type','class','onclick','style'];
+		myDefaultAllowList.font = ['color'];
+		myDefaultAllowList.a = ['href','class','onclick'];
+		myDefaultAllowList.br = [];
 
-			//initialize bootstrap tooltips
-			$(document).ready(function(){
-			  $('[data-bs-toggle="tooltip"]').tooltip({
-					container: 'body',
-				  html: true,
-				  whiteList: myDefaultWhiteList
-				});
-			});
+		// Tooltips aktivieren (Nativer Bootstrap-Aufruf über Vanilla JS)
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+		[...tooltipTriggerList].map(el => new bootstrap.Tooltip(el, {
+			container: 'body',
+			html: true,
+			allowList: myDefaultAllowList
+		}));
 
-			// To allow elements
-			//popovers
-
-			$(document).ready(function(){
-				$('[data-bs-toggle="popover"]').popover({
-					container: 'body',
-				  html: true,
-					whiteList: myDefaultWhiteList
-				});
-
-			});
-</script>
-
-<script src="scripts/game/overview.js"></script>
-<script src="./styles/resource/bootstrap_5.3.3/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="./styles/resource/bootstrap_5.3.3/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-
-
+		// Popover aktivieren (Nativer Bootstrap-Aufruf über Vanilla JS)
+		const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+		[...popoverTriggerList].map(el => new bootstrap.Popover(el, {
+			container: 'body',
+			html: true,
+			allowList: myDefaultAllowList
+		}));
+	});
+	</script>
 </head>
-<body id="{if isset($smarty.get.page)}{$smarty.get.page|htmlspecialchars|default:'overview'}{/if}" class="{$bodyclass}">
-	<div id="tooltipNotify" class="tip"></div>

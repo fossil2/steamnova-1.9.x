@@ -21,7 +21,7 @@ function registerSubmit(activeRecaptcha, use_recaptcha_on_register, referralID){
             language: $('#language option:selected').val(),
             rules: $('#rules').is(':checked'),
             referralID : $('#referralID').val(),
-            g_recaptcha_response: recaptchaResponse,
+            'g-recaptcha-response': recaptchaResponse,
             csrfToken: $('#csrfToken').val(),
         },
         success: function(data){
@@ -50,7 +50,7 @@ function registerSubmit(activeRecaptcha, use_recaptcha_on_register, referralID){
 </script>
 
 <!-- ========================================= -->
-<!-- ?? U700 REGISTER � ZENTRAL MIT BUILT-IN STYLE -->
+<!-- 🔵 U700 REGISTER – ZENTRAL MIT BUILT-IN STYLE -->
 <!-- ========================================= -->
 
 <div class="u700-register-wrapper">
