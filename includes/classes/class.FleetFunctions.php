@@ -494,7 +494,6 @@ class FleetFunctions
 	{
 		global $USER;
 
-
 		$PlanetOwner = Database::get()->selectSingle('SELECT id_owner FROM %%PLANETS%% where id = :id', array(
 			':id'		=> $Target,
 		), 'id_owner');
@@ -531,163 +530,388 @@ class FleetFunctions
 		return $Count['state'] >= BASH_COUNT;
 	}
 
-	public static function sendFleet($fleetArray, $fleetMission, $fleetStartOwner, $fleetStartPlanetID,
-		$fleetStartPlanetGalaxy, $fleetStartPlanetSystem, $fleetStartPlanetPlanet, $fleetStartPlanetType,
-		$fleetTargetOwner, $fleetTargetPlanetID, $fleetTargetPlanetGalaxy, $fleetTargetPlanetSystem,
-		$fleetTargetPlanetPlanet, $fleetTargetPlanetType, $fleetResource, $fleetStartTime, $fleetStayTime,
-		$fleetEndTime, $fleetGroup = 0, $missileTarget = 0, $fleetNoMReturn = 0, $consumption = 0)
-	{
-		global $resource;
-		$fleetShipCount	= array_sum($fleetArray);
-		$fleetData		= array();
+	public static function sendFleet(
+    $fleetArray,
+    $fleetMission,
+    $fleetStartOwner,
+    $fleetStartPlanetID,
+    $fleetStartPlanetGalaxy,
+    $fleetStartPlanetSystem,
+    $fleetStartPlanetPlanet,
+    $fleetStartPlanetType,
+    $fleetTargetOwner,
+    $fleetTargetPlanetID,
+    $fleetTargetPlanetGalaxy,
+    $fleetTargetPlanetSystem,
+    $fleetTargetPlanetPlanet,
+    $fleetTargetPlanetType,
+    $fleetResource,
+    $fleetStartTime,
+    $fleetStayTime,
+    $fleetEndTime,
+    $fleetGroup = 0,
+    $missileTarget = 0,
+    $fleetNoMReturn = 0,
+    $consumption = 0
+) {
+    global $resource;
 
-		$db				= Database::get();
+    $db = Database::get();
 
-		$params			= array(':planetId'	=> $fleetStartPlanetID);
+    /*
+     * -------------------------------------------------
+     * FLOTTENDATEN VORBEREITEN
+     * -------------------------------------------------
+     */
+    $fleetShipCount = 0;
+    $fleetData      = array();
 
-		$planetQuery	= array();
-		foreach($fleetArray as $ShipID => $ShipCount) {
-			$fleetData[]	= $ShipID.','.floatToString($ShipCount);
-			$planetQuery[]	= $resource[$ShipID]." = ".$resource[$ShipID]." - :".$resource[$ShipID];
+    $params = array(
+        ':planetId'        => (int)$fleetStartPlanetID,
+        ':fleetStartOwner' => (int)$fleetStartOwner,
+    );
 
-			$params[':'.$resource[$ShipID]]	= floatToString($ShipCount);
-		}
+    $planetQuery = array();
+    $planetWhere = array();
 
-		if($consumption > 0){
-			$planetQuery[] = $resource[903]." = ".$resource[903]." - :".$resource[903];
-			$params[':'.$resource[903]]	= $consumption;
-		}
+    /*
+     * -------------------------------------------------
+     * SCHIFFE
+     * -------------------------------------------------
+     *
+     * Wichtig:
+     *
+     * Für jedes Schiff wird nicht nur der Abzug erzeugt,
+     * sondern gleichzeitig geprüft, ob die gewünschte
+     * Anzahl JETZT noch auf dem Planeten vorhanden ist.
+     *
+     * Dadurch können zwei gleichzeitig laufende
+     * Bot-Aktionen nicht dieselben Schiffe benutzen.
+     */
+    foreach ($fleetArray as $ShipID => $ShipCount)
+    {
+        $ShipID    = (int)$ShipID;
+        $ShipCount = (int)$ShipCount;
 
+        /*
+         * Ungültige / leere Einträge überspringen.
+         */
+        if (
+            $ShipCount <= 0 ||
+            empty($resource[$ShipID])
+        ) {
+            continue;
+        }
 
-		$sql	= 'UPDATE %%PLANETS%% SET '.implode(', ', $planetQuery).' WHERE id = :planetId;';
+        $column = $resource[$ShipID];
 
-		$db->update($sql, $params);
+        /*
+         * Flottendaten für uni1_fleets.
+         */
+        $fleetData[] = $ShipID . ',' . floatToString($ShipCount);
 
-		$sql	= 'INSERT INTO %%FLEETS%% SET
-		fleet_owner					= :fleetStartOwner,
-		fleet_target_owner			= :fleetTargetOwner,
-		fleet_mission				= :fleetMission,
-		fleet_amount				= :fleetShipCount,
-		fleet_array					= :fleetData,
-		fleet_universe				= :universe,
-		fleet_start_time			= :fleetStartTime,
-		fleet_end_stay				= :fleetStayTime,
-		fleet_end_time				= :fleetEndTime,
-		fleet_start_id				= :fleetStartPlanetID,
-		fleet_start_galaxy			= :fleetStartPlanetGalaxy,
-		fleet_start_system			= :fleetStartPlanetSystem,
-		fleet_start_planet			= :fleetStartPlanetPlanet,
-		fleet_start_type			= :fleetStartPlanetType,
-		fleet_end_id				= :fleetTargetPlanetID,
-		fleet_end_galaxy			= :fleetTargetPlanetGalaxy,
-		fleet_end_system			= :fleetTargetPlanetSystem,
-		fleet_end_planet			= :fleetTargetPlanetPlanet,
-		fleet_end_type				= :fleetTargetPlanetType,
-		fleet_resource_metal		= :fleetResource901,
-		fleet_resource_crystal		= :fleetResource902,
-		fleet_resource_deuterium	= :fleetResource903,
-		fleet_no_m_return = :fleetNoMReturn,
-		fleet_group					= :fleetGroup,
-		fleet_target_obj			= :missileTarget,
-		start_time					= :timestamp;';
+        /*
+         * Tatsächliche Gesamtzahl der gültigen Schiffe.
+         */
+        $fleetShipCount += $ShipCount;
 
-		$db->insert($sql, array(
-			':fleetStartOwner'			=> $fleetStartOwner,
-			':fleetTargetOwner'			=> $fleetTargetOwner,
-			':fleetMission'				=> $fleetMission,
-			':fleetShipCount'			=> $fleetShipCount,
-			':fleetData'				=> implode(';', $fleetData),
-			':fleetStartTime'			=> $fleetStartTime,
-			':fleetStayTime'			=> $fleetStayTime,
-			':fleetEndTime'				=> $fleetEndTime,
-			':fleetStartPlanetID'		=> $fleetStartPlanetID,
-			':fleetStartPlanetGalaxy'	=> $fleetStartPlanetGalaxy,
-			':fleetStartPlanetSystem'	=> $fleetStartPlanetSystem,
-			':fleetStartPlanetPlanet'	=> $fleetStartPlanetPlanet,
-			':fleetStartPlanetType'		=> $fleetStartPlanetType,
-			':fleetTargetPlanetID'		=> $fleetTargetPlanetID,
-			':fleetTargetPlanetGalaxy'	=> $fleetTargetPlanetGalaxy,
-			':fleetTargetPlanetSystem'	=> $fleetTargetPlanetSystem,
-			':fleetTargetPlanetPlanet'	=> $fleetTargetPlanetPlanet,
-			':fleetTargetPlanetType'	=> $fleetTargetPlanetType,
-			':fleetResource901'			=> $fleetResource[901],
-			':fleetResource902'			=> $fleetResource[902],
-			':fleetResource903'			=> $fleetResource[903],
-			':fleetNoMReturn' 		=> $fleetNoMReturn,
-			':fleetGroup'				=> $fleetGroup,
-			':missileTarget'			=> $missileTarget,
-			':timestamp'				=> TIMESTAMP,
-			':universe'	   				=> Universe::current(),
-		));
+        /*
+         * Unterschiedliche Parameternamen für SET und WHERE.
+         *
+         * Das ist mit PDO sicherer als denselben Named
+         * Parameter mehrfach in einer Query zu benutzen.
+         */
+        $setParam   = ':ship_' . $ShipID;
+        $checkParam = ':check_ship_' . $ShipID;
 
-		$fleetId	= $db->lastInsertId();
+        /*
+         * Schiff abziehen.
+         */
+        $planetQuery[] =
+            $column . ' = ' .
+            $column . ' - ' .
+            $setParam;
 
-		$sql	= 'INSERT INTO %%FLEETS_EVENT%% SET fleetID	= :fleetId, `time` = :endTime;';
-		$db->insert($sql, array(
-			':fleetId'	=> $fleetId,
-			':endTime'	=> $fleetStartTime
-		));
+        /*
+         * Nur dann abziehen, wenn die Schiffe aktuell
+         * wirklich noch vorhanden sind.
+         */
+        $planetWhere[] =
+            $column . ' >= ' .
+            $checkParam;
 
-		$sql	= 'INSERT INTO %%LOG_FLEETS%% SET
-		fleet_id					= :fleetId,
-		fleet_owner					= :fleetStartOwner,
-		fleet_target_owner			= :fleetTargetOwner,
-		fleet_mission				= :fleetMission,
-		fleet_amount				= :fleetShipCount,
-		fleet_array					= :fleetData,
-		fleet_universe				= :universe,
-		fleet_start_time			= :fleetStartTime,
-		fleet_end_stay				= :fleetStayTime,
-		fleet_end_time				= :fleetEndTime,
-		fleet_start_id				= :fleetStartPlanetID,
-		fleet_start_galaxy			= :fleetStartPlanetGalaxy,
-		fleet_start_system			= :fleetStartPlanetSystem,
-		fleet_start_planet			= :fleetStartPlanetPlanet,
-		fleet_start_type			= :fleetStartPlanetType,
-		fleet_end_id				= :fleetTargetPlanetID,
-		fleet_end_galaxy			= :fleetTargetPlanetGalaxy,
-		fleet_end_system			= :fleetTargetPlanetSystem,
-		fleet_end_planet			= :fleetTargetPlanetPlanet,
-		fleet_end_type				= :fleetTargetPlanetType,
-		fleet_resource_metal		= :fleetResource901,
-		fleet_resource_crystal		= :fleetResource902,
-		fleet_resource_deuterium	= :fleetResource903,
-		fleet_no_m_return = :fleetNoMReturn,
-		fleet_group					= :fleetGroup,
-		fleet_target_obj			= :missileTarget,
-		start_time					= :timestamp;';
+        $params[$setParam]   = $ShipCount;
+        $params[$checkParam] = $ShipCount;
+    }
 
-		$db->insert($sql, array(
-			':fleetId'					=> $fleetId,
-			':fleetStartOwner'			=> $fleetStartOwner,
-			':fleetTargetOwner'			=> $fleetTargetOwner,
-			':fleetMission'				=> $fleetMission,
-			':fleetShipCount'			=> $fleetShipCount,
-			':fleetData'				=> implode(';', $fleetData),
-			':fleetStartTime'			=> $fleetStartTime,
-			':fleetStayTime'			=> $fleetStayTime,
-			':fleetEndTime'				=> $fleetEndTime,
-			':fleetStartPlanetID'		=> $fleetStartPlanetID,
-			':fleetStartPlanetGalaxy'	=> $fleetStartPlanetGalaxy,
-			':fleetStartPlanetSystem'	=> $fleetStartPlanetSystem,
-			':fleetStartPlanetPlanet'	=> $fleetStartPlanetPlanet,
-			':fleetStartPlanetType'		=> $fleetStartPlanetType,
-			':fleetTargetPlanetID'		=> $fleetTargetPlanetID,
-			':fleetTargetPlanetGalaxy'	=> $fleetTargetPlanetGalaxy,
-			':fleetTargetPlanetSystem'	=> $fleetTargetPlanetSystem,
-			':fleetTargetPlanetPlanet'	=> $fleetTargetPlanetPlanet,
-			':fleetTargetPlanetType'	=> $fleetTargetPlanetType,
-			':fleetResource901'			=> $fleetResource[901],
-			':fleetResource902'			=> $fleetResource[902],
-			':fleetResource903'			=> $fleetResource[903],
-			':fleetNoMReturn' => $fleetNoMReturn,
-			':fleetGroup'			 	
+    /*
+     * -------------------------------------------------
+     * KEINE GÜLTIGEN SCHIFFE
+     * -------------------------------------------------
+     */
+    if (
+        empty($planetQuery) ||
+        $fleetShipCount <= 0
+    ) {
+        return false;
+    }
 
-d03e6139	=> $fleetGroup,
-			':missileTarget'			=> $missileTarget,
-			':timestamp'				=> TIMESTAMP,
-			':universe'	   				=> Universe::current(),
-		));
-		return $fleetId;
-	}
+    /*
+     * -------------------------------------------------
+     * TREIBSTOFF
+     * -------------------------------------------------
+     */
+    if ($consumption > 0)
+    {
+        $consumption = (int)$consumption;
+
+        /*
+         * Deuterium für den Flug abziehen.
+         */
+        $planetQuery[] =
+            $resource[903] . ' = ' .
+            $resource[903] . ' - :fleetConsumption';
+
+        /*
+         * Auch das Deuterium muss zum Zeitpunkt des
+         * tatsächlichen Updates noch vorhanden sein.
+         */
+        $planetWhere[] =
+            $resource[903] . ' >= :checkFleetConsumption';
+
+        $params[':fleetConsumption'] =
+            $consumption;
+
+        $params[':checkFleetConsumption'] =
+            $consumption;
+    }
+
+    /*
+     * -------------------------------------------------
+     * ATOMARER SCHIFFSABZUG
+     * -------------------------------------------------
+     *
+     * Prüfung UND Abzug erfolgen mit EINEM UPDATE.
+     *
+     * Beispiel:
+     *
+     * Expedition plant 3 große Transporter.
+     *
+     * ResourceTransfer nimmt vorher 2 davon.
+     *
+     * Dann schlägt:
+     *
+     * big_ship_cargo >= 3
+     *
+     * fehl.
+     *
+     * Es werden 0 Zeilen aktualisiert.
+     *
+     * Damit entsteht kein negativer Schiffswert.
+     */
+    $sql =
+        'UPDATE %%PLANETS%%
+         SET ' . implode(', ', $planetQuery) . '
+         WHERE id = :planetId
+           AND id_owner = :fleetStartOwner';
+
+    if (!empty($planetWhere))
+    {
+        $sql .=
+            ' AND ' .
+            implode(' AND ', $planetWhere);
+    }
+
+    $sql .= ';';
+
+    $db->update(
+        $sql,
+        $params
+    );
+
+    /*
+     * -------------------------------------------------
+     * PRÜFEN, OB DER ABZUG ERFOLGREICH WAR
+     * -------------------------------------------------
+     *
+     * rowCount() == 1:
+     * Planet wurde erfolgreich aktualisiert.
+     *
+     * rowCount() == 0:
+     * Schiffe oder Deuterium wurden zwischenzeitlich
+     * von einer anderen Aktion verwendet.
+     *
+     * In diesem Fall KEINE Flotte erzeugen.
+     */
+    if ((int)$db->rowCount() !== 1)
+    {
+        return false;
+    }
+
+    /*
+     * -------------------------------------------------
+     * FLOTTE EINTRAGEN
+     * -------------------------------------------------
+     */
+    $sql = 'INSERT INTO %%FLEETS%% SET
+        fleet_owner                 = :fleetStartOwner,
+        fleet_target_owner          = :fleetTargetOwner,
+        fleet_mission               = :fleetMission,
+        fleet_amount                = :fleetShipCount,
+        fleet_array                 = :fleetData,
+        fleet_universe              = :universe,
+        fleet_start_time            = :fleetStartTime,
+        fleet_end_stay              = :fleetStayTime,
+        fleet_end_time              = :fleetEndTime,
+        fleet_start_id              = :fleetStartPlanetID,
+        fleet_start_galaxy          = :fleetStartPlanetGalaxy,
+        fleet_start_system          = :fleetStartPlanetSystem,
+        fleet_start_planet          = :fleetStartPlanetPlanet,
+        fleet_start_type            = :fleetStartPlanetType,
+        fleet_end_id                = :fleetTargetPlanetID,
+        fleet_end_galaxy            = :fleetTargetPlanetGalaxy,
+        fleet_end_system            = :fleetTargetPlanetSystem,
+        fleet_end_planet            = :fleetTargetPlanetPlanet,
+        fleet_end_type              = :fleetTargetPlanetType,
+        fleet_resource_metal        = :fleetResource901,
+        fleet_resource_crystal      = :fleetResource902,
+        fleet_resource_deuterium    = :fleetResource903,
+        fleet_no_m_return           = :fleetNoMReturn,
+        fleet_group                 = :fleetGroup,
+        fleet_target_obj            = :missileTarget,
+        start_time                  = :timestamp;';
+
+    $db->insert(
+        $sql,
+        array(
+            ':fleetStartOwner'          => $fleetStartOwner,
+            ':fleetTargetOwner'         => $fleetTargetOwner,
+            ':fleetMission'             => $fleetMission,
+            ':fleetShipCount'           => $fleetShipCount,
+            ':fleetData'                => implode(';', $fleetData),
+
+            ':fleetStartTime'           => $fleetStartTime,
+            ':fleetStayTime'            => $fleetStayTime,
+            ':fleetEndTime'             => $fleetEndTime,
+
+            ':fleetStartPlanetID'       => $fleetStartPlanetID,
+            ':fleetStartPlanetGalaxy'   => $fleetStartPlanetGalaxy,
+            ':fleetStartPlanetSystem'   => $fleetStartPlanetSystem,
+            ':fleetStartPlanetPlanet'   => $fleetStartPlanetPlanet,
+            ':fleetStartPlanetType'     => $fleetStartPlanetType,
+
+            ':fleetTargetPlanetID'      => $fleetTargetPlanetID,
+            ':fleetTargetPlanetGalaxy'  => $fleetTargetPlanetGalaxy,
+            ':fleetTargetPlanetSystem'  => $fleetTargetPlanetSystem,
+            ':fleetTargetPlanetPlanet'  => $fleetTargetPlanetPlanet,
+            ':fleetTargetPlanetType'    => $fleetTargetPlanetType,
+
+            ':fleetResource901'         => $fleetResource[901],
+            ':fleetResource902'         => $fleetResource[902],
+            ':fleetResource903'         => $fleetResource[903],
+
+            ':fleetNoMReturn'           => $fleetNoMReturn,
+            ':fleetGroup'               => $fleetGroup,
+            ':missileTarget'            => $missileTarget,
+
+            ':timestamp'                => TIMESTAMP,
+            ':universe'                 => Universe::current(),
+        )
+    );
+
+    $fleetId = $db->lastInsertId();
+
+    /*
+     * -------------------------------------------------
+     * FLEET EVENT
+     * -------------------------------------------------
+     */
+    $sql = 'INSERT INTO %%FLEETS_EVENT%% SET
+        fleetID = :fleetId,
+        `time` = :endTime;';
+
+    $db->insert(
+        $sql,
+        array(
+            ':fleetId' => $fleetId,
+            ':endTime' => $fleetStartTime,
+        )
+    );
+
+    /*
+     * -------------------------------------------------
+     * FLEET LOG
+     * -------------------------------------------------
+     */
+    $sql = 'INSERT INTO %%LOG_FLEETS%% SET
+        fleet_id                    = :fleetId,
+        fleet_owner                 = :fleetStartOwner,
+        fleet_target_owner          = :fleetTargetOwner,
+        fleet_mission               = :fleetMission,
+        fleet_amount                = :fleetShipCount,
+        fleet_array                 = :fleetData,
+        fleet_universe              = :universe,
+        fleet_start_time            = :fleetStartTime,
+        fleet_end_stay              = :fleetStayTime,
+        fleet_end_time              = :fleetEndTime,
+        fleet_start_id              = :fleetStartPlanetID,
+        fleet_start_galaxy          = :fleetStartPlanetGalaxy,
+        fleet_start_system          = :fleetStartPlanetSystem,
+        fleet_start_planet          = :fleetStartPlanetPlanet,
+        fleet_start_type            = :fleetStartPlanetType,
+        fleet_end_id                = :fleetTargetPlanetID,
+        fleet_end_galaxy            = :fleetTargetPlanetGalaxy,
+        fleet_end_system            = :fleetTargetPlanetSystem,
+        fleet_end_planet            = :fleetTargetPlanetPlanet,
+        fleet_end_type              = :fleetTargetPlanetType,
+        fleet_resource_metal        = :fleetResource901,
+        fleet_resource_crystal      = :fleetResource902,
+        fleet_resource_deuterium    = :fleetResource903,
+        fleet_no_m_return           = :fleetNoMReturn,
+        fleet_group                 = :fleetGroup,
+        fleet_target_obj            = :missileTarget,
+        start_time                  = :timestamp;';
+
+    $db->insert(
+        $sql,
+        array(
+            ':fleetId'                  => $fleetId,
+
+            ':fleetStartOwner'          => $fleetStartOwner,
+            ':fleetTargetOwner'         => $fleetTargetOwner,
+            ':fleetMission'             => $fleetMission,
+            ':fleetShipCount'           => $fleetShipCount,
+            ':fleetData'                => implode(';', $fleetData),
+
+            ':fleetStartTime'           => $fleetStartTime,
+            ':fleetStayTime'            => $fleetStayTime,
+            ':fleetEndTime'             => $fleetEndTime,
+
+            ':fleetStartPlanetID'       => $fleetStartPlanetID,
+            ':fleetStartPlanetGalaxy'   => $fleetStartPlanetGalaxy,
+            ':fleetStartPlanetSystem'   => $fleetStartPlanetSystem,
+            ':fleetStartPlanetPlanet'   => $fleetStartPlanetPlanet,
+            ':fleetStartPlanetType'     => $fleetStartPlanetType,
+
+            ':fleetTargetPlanetID'      => $fleetTargetPlanetID,
+            ':fleetTargetPlanetGalaxy'  => $fleetTargetPlanetGalaxy,
+            ':fleetTargetPlanetSystem'  => $fleetTargetPlanetSystem,
+            ':fleetTargetPlanetPlanet'  => $fleetTargetPlanetPlanet,
+            ':fleetTargetPlanetType'    => $fleetTargetPlanetType,
+
+            ':fleetResource901'         => $fleetResource[901],
+            ':fleetResource902'         => $fleetResource[902],
+            ':fleetResource903'         => $fleetResource[903],
+
+            ':fleetNoMReturn'           => $fleetNoMReturn,
+            ':fleetGroup'               => $fleetGroup,
+            ':missileTarget'            => $missileTarget,
+
+            ':timestamp'                => TIMESTAMP,
+            ':universe'                 => Universe::current(),
+        )
+    );
+
+    return $fleetId;
+}
 }

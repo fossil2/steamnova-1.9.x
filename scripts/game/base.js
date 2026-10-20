@@ -268,4 +268,17 @@ $(function() {
 
 		return false;
 	});
+	
+	// Enter-Taste
+	document.addEventListener('keydown', (event) => {
+		// Prüft, ob Enter gedrückt wurde und wir in einem Text-/Zahlenfeld sind
+		if (event.key === 'Enter' && event.target.matches('input:not([type="submit"]):not([type="button"]):not([type="image"])')) {
+			
+			const form = event.target.form;
+			if (!form) return;
+			
+			form.submit(); 
+		}
+	});
+
 });

@@ -26,6 +26,7 @@ function galaxy_submit(value) {
 
 
 // on keyboard click <> change page
+/*
 $(document).on('keydown', function(event){
 
 if  (event.keyCode === 39) {
@@ -35,8 +36,21 @@ if  (event.keyCode === 39) {
    }
 
 });
+*/
+
+// on keyboard click <> change page, version 2.0
+$(document).on('keydown', function(event) {
+    // Funktion direkt aufrufen statt den Klick zu simulieren
+    if (event.key === 'ArrowRight') {
+        galaxy_submit('systemRight');
+    } else if (event.key === 'ArrowLeft') {
+        galaxy_submit('systemLeft');
+    }
+});
+
 
 //on F5 refresh the current page
+/*
 $(document).on('keydown', function(event){
 
 if  (event.keyCode === 116) {
@@ -44,3 +58,4 @@ if  (event.keyCode === 116) {
 		$('#galaxySubmit').trigger('click');
  }
 });
+*/

@@ -301,6 +301,7 @@ class ShowFleetStep3Page extends AbstractGamePage
 			)));
 		}
 
+		/*
 		if($targetMission == 1 || $targetMission == 2 || $targetMission == 9) {
 			if(FleetFunctions::CheckBash($targetPlanetData['id']))
 			{
@@ -309,6 +310,43 @@ class ShowFleetStep3Page extends AbstractGamePage
 					'url'	=> 'game.php?page=fleetTable'
 				)));
 			}
+		}
+		*/
+		
+		if($targetMission == 1 || $targetMission == 2 || $targetMission == 9) {
+			// --- ÄNDERUNG START: Reine Sonden-Angriffe bei Mission 1 erlauben ---
+			/** @var bool $isPureSpyAttack */
+			$isPureSpyAttack = false;
+
+			if ($targetMission == 1) {
+				// Wir holen uns die aktuelle Flotte aus dem Klassen-Objekt
+				/** @var array<int, int> $currentFleet */
+				$currentFleet = isset($fleetArray) && is_array($fleetArray) ? $fleetArray : array();
+
+				if (!empty($currentFleet)) {
+					/** @var array<int, int> $tempFleet */
+					$tempFleet = $currentFleet;
+					
+					// Wir entfernen die Spionagesonde (ID 210) temporär aus der Liste
+					unset($tempFleet[210]);
+					
+					// Wenn nach dem Entfernen KEINE anderen Schiffe mehr übrig sind
+					// und mindestens eine Spionsonde mitfliegt, ist es ein reiner Sondenflug.
+					if (empty($tempFleet) && isset($currentFleet[210]) && (int)$currentFleet[210] > 0) {
+						$isPureSpyAttack = true;
+					}
+				}
+			}
+
+			// Die Bash-Prüfung wird NUR ausgeführt, wenn es KEIN reiner Sonden-Angriff ist
+			if (!$isPureSpyAttack && FleetFunctions::CheckBash($targetPlanetData['id']))
+			{
+				$this->printMessage($LNG['fl_bash_protection'], array(array(
+					'label'	=> $LNG['sys_back'],
+					'url'	=> 'game.php?page=fleetTable'
+				)));
+			}
+			// --- ÄNDERUNG ENDE ---
 		}
 
 		if($targetMission == 1 || $targetMission == 2 || $targetMission == 5 || $targetMission == 6 || $targetMission == 9)

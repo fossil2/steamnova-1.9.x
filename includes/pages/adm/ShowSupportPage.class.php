@@ -133,37 +133,36 @@ class ShowSupportPage extends AbstractAdminPage
 			':ticketID' => $ticketID
 		));
 
-		$answerList			= array();
+	$answerList = array();
+$ticket_status = 0;
 
+foreach ($answerResult as &$answerRow) {
 
+    if (empty($ticket_status)) {
+        $ticket_status = $answerRow['status'];
+    }
 
+    $answerRow['time'] = _date(
+        $LNG['php_tdformat'],
+        $answerRow['time'],
+        $USER['timezone']
+    );
 
-		$ticket_status		= 0;
-		foreach($answerResult as &$answerRow) {
+    $answerRow['message'] = BBCode::parse($answerRow['message']);
 
-			if (empty($ticket_status)){
-				$ticket_status = $answerRow['status'];
-			}
+    $answerList[$answerRow['answerID']] = $answerRow;
+}
 
-			$answerRow['time']	= _date($LNG['php_tdformat'], $answerRow['time'], $USER['timezone']);
-			$answerRow['message']	= BBCode::parse($answerRow['message']);
+unset($answerRow);
 
-			$answerList[$answerRow['answerID']]	= $answerRow;
-		}
-		unset($answerResult);
+$categoryList = $this->ticketObj->getCategoryList();
 
-
-
-		$categoryList	= $this->ticketObj->getCategoryList();
-
-
-
-		$this->assign(array(
-			'ticketID'		=> $ticketID,
-			'ticket_status' => $ticket_status,
-			'categoryList'	=> $categoryList,
-			'answerList'	=> $answerList,
-		));
+$this->assign(array(
+    'ticketID'      => $ticketID,
+    'ticket_status' => $ticket_status,
+    'categoryList'  => $categoryList,
+    'answerList'    => $answerList,
+));
 
 
 
