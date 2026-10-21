@@ -34,7 +34,6 @@
         <li>{$LNG.tut_m9_quest}  {$Si_m9_1}{$No_m9_1}</li>
         <li>{$LNG.tut_m9_quest2} {$Si_m9_2}{$No_m9_2}</li>
         <li>{$LNG.tut_m9_quest3} {$Si_m9_3}{$No_m9_3}</li>
-        <li>{$LNG.tut_m9_quest4} {$Si_m9_4}{$No_m9_4}</li>
     </ul>
 
     <!-- Belohnung -->

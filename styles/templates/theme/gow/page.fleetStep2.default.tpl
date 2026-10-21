@@ -158,7 +158,10 @@
         </tr>
     </table>
 </form>
-<script type="text/javascript">
-data	= {$fleetdata|json};
+<script>
+	$(() => {
+		data	= {$fleetdata|json};
+	});
 </script>
+<script src="{"./scripts/game/fleetTable.js"|auto_version}"></script>
 {/block}

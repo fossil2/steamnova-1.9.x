@@ -277,10 +277,7 @@
 </table>
 
 {block name="script" append}
-<script src="scripts/game/fleetTable.js"></script>
-
-<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl={$lang}"></script>
-
+<script src="{"./scripts/game/fleetTable.js"|auto_version}"></script>
 {/block}
 
 {/block}

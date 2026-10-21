@@ -34,7 +34,7 @@
     {/if}
     {if isModuleAvailable($smarty.const.MODULE_IMPERIUM)}
     <li class="d-flex w-50 menu-button">
-      <a target="_blank" class="{if $page == 'imperium'}menuActive{/if} w-100 d-flex align-items-center justify-content-center p-0 fs-12 fw-bold text-decoration-none" href="game.php?page=imperium">{$LNG.lm_empire}</a>
+      <a class="{if $page == 'imperium'}menuActive{/if} w-100 d-flex align-items-center justify-content-center p-0 fs-12 fw-bold text-decoration-none" href="game.php?page=imperium">{$LNG.lm_empire}</a>
     </li>
     {/if}
 
