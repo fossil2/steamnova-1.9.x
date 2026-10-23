@@ -96,9 +96,9 @@ class ShowBonusPage extends AbstractGamePage
 			/**
 			 * Ressourcen berechnen
 			 */
-			$metal			= mt_rand($result['metal_min'], $result['metal_max']) * $config->resource_multiplier;
-			$cristal		= mt_rand($result['crystal_min'], $result['crystal_max']) * $config->resource_multiplier;
-			$deuterium		= mt_rand($result['deuterium_min'], $result['deuterium_max']) * $config->resource_multiplier;
+			$metal			= mt_rand($result['metal_min'], $result['metal_max']) * $config->resource_multiplier * 10;
+			$cristal		= mt_rand($result['crystal_min'], $result['crystal_max']) * $config->resource_multiplier * 10;
+			$deuterium		= mt_rand($result['deuterium_min'], $result['deuterium_max']) * $config->resource_multiplier * 10;
 			$darkmatter_add	= mt_rand($result['darkmatter_min'], $result['darkmatter_max']);
 
 			$time_att	= $result['time_att_bonus'] + TIMESTAMP;

@@ -118,7 +118,7 @@
 					<img src="{$dpath}planeten/small/s_{$currentPlanet.planet.image}.jpg" height="30" width="30" alt="">
 				</a>
 			{else}
-			<a onclick="closePopovers();" class="hover-pointer" data-bs-toggle="popover"
+			<a onclick="closePopovers();" class="hover-pointer"
 			data-bs-toggle="popover"
 			data-bs-placement="right"
 			data-bs-html="true"
@@ -474,7 +474,7 @@
 		<th class="text-center" colspan="8">{$LNG.cff_fleet_target}</th>
 	</tr>
 	</table>
-	<script type="text/javascript">
+	<script>
 		status_ok		= '{$LNG.gl_ajax_status_ok}';
 		status_fail		= '{$LNG.gl_ajax_status_fail}';
 		MaxFleetSetting = {$settings_fleetactions};
