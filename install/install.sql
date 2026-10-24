@@ -1247,7 +1247,6 @@ INSERT INTO `%PREFIX%cronjobs` (`cronjobID`, `name`, `isActive`, `min`, `hours`,
 (NULL,'Asteroids', 1, '*', '*', '*', '*', '*', 'AsteroidsCronjob', 1532144700, NULL),
 (NULL, 'tracking', 1, FLOOR(RAND() * 60), FLOOR(RAND() * 24), '*', '*', '0', 'TrackingCronjob', 0, NULL),
 (NULL, 'fleet_engine', 1, '*', '2', '*', '*', '*', 'cron_fleet_engine', 0, NULL),
-(NULL, 'Colonie', 1, '*/30', '*', '*', '*', '*', 'cron_bot_colonize', 0, NULL),
 (NULL, 'aiboteconomy', 1, '*/5', '*', '*', '*', '*', 'cron_bot_economy', 0, NULL),
 (NULL, 'aibotactions', 1, '*/5', '*', '*', '*', '*', 'cron_bot_actions', 0, NULL);
 
