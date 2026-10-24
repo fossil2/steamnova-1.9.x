@@ -154,7 +154,7 @@ class VarsBuildCache implements BuildCache
 			}
 		}
 
-		$rapidResult		= $db->nativeQuery('SELECT * FROM %%VARS_RAPIDFIRE%%;');
+		$rapidResult        = $db->nativeQuery('SELECT * FROM %%VARS_RAPIDFIREV3%%;');
 		foreach($rapidResult as $rapidRow)
 		{
 			$CombatCaps[$rapidRow['elementID']]['sd'][$rapidRow['rapidfireID']]	= $rapidRow['shoots'];
