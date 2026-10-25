@@ -1,0 +1,22 @@
+Olá {USERNAME},
+
+ÚLTIMO PEDIDO DE SOCORRO!
+
+Comandante, precisamos de ti agora.
+
+As nossas linhas defensivas estão a desmoronar-se. As frotas inimigas avançam cada vez mais para o nosso território, os armazéns estão a ser saqueados e colónias inteiras estão prestes a cair.
+
+A população está com medo. Os nossos oficiais mantêm as últimas posições, mas sem o teu regresso não conseguiremos defender o império por muito mais tempo.
+
+Por favor, regressa.
+
+Esta pode ser a tua última oportunidade para salvar o teu império e impedir a sua destruição.
+
+{HTTPPATH}
+
+Última atividade:
+{LASTDATE}
+
+Estamos à espera das tuas ordens.
+
+A equipa de {GAMENAME}

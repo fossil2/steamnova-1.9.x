@@ -1,0 +1,25 @@
+Merhaba {USERNAME},
+
+Komutan, neredesin?
+
+Durum giderek ciddileşiyor.
+
+Düşman filoları artık sistemlerimizde dolaşıyor. Kaynak nakliyeleri engelleniyor, depolar yağmalanıyor ve ileri karakollarımız sürekli saldırı altında.
+
+Savunmamız hâlâ dayanıyor — ama zar zor.
+
+Halk umudunu kaybetmeye başlıyor ve düşmanlarımız imparatorluğunun artık lidersiz olduğunu düşünüyor.
+
+Onlara yanıldıklarını göster.
+
+Geri dön, yeniden komutayı ele al ve daha fazlasını kaybetmeden imparatorluğunu kurtar.
+
+{HTTPPATH}
+
+Son aktivite:
+{LASTDATE}
+
+Dönüşünü bekliyoruz.
+
+Saygılarımızla,
+{GAMENAME} ekibi

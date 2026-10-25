@@ -1,0 +1,22 @@
+Hello {USERNAME},
+
+FINAL DISTRESS CALL!
+
+Commander, we need you now.
+
+Our defensive lines are collapsing. Enemy fleets are pushing deeper into our territory, resource stores are being plundered, and entire colonies are close to falling.
+
+The population is afraid. Our officers are holding the last positions, but without your return we cannot defend the empire much longer.
+
+Please return.
+
+This may be your last chance to save your empire and prevent its destruction.
+
+{HTTPPATH}
+
+Last activity:
+{LASTDATE}
+
+We are waiting for your command.
+
+The team of {GAMENAME}

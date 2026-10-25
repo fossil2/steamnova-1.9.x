@@ -1,0 +1,20 @@
+Bonjour {USERNAME},
+
+ALERTE dans l'empire !
+
+Depuis quelque temps, tes ordres nous manquent. Nos capteurs signalent des activités ennemies près de tes colonies, des éclaireurs ont été repérés et la population devient de plus en plus inquiète.
+
+Tes officiers tentent de maintenir les défenses, mais sans leur commandant ils ne pourront pas protéger l'empire éternellement.
+
+Reviens et aide-nous à empêcher le pire.
+
+Ton empire t'attend :
+
+{HTTPPATH}
+
+Dernière activité :
+{LASTDATE}
+
+Cordialement,
+l'équipe de {GAMENAME}
+

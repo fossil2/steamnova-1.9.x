@@ -1110,6 +1110,10 @@ $LNG['sys_refferal_title']        	 			= 'Bonus für Spieler %s';
 $LNG['sys_refferal_text']        	 			= 'Der von dir geworbene Spieler %s hat nun %s Punkte erreicht.<br><br>Als Dankeschön, dass du einen aktiven Spieler geworben hast, erhältst du %s %s';
 $LNG['sys_closed_game']        	 				= 'Das Universum ist zur Zeit nicht verfügbar:';
 $LNG['spec_mail_inactive_title']  				= '%s - Erinnerung';
+$LNG['spec_mail_inactive_title_1']              = '%s - Alarm! Dein Imperium braucht seinen Kommandanten';
+$LNG['spec_mail_inactive_title_2']              = '%s - Feindliche Flotten plündern dein Reich';
+$LNG['spec_mail_inactive_title_3']              = '%s - Letzter Notruf: Bitte kehre zurück';
+$LNG['spec_mail_inactive_title_4']              = '%s - Dein Imperium ist gefallen';
 
 $LNG['sys_back']						= 'Zurück';
 $LNG['sys_forward']						= 'Weiter';

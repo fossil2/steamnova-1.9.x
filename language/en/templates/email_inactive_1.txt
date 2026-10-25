@@ -1,0 +1,19 @@
+Hello {USERNAME},
+
+ALERT in the empire!
+
+Your orders have been missing for some time. Our sensors are reporting enemy activity near your colonies, scouts have been detected, and your population is becoming increasingly uneasy.
+
+Your officers are trying to maintain the defenses, but without their commander they cannot protect the empire forever.
+
+Return and help us prevent the worst.
+
+Your empire is waiting for you:
+
+{HTTPPATH}
+
+Last activity:
+{LASTDATE}
+
+Best regards,  
+the team of {GAMENAME}

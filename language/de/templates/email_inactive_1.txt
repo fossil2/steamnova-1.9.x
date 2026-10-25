@@ -1,0 +1,19 @@
+Hallo {USERNAME},
+
+ALARM im Imperium!
+
+Seit einiger Zeit fehlen uns deine Befehle. Unsere Sensoren melden feindliche Aktivitäten in der Nähe deiner Kolonien, erste Späher wurden gesichtet und deine Bevölkerung wird zunehmend unruhig.
+
+Deine Offiziere versuchen, die Verteidigung aufrechtzuerhalten – aber ohne ihren Kommandanten können sie das Reich nicht dauerhaft schützen.
+
+Kehre zurück und hilf uns, das Schlimmste zu verhindern.
+
+Dein Imperium wartet auf dich:
+
+{HTTPPATH}
+
+Letzte Aktivität:
+{LASTDATE}
+
+Viele Grüße  
+dein Team von {GAMENAME}

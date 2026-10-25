@@ -1,0 +1,22 @@
+Witaj {USERNAME},
+
+OSTATNIE WEZWANIE POMOCY!
+
+Dowódco, potrzebujemy cię teraz.
+
+Nasze linie obronne zaczynają się załamywać. Wrogie floty wdzierają się coraz głębiej na nasze terytorium, magazyny są plądrowane, a całe kolonie stoją na skraju upadku.
+
+Ludność się boi. Nasi oficerowie utrzymują ostatnie pozycje, ale bez twojego powrotu nie będziemy w stanie bronić imperium dużo dłużej.
+
+Prosimy, wróć.
+
+To może być twoja ostatnia szansa, aby uratować imperium i powstrzymać jego całkowite zniszczenie.
+
+{HTTPPATH}
+
+Ostatnia aktywność:
+{LASTDATE}
+
+Czekamy na twoje rozkazy.
+
+Zespół {GAMENAME}

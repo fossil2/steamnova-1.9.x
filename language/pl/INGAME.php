@@ -1109,6 +1109,10 @@ $LNG['sys_refferal_title']        	 		= 'Bonus dla gracza %s';
 $LNG['sys_refferal_text']					= 'Gracz %s zrekrutowany przez ciebie osiągnął %s punktów.<br><br>Zostałeś wynagrodzony za aktywnego gracza, otrzymujesz %s %s';
 $LNG['sys_closed_game']        	 			= 'Gra chwilowo niedostępna:';
 $LNG['spec_mail_inactive_title']  			= '%s - przypomnienie';
+$LNG['spec_mail_inactive_title_1']          = '%s - Alarm! Twoje imperium potrzebuje dowódcy';
+$LNG['spec_mail_inactive_title_2']          = '%s - Wrogie floty plądrują twoje imperium';
+$LNG['spec_mail_inactive_title_3']          = '%s - Ostatnie wezwanie pomocy: wróć';
+$LNG['spec_mail_inactive_title_4']          = '%s - Twoje imperium upadło';
 
 //----------------------------------------------------------------------------//
 // CombatReport.php

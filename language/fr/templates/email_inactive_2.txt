@@ -1,0 +1,25 @@
+Bonjour {USERNAME},
+
+Commandant, où es-tu ?
+
+La situation devient grave.
+
+Des flottes ennemies parcourent désormais nos systèmes. Des transports de ressources sont interceptés, nos réserves sont pillées et nos avant-postes subissent des attaques répétées.
+
+Nos défenses tiennent encore — mais de justesse.
+
+La population perd espoir et nos ennemis pensent déjà que ton empire est sans chef.
+
+Prouve-leur le contraire.
+
+Reviens, reprends le commandement et sauve ton empire avant que nous ne perdions davantage.
+
+{HTTPPATH}
+
+Dernière activité :
+{LASTDATE}
+
+Nous attendons ton retour.
+
+Cordialement,
+l'équipe de {GAMENAME}

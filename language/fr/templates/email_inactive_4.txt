@@ -1,0 +1,19 @@
+Bonjour {USERNAME},
+
+il semble que notre dernière transmission ne t'ait jamais atteint.
+
+Les défenses sont tombées. Nos colonies ont été envahies, les dernières réserves ont été pillées et l'empire que tu avais construit n'existe plus.
+
+Nous avons espéré ton retour jusqu'au dernier instant.
+
+C'est dommage que notre voyage commun ait dû se terminer ainsi.
+
+Mais ce n'est peut-être pas la fin.
+
+Tu peux revenir à tout moment, recommencer et bâtir un nouvel empire.
+
+{HTTPPATH}
+
+Peut-être nous retrouverons-nous un jour parmi les étoiles.
+
+L'équipe de {GAMENAME}

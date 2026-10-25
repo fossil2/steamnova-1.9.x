@@ -1,0 +1,25 @@
+Hello {USERNAME},
+
+Commander, where are you?
+
+The situation is becoming serious.
+
+Enemy fleets are now roaming our systems. Resource transports are being intercepted, storage facilities are being looted, and our outposts are under repeated attack.
+
+Our defenses are still holding — but only barely.
+
+The population is losing hope, and our enemies already believe your empire is without a leader.
+
+Prove them wrong.
+
+Return, take command again, and save your empire before even more is lost.
+
+{HTTPPATH}
+
+Last activity:
+{LASTDATE}
+
+We are waiting for your return.
+
+Best regards,  
+the team of {GAMENAME}

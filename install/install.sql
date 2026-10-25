@@ -973,7 +973,7 @@ CREATE TABLE `%PREFIX%users` (
   `dm_fleettime` int(11) NOT NULL DEFAULT '0',
   `ref_id` int(11) NOT NULL DEFAULT '0',
   `ref_bonus` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `inactive_mail` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `inactive_mail` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `user_secret_question_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `user_secret_question_answer` TINYTEXT NOT NULL DEFAULT '',
   `show_fleets_active` BOOLEAN NOT NULL DEFAULT 1,

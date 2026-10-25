@@ -241,7 +241,8 @@ class Session
 
 		$sql = 'UPDATE %%USERS%% SET
 		onlinetime	= :lastActivity,
-		user_lastip = :userAddress
+		user_lastip = :userAddress,
+		inactive_mail = 0
 		WHERE
 		id = :userId;';
 

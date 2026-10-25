@@ -1,0 +1,19 @@
+Hello {USERNAME},
+
+it seems our final transmission never reached you.
+
+The defenses have fallen. Our colonies have been overrun, the last resource stores have been looted, and the empire you built is no more.
+
+We hoped for your return until the very end.
+
+It is a shame that our journey had to end this way.
+
+But perhaps this is not the end.
+
+You can return at any time, start again, and build a new empire.
+
+{HTTPPATH}
+
+Perhaps we will meet again among the stars.
+
+The team of {GAMENAME}

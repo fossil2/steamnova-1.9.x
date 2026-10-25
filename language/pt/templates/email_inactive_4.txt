@@ -1,0 +1,19 @@
+Olá {USERNAME},
+
+parece que a nossa última transmissão já não chegou até ti.
+
+As defesas caíram. As nossas colónias foram invadidas, os últimos armazéns foram saqueados e o império que construíste já não existe.
+
+Esperámos pelo teu regresso até ao último momento.
+
+É uma pena que a nossa viagem em conjunto tenha terminado desta forma.
+
+Mas talvez este não seja o fim.
+
+Podes regressar a qualquer momento, começar de novo e construir um novo império.
+
+{HTTPPATH}
+
+Talvez um dia nos voltemos a encontrar entre as estrelas.
+
+A equipa de {GAMENAME}

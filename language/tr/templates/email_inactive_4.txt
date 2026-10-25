@@ -1,0 +1,22 @@
+Merhaba {USERNAME},
+
+SON YARDIM ÇAĞRISI!
+
+Komutan, sana şimdi ihtiyacımız var.
+
+Savunma hatlarımız çöküyor. Düşman filoları topraklarımızın derinliklerine ilerliyor, depolar yağmalanıyor ve tüm koloniler düşmenin eşiğinde.
+
+Halk korku içinde. Subaylarımız son mevzileri tutuyor, ancak sen geri dönmeden imparatorluğu çok daha uzun süre savunamayacağız.
+
+Lütfen geri dön.
+
+Bu, imparatorluğunu kurtarmak ve yok oluşunu engellemek için son şansın olabilir.
+
+{HTTPPATH}
+
+Son aktivite:
+{LASTDATE}
+
+Emirlerini bekliyoruz.
+
+{GAMENAME} ekibi

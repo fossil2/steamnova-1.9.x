@@ -1,0 +1,19 @@
+Hola {USERNAME},
+
+¡ALERTA en el imperio!
+
+Desde hace algún tiempo nos faltan tus órdenes. Nuestros sensores detectan actividad enemiga cerca de tus colonias, se han avistado exploradores y la población está cada vez más inquieta.
+
+Tus oficiales intentan mantener las defensas, pero sin su comandante no podrán proteger el imperio para siempre.
+
+Regresa y ayúdanos a evitar lo peor.
+
+Tu imperio te está esperando:
+
+{HTTPPATH}
+
+Última actividad:
+{LASTDATE}
+
+Un saludo,
+el equipo de {GAMENAME}

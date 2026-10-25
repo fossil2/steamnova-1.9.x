@@ -1120,6 +1120,10 @@ $LNG['sys_refferal_title']        	 		= 'Player Bonus %s';
 $LNG['sys_refferal_text']        	 		= 'The player %s recruited by you reached %s points.<br><br>You invite a player active, will be rewarded %s %s';
 $LNG['sys_closed_game']        	 			= 'The game is currently not available:';
 $LNG['spec_mail_inactive_title']  			= '%s - Reminder';
+$LNG['spec_mail_inactive_title_1']          = '%s - Alert! Your empire needs its commander';
+$LNG['spec_mail_inactive_title_2']          = '%s - Enemy fleets are plundering your empire';
+$LNG['spec_mail_inactive_title_3']          = '%s - Final distress call: Please return';
+$LNG['spec_mail_inactive_title_4']          = '%s - Your empire has fallen';
 $LNG['sys_back']							= 'Back';
 $LNG['sys_forward']							= 'Next';
 

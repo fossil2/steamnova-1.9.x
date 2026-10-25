@@ -1,0 +1,25 @@
+Hallo {USERNAME},
+
+Kommandant, wo bist du?
+
+Die Lage wird ernst.
+
+Feindliche Flotten durchstreifen inzwischen unsere Systeme. Rohstofftransporte werden abgefangen, Lager geplündert und immer wieder werden unsere Außenposten angegriffen.
+
+Unsere Verteidigung hält noch stand – aber nur knapp.
+
+Die Bevölkerung verliert die Hoffnung, und unsere Gegner glauben bereits, dein Imperium sei führungslos.
+
+Beweise ihnen das Gegenteil.
+
+Kehre zurück, übernimm wieder das Kommando und rette dein Reich, bevor noch mehr verloren geht.
+
+{HTTPPATH}
+
+Letzte Aktivität:
+{LASTDATE}
+
+Wir warten auf deine Rückkehr.
+
+Viele Grüße  
+dein Team von {GAMENAME}

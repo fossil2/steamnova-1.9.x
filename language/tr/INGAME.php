@@ -1115,6 +1115,10 @@ $LNG['sys_refferal_title']        	 		= 'Oyuncu Bonusu %s';
 $LNG['sys_refferal_text']        	 		= 'Oyuncu %s sizin tarafinizdan evrene kazandirildi ve su an %s puani var.<br><br> Aktif bir oyuncu davet ettiginiz icin kazandiginiz odul %s %s';
 $LNG['sys_closed_game']        	 			= 'Oyun su an aktif degil:';
 $LNG['spec_mail_inactive_title']  			= '%s - Hatirlatma Mesaji';
+$LNG['spec_mail_inactive_title_1']          = '%s - Alarm! İmparatorluğunun komutanına ihtiyacı var';
+$LNG['spec_mail_inactive_title_2']          = '%s - Düşman filoları imparatorluğunu yağmalıyor';
+$LNG['spec_mail_inactive_title_3']          = '%s - Son yardım çağrısı: geri dön';
+$LNG['spec_mail_inactive_title_4']          = '%s - İmparatorluğun düştü';
 //----------------------------------------------------------------------------//
 // Savas Raporu
 $LNG['cr_lost_contact']                     = 'Filonuz ile irtibat kesildi.';

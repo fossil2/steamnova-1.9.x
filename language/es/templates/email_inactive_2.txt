@@ -1,0 +1,25 @@
+Hola {USERNAME},
+
+Comandante, ¿dónde estás?
+
+La situación se está volviendo grave.
+
+Las flotas enemigas recorren ya nuestros sistemas. Los transportes de recursos son interceptados, los almacenes son saqueados y nuestros puestos avanzados sufren ataques constantes.
+
+Nuestras defensas aún resisten, pero apenas.
+
+La población está perdiendo la esperanza y nuestros enemigos ya creen que tu imperio se ha quedado sin líder.
+
+Demuéstrales que se equivocan.
+
+Regresa, vuelve a tomar el mando y salva tu imperio antes de que perdamos aún más.
+
+{HTTPPATH}
+
+Última actividad:
+{LASTDATE}
+
+Estamos esperando tu regreso.
+
+Un saludo,
+el equipo de {GAMENAME}

@@ -1,0 +1,19 @@
+Witaj {USERNAME},
+
+wygląda na to, że nasza ostatnia transmisja już do ciebie nie dotarła.
+
+Obrona upadła. Nasze kolonie zostały najechane, ostatnie magazyny splądrowano, a imperium, które zbudowałeś, już nie istnieje.
+
+Do samego końca mieliśmy nadzieję na twój powrót.
+
+Szkoda, że nasza wspólna podróż musiała zakończyć się w ten sposób.
+
+Ale być może to jeszcze nie koniec.
+
+Możesz wrócić w każdej chwili, zacząć od nowa i zbudować nowe imperium.
+
+{HTTPPATH}
+
+Być może jeszcze kiedyś spotkamy się wśród gwiazd.
+
+Zespół {GAMENAME}

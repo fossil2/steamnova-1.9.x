@@ -1,0 +1,19 @@
+Hallo {USERNAME},
+
+unser letzter Funkspruch hat dich offenbar nicht mehr erreicht.
+
+Die Verteidigung ist gefallen. Unsere Kolonien wurden überrannt, die letzten Rohstofflager geplündert und das Imperium, das du aufgebaut hast, existiert nicht mehr.
+
+Wir haben bis zuletzt auf deine Rückkehr gehofft.
+
+Schade, dass unsere gemeinsame Reise so enden musste.
+
+Aber vielleicht ist dies nicht das Ende.
+
+Du kannst jederzeit zurückkehren, neu beginnen und dir ein neues Imperium aufbauen.
+
+{HTTPPATH}
+
+Vielleicht sehen wir uns wieder zwischen den Sternen.
+
+Dein Team von {GAMENAME}

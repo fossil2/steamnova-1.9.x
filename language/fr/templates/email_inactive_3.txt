@@ -1,0 +1,22 @@
+Bonjour {USERNAME},
+
+DERNIER APPEL DE DÉTRESSE !
+
+Commandant, nous avons besoin de toi maintenant.
+
+Nos lignes de défense s'effondrent. Les flottes ennemies pénètrent toujours plus profondément dans notre territoire, les réserves sont pillées et des colonies entières sont sur le point de tomber.
+
+La population a peur. Nos officiers tiennent leurs dernières positions, mais sans ton retour nous ne pourrons plus défendre l'empire très longtemps.
+
+S'il te plaît, reviens.
+
+C'est peut-être ta dernière chance de sauver ton empire et d'empêcher sa destruction.
+
+{HTTPPATH}
+
+Dernière activité :
+{LASTDATE}
+
+Nous attendons tes ordres.
+
+L'équipe de {GAMENAME}

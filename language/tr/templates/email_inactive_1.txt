@@ -1,0 +1,19 @@
+Merhaba {USERNAME},
+
+İMPARATORLUKTA ALARM!
+
+Bir süredir emirlerini alamıyoruz. Sensörlerimiz kolonilerinin yakınında düşman hareketliliği tespit ediyor, keşif gemileri görülüyor ve halk giderek daha fazla endişeleniyor.
+
+Subayların savunmayı ayakta tutmaya çalışıyor, ancak komutanları olmadan imparatorluğu sonsuza kadar koruyamazlar.
+
+Geri dön ve en kötüsünü engellememize yardım et.
+
+İmparatorluğun seni bekliyor:
+
+{HTTPPATH}
+
+Son aktivite:
+{LASTDATE}
+
+Saygılarımızla,
+{GAMENAME} ekibi

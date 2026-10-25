@@ -1,0 +1,25 @@
+Olá {USERNAME},
+
+Comandante, onde estás?
+
+A situação está a tornar-se grave.
+
+Frotas inimigas percorrem agora os nossos sistemas. Transportes de recursos estão a ser interceptados, os armazéns estão a ser saqueados e os nossos postos avançados sofrem ataques constantes.
+
+As nossas defesas ainda resistem — mas por pouco.
+
+A população está a perder a esperança e os nossos inimigos já acreditam que o teu império ficou sem líder.
+
+Prova-lhes que estão errados.
+
+Regressa, assume novamente o comando e salva o teu império antes que percamos ainda mais.
+
+{HTTPPATH}
+
+Última atividade:
+{LASTDATE}
+
+Estamos à espera do teu regresso.
+
+Cumprimentos,
+a equipa de {GAMENAME}

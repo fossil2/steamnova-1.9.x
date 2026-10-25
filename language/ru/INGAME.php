@@ -1062,6 +1062,10 @@ $LNG['sys_refferal_title']                = 'Награда за игрока %s
 $LNG['sys_refferal_text']                 = 'Игрок %s, которого Вы привлекли, достиг %s очков.<br><br>В благодарность за привлечённого игрока Вы получаете %s Тёмной материи.';
 $LNG['sys_closed_game']                   = 'Вселенная в данный момент недоступна:';
 $LNG['spec_mail_inactive_title']          = '%s - Напоминание';
+$LNG['spec_mail_inactive_title_1']        = '%s - Тревога! Империи нужен её командир';
+$LNG['spec_mail_inactive_title_2']        = '%s - Вражеские флоты грабят твою империю';
+$LNG['spec_mail_inactive_title_3']        = '%s - Последний сигнал бедствия: возвращайся';
+$LNG['spec_mail_inactive_title_4']        = '%s - Твоя империя пала';
 $LNG['sys_back']                          = 'Назад';
 $LNG['sys_forward']                       = 'Дальше';
 

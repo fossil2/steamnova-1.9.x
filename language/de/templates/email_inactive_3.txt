@@ -1,0 +1,22 @@
+Hallo {USERNAME},
+
+LETZTER NOTRUF!
+
+Kommandant, wir brauchen dich jetzt.
+
+Unsere Verteidigungslinien brechen zusammen. Feindliche Flotten dringen immer tiefer in unser Gebiet ein, Rohstofflager werden geplündert und ganze Kolonien stehen kurz vor dem Fall.
+
+Die Bevölkerung hat Angst. Unsere Offiziere halten die letzten Stellungen, doch ohne deine Rückkehr können wir das Imperium nicht mehr lange verteidigen.
+
+Bitte kehre zurück.
+
+Dies könnte deine letzte Gelegenheit sein, dein Reich zu retten und den Untergang noch zu verhindern.
+
+{HTTPPATH}
+
+Letzte Aktivität:
+{LASTDATE}
+
+Wir warten auf deinen Befehl.
+
+Dein Team von {GAMENAME}

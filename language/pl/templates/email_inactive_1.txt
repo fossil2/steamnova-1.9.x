@@ -1,0 +1,19 @@
+Witaj {USERNAME},
+
+ALARM w imperium!
+
+Od pewnego czasu brakuje nam twoich rozkazów. Nasze czujniki wykrywają aktywność wroga w pobliżu twoich kolonii, zauważono zwiadowców, a ludność staje się coraz bardziej niespokojna.
+
+Twoi oficerowie próbują utrzymać obronę, ale bez swojego dowódcy nie będą w stanie chronić imperium bez końca.
+
+Wróć i pomóż nam zapobiec najgorszemu.
+
+Twoje imperium czeka na ciebie:
+
+{HTTPPATH}
+
+Ostatnia aktywność:
+{LASTDATE}
+
+Pozdrawiamy,
+zespół {GAMENAME}

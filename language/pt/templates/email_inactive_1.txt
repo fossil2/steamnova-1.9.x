@@ -1,0 +1,19 @@
+Olá {USERNAME},
+
+ALERTA no império!
+
+Há algum tempo que sentimos a falta das tuas ordens. Os nossos sensores estão a detectar atividade inimiga perto das tuas colónias, foram avistados exploradores e a população está cada vez mais inquieta.
+
+Os teus oficiais tentam manter as defesas, mas sem o seu comandante não conseguirão proteger o império para sempre.
+
+Regressa e ajuda-nos a evitar o pior.
+
+O teu império está à tua espera:
+
+{HTTPPATH}
+
+Última atividade:
+{LASTDATE}
+
+Cumprimentos,
+a equipa de {GAMENAME}
