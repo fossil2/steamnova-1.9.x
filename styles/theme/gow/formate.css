@@ -2009,3 +2009,154 @@ body.quests .quest_page,
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
+
+
+/* ==================================
+   SteamNova - Flotten ACS / AKS
+   ================================== */
+
+.acs-form {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.acs-panel {
+    background: #101014;
+    border: 1px solid #00345c;
+    box-shadow: 0 0 12px rgba(0,75,135,0.65);
+    color: #d8d8d8;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* Überschrift */
+.acs-header {
+    background: linear-gradient(180deg, #15354f, #0d2033);
+    color: #ffd600;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid #00345c;
+}
+
+/* AKS Name */
+.acs-name-header {
+    text-align: center;
+    color: #d8d8d8;
+    font-size: 12px;
+    padding: 10px 5px 4px;
+}
+
+.acs-name-header a {
+    color: #63caff;
+    text-decoration: none;
+}
+
+.acs-name-header a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.acs-name {
+    text-align: center;
+    color: #ffd600;
+    padding: 6px;
+    font-size: 13px;
+}
+
+/* Rückmeldung */
+.acs-status {
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #005fa3;
+    background: #0d263d;
+    color: #d8d8d8;
+}
+
+/* Zwei Spalten */
+.acs-content {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.acs-column {
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    background: #0d1119;
+    border: 1px solid #00345c;
+}
+
+.acs-label {
+    color: #ffd600;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Eingeladene Spieler */
+.acs-select {
+    display: block;
+    width: 100%;
+    min-height: 110px;
+    background: #09111a;
+    color: #e5efff;
+    border: 1px solid #005080;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.acs-select option {
+    background: #09111a;
+    color: #e5efff;
+}
+
+/* Spielername eingeben */
+.acs-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: #09111a;
+    color: #ffffff;
+    border: 1px solid #005080;
+    padding: 7px;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.acs-input:focus {
+    outline: none;
+    border-color: #00aaff;
+    box-shadow: 0 0 8px rgba(0,136,204,0.45);
+}
+
+/* Weiter Button */
+.acs-button {
+    display: block;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #1b3550, #102030);
+    color: #ffd600;
+    border: 1px solid #005fa3;
+    border-radius: 4px;
+    padding: 7px 18px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.acs-button:hover {
+    background: linear-gradient(180deg, #24507a, #143149);
+    color: #ffffff;
+    border-color: #00aaff;
+    box-shadow: 0 0 10px rgba(0,170,255,0.45);
+}
+
+@media (max-width: 480px) {
+    .acs-content {
+        flex-direction: column;
+    }
+}
+
